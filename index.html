@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>School Library Management System</title>
+  </head>
+  <body>
+    <h1>Welcome to the School Library Management System</h1>
+    <h2>Search for Books</h2>
+    <form>
+      <label for="book-search">Search for books:</label>
+      <input type="text" id="book-search" name="book-search">
+      <input type="submit" value="Search">
+    </form>
+    <h2>Book List</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>ISBN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>The Great Gatsby</td>
+          <td>F. Scott Fitzgerald</td>
+          <td>978-0743273565</td>
+        </tr>
+        <tr>
+          <td>To Kill a Mockingbird</td>
+          <td>Harper Lee</td>
+          <td>978-0446310789</td>
+        </tr>
+        <tr>
+          <td>The Catcher in the Rye</td>
+          <td>J.D. Salinger</td>
+          <td>978-0316769488</td>
+        </tr>
+      </tbody>
+    </table>
+    <h2>Borrow a Book</h2>
+    <form>
+      <label for="book-title">Book Title:</label>
+      <input type="text" id="book-title" name="book-title">
+      <label for="borrower-name">Borrower Name:</label>
+      <input type="text" id="borrower-name" name="borrower-name">
+      <label for="borrow-date">Borrow Date:</label>
+      <input type="date" id="borrow-date" name="borrow-date">
+      <input type="submit" value="Borrow">
+    </form>
+  </body>
+</html>
