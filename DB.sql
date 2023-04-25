@@ -1,10 +1,11 @@
+DROP DATABASE library_system;
 CREATE DATABASE library_system;
 
 USE library_system;
 
 CREATE TABLE School (
-  School_id INT PRIMARY KEY,
-  School_Name VARCHAR(255),
+  School_id INT ,
+  School_Name VARCHAR(255) PRIMARY KEY,
   Address VARCHAR(255),
   City VARCHAR(255),
   Phone_Number VARCHAR(20),
@@ -14,20 +15,20 @@ CREATE TABLE School (
 );
 
 CREATE TABLE School_Library_Operator (
-  School_id INT,
+  School_Name VARCHAR(255),
   Name VARCHAR(255),
   email VARCHAR(255),
   Username VARCHAR(255),
   Password VARCHAR(255),
-  PRIMARY KEY (School_id, Name),
-  FOREIGN KEY (School_id) REFERENCES School(School_id)
+  PRIMARY KEY (School_Name, Name),
+  FOREIGN KEY (School_Name) REFERENCES School(School_Name)
 );
 
 CREATE TABLE Book (
-  Book_id INT PRIMARY KEY,
+  Book_id INT,
   Title VARCHAR(255),
   Publisher VARCHAR(255),
-  ISBN INT,
+  ISBN INT PRIMARY KEY,
   Number_of_Pages INT,
   Summary TEXT,
   Image VARCHAR(255),
@@ -72,7 +73,7 @@ CREATE TABLE Reservation (
   Reservation_id INT PRIMARY KEY,
   School_Name VARCHAR(255),
   User_id INT,
-  ISBN VARCHAR(255),
+  ISBN INT,
   date_created INT,
   date_expired INT,
   FOREIGN KEY (School_Name) REFERENCES School(School_Name),
@@ -84,7 +85,7 @@ CREATE TABLE Loan (
   Loan_id INT PRIMARY KEY,
   User_id INT,
   Type VARCHAR(255),
-  ISBN VARCHAR(255),
+  ISBN INT,
   date_borrowed INT,
   date_returned INT,
   FOREIGN KEY (User_id) REFERENCES User(User_id),
