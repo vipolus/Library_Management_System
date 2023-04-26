@@ -40,29 +40,34 @@ CREATE TABLE Book (
   last_update INT
 );
 
+CREATE TABLE Book_Category(
+FOREIGN KEY(Category_Id) REFERENCES Category(Category_Id),
+FOREIGN KEY(Book_Id) REFERENCES Book(Book_Id)
+
+);
+
+CREATE TABLE Category (
+  Category_Id INT PRIMARY KEY,
+  Name VARCHAR(255),
+  last_update INT
+);
+
 CREATE TABLE Copies (
   Copies_id INT PRIMARY KEY,
-  School_Name VARCHAR(255),
-  ISBN INT,
   Number_of_Available_Copies INT,
   FOREIGN KEY (School_Name) REFERENCES School(School_Name),
   FOREIGN KEY (ISBN) REFERENCES Book(ISBN),
   last_update INT
 );
 
+
 CREATE TABLE Author (
-  ISBN INT,
+  Author_Id INT PRIMARY KEY,
   First_Name VARCHAR(255),
   Last_Name VARCHAR(255),
-  PRIMARY KEY (ISBN, First_Name, Last_Name),
-  FOREIGN KEY (ISBN) REFERENCES Book(ISBN),
   last_update INT
 );
 
-CREATE TABLE Category (
-  Name VARCHAR(255) PRIMARY KEY,
-  last_update INT
-);
 
 CREATE TABLE User (
   User_id INT PRIMARY KEY,
