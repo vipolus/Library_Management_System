@@ -4,8 +4,8 @@ CREATE DATABASE library_system;
 USE library_system;
 
 CREATE TABLE School (
-  School_id INT ,
-  School_Name VARCHAR(255) PRIMARY KEY,
+  School_id INT PRIMARY KEY,
+  School_Name VARCHAR(255),
   Address VARCHAR(255),
   City VARCHAR(255),
   Phone_Number VARCHAR(20),
@@ -16,21 +16,20 @@ CREATE TABLE School (
 );
 
 CREATE TABLE School_Library_Operator (
-  School_Name VARCHAR(255),
+  School_id INT PRIMARY KEY,
   Name VARCHAR(255),
   email VARCHAR(255),
   Username VARCHAR(255),
   Password VARCHAR(255),
-  PRIMARY KEY (School_Name, Name),
-  FOREIGN KEY (School_Name) REFERENCES School(School_Name),
+  FOREIGN KEY (School_id) REFERENCES School(School_id),
   last_update INT
 );
 
 CREATE TABLE Book (
-  Book_id INT,
+  Book_id INT PRIMARY KEY,
   Title VARCHAR(255),
   Publisher VARCHAR(255),
-  ISBN INT PRIMARY KEY,
+  ISBN VARCHAR(255),
   Number_of_Pages INT,
   Summary TEXT,
   Image VARCHAR(255),
@@ -40,78 +39,103 @@ CREATE TABLE Book (
   last_update INT
 );
 
-CREATE TABLE Book_Category(
-FOREIGN KEY(Category_Id) REFERENCES Category(Category_Id),
-FOREIGN KEY(Book_Id) REFERENCES Book(Book_Id)
-
-);
-
 CREATE TABLE Category (
-  Category_Id INT PRIMARY KEY,
+  Category_id INT PRIMARY KEY,
   Name VARCHAR(255),
   last_update INT
+);
+
+CREATE TABLE Book_Category(
+Book_Category_Id INT,
+Category_id INT,
+Book_id INT,
+FOREIGN KEY (Category_id) REFERENCES Category(Category_id),
+FOREIGN KEY (Book_id) REFERENCES Book(Book_id)
 );
 
 CREATE TABLE Copies (
   Copies_id INT PRIMARY KEY,
   Number_of_Available_Copies INT,
-  FOREIGN KEY (School_Name) REFERENCES School(School_Name),
-  FOREIGN KEY (ISBN) REFERENCES Book(ISBN),
+  School_id INT,
+  Book_id INT,
+  FOREIGN KEY (School_id) REFERENCES School(School_id),
+  FOREIGN KEY (Book_id) REFERENCES Book(Book_id),
   last_update INT
 );
 
 
 CREATE TABLE Author (
-  Author_Id INT PRIMARY KEY,
+  Author_id INT PRIMARY KEY,
   First_Name VARCHAR(255),
   Last_Name VARCHAR(255),
   last_update INT
 );
 
+CREATE TABLE Book_Author(
+  Author_id INT,
+  Book_id INT,
+  PRIMARY KEY(Book_id,Author_id),
+  FOREIGN KEY(Book_id) REFERENCES Book(Book_id),
+  FOREIGN KEY(Author_id) REFERENCES Author(Author_id),
+  last_update INT
+
+);
+CREATE TABLE Approve (
+  User_id INT,
+  Name VARCHAR(255),
+  Email VARCHAR(255),
+  Username VARCHAR(255),
+  Password VARCHAR(255),
+  last_update INT
+  
+);
+
 
 CREATE TABLE User (
-  User_id INT PRIMARY KEY,
+  User_id INT,
+  School_id INT,
+  PRIMARY KEY(User_id,School_id),
   Name VARCHAR(255),
   Email VARCHAR(255),
   Username VARCHAR(255),
   Password VARCHAR(255),
   Type VARCHAR(255),
   Borrow_Limit INT,
-  Review_Approval_Required BOOLEAN,
-  last_update INT
+  last_update INT,
+  FOREIGN KEY(School_id) REFERENCES School(School_id)
 );
 
 CREATE TABLE Reservation (
   Reservation_id INT PRIMARY KEY,
-  School_Name VARCHAR(255),
+  School_id INT,
   User_id INT,
-  ISBN INT,
+  Book_id INT,
   date_created INT,
   date_expired INT,
-  FOREIGN KEY (School_Name) REFERENCES School(School_Name),
+  FOREIGN KEY (School_id) REFERENCES School(School_id),
   FOREIGN KEY (User_id) REFERENCES User(User_id),
-  FOREIGN KEY (ISBN) REFERENCES Book(ISBN),
+  FOREIGN KEY (Book_id) REFERENCES Book(Book_id),
   last_update INT
 );
 
 CREATE TABLE Loan (
   Loan_id INT PRIMARY KEY,
   User_id INT,
-  Type VARCHAR(255),
-  ISBN INT,
+  Book_id INT,
   date_borrowed INT,
   date_returned INT,
   FOREIGN KEY (User_id) REFERENCES User(User_id),
-  FOREIGN KEY (ISBN) REFERENCES Book(ISBN),
+  FOREIGN KEY (Book_id) REFERENCES Book(Book_id),
   last_update INT
 );
 
 CREATE TABLE Review (
-  ISBN INT,
+  Book_id INT,
   Rating INT,
   Text TEXT,
-  Name VARCHAR(255),
-  PRIMARY KEY (ISBN, Name),
-  FOREIGN KEY (ISBN) REFERENCES Book(ISBN),
+  User_id INT,
+  PRIMARY KEY (Book_id),
+  FOREIGN KEY (Book_id) REFERENCES Book(Book_id),
+  FOREIGN KEY (User_id) REFERENCES User(User_id),
   last_update INT
 );
