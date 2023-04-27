@@ -12,17 +12,18 @@ CREATE TABLE School (
   Email VARCHAR(255),
   Full_Name_of_School_Director VARCHAR(255),
   Full_Name_of_Responsible_School_Library_Operator VARCHAR(255),
-  last_update INT
+  FOREIGN KEY (Library_Operator_id) REFERENCES School(Library_Operator_id),
+  last_update DATETIME
 );
 
 CREATE TABLE School_Library_Operator (
-  School_id INT PRIMARY KEY,
+  Library_Operator_id INT PRIMARY KEY
   Name VARCHAR(255),
   email VARCHAR(255),
   Username VARCHAR(255),
   Password VARCHAR(255),
   FOREIGN KEY (School_id) REFERENCES School(School_id),
-  last_update INT
+  last_update DATETIME
 );
 
 CREATE TABLE Book (
@@ -36,13 +37,13 @@ CREATE TABLE Book (
   Thematic_Category VARCHAR(255),
   Language VARCHAR(255),
   Keywords VARCHAR(255),
-  last_update INT
+  last_update DATETIME
 );
 
 CREATE TABLE Category (
   Category_id INT PRIMARY KEY,
   Name VARCHAR(255),
-  last_update INT
+  last_update DATETIME
 );
 
 CREATE TABLE Book_Category(
@@ -60,7 +61,7 @@ CREATE TABLE Copies (
   Book_id INT,
   FOREIGN KEY (School_id) REFERENCES School(School_id),
   FOREIGN KEY (Book_id) REFERENCES Book(Book_id),
-  last_update INT
+  last_update DATETIME
 );
 
 
@@ -68,7 +69,7 @@ CREATE TABLE Author (
   Author_id INT PRIMARY KEY,
   First_Name VARCHAR(255),
   Last_Name VARCHAR(255),
-  last_update INT
+  last_update DATETIME
 );
 
 CREATE TABLE Book_Author(
@@ -77,7 +78,7 @@ CREATE TABLE Book_Author(
   PRIMARY KEY(Book_id,Author_id),
   FOREIGN KEY(Book_id) REFERENCES Book(Book_id),
   FOREIGN KEY(Author_id) REFERENCES Author(Author_id),
-  last_update INT
+  last_update DATETIME
 
 );
 CREATE TABLE Approve (
@@ -86,7 +87,7 @@ CREATE TABLE Approve (
   Email VARCHAR(255),
   Username VARCHAR(255),
   Password VARCHAR(255),
-  last_update INT
+  last_update DATETIME
   
 );
 
@@ -102,7 +103,8 @@ CREATE TABLE User (
   Type VARCHAR(255),
   Borrow_Limit INT,
   last_update INT,
-  FOREIGN KEY(School_id) REFERENCES School(School_id)
+  FOREIGN KEY(School_id) REFERENCES School(School_id),
+  Approved BOOLEAN
 );
 
 CREATE TABLE Reservation (
@@ -110,32 +112,32 @@ CREATE TABLE Reservation (
   School_id INT,
   User_id INT,
   Book_id INT,
-  date_created INT,
-  date_expired INT,
+  date_created DATETIME,
+  date_expired DATETIME,
   FOREIGN KEY (School_id) REFERENCES School(School_id),
   FOREIGN KEY (User_id) REFERENCES User(User_id),
   FOREIGN KEY (Book_id) REFERENCES Book(Book_id),
-  last_update INT
+  last_update DATETIME
 );
 
 CREATE TABLE Loan (
   Loan_id INT PRIMARY KEY,
   User_id INT,
   Book_id INT,
-  date_borrowed INT,
-  date_returned INT,
+  date_borrowed DATETIME,
+  date_returned DATETIME,
   FOREIGN KEY (User_id) REFERENCES User(User_id),
   FOREIGN KEY (Book_id) REFERENCES Book(Book_id),
-  last_update INT
+  last_update DATETIME
 );
 
 CREATE TABLE Review (
-  Book_id INT,
+  Review_id INT,
   Rating INT,
   Text TEXT,
   User_id INT,
-  PRIMARY KEY (Book_id),
+  PRIMARY KEY (Review_id),
   FOREIGN KEY (Book_id) REFERENCES Book(Book_id),
   FOREIGN KEY (User_id) REFERENCES User(User_id),
-  last_update INT
+  last_update DATETIME
 );
