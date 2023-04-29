@@ -6,7 +6,7 @@
     <title>FlaskBlog</title>
 </head>
 <body>
-   <h1>Welcome to FlaskBlog</h1>
+   <h1>Welcome to School Library Management System</h1>
    <form action="action_page.php" method="post">
     <style>
         div {
