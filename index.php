@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="Static/css/style.css">
-    <title>FlaskBlog</title>
+    <title>Library Management System</title>
 </head>
 <body>
    <h1>Welcome to School Library Management System</h1>
