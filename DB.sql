@@ -109,7 +109,7 @@ CREATE TABLE Approve (
 CREATE TABLE User (
   User_id INT,
   School_id INT,
-  Age INT,
+  Age INT, 
   PRIMARY KEY(User_id,School_id),
   First_Name VARCHAR(255),
   Last_Name VARCHAR(255),
