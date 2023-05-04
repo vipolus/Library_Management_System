@@ -1,3 +1,8 @@
+
+CREATE DATABASE library_system;
+
+USE library_system;
+
 DROP DATABASE library_system;
 CREATE DATABASE library_system;
 
@@ -11,14 +16,13 @@ CREATE TABLE School (
   Phone_Number VARCHAR(20),
   Email VARCHAR(255),
   Full_Name_of_School_Director VARCHAR(255),
-  Full_Name_of_Responsible_School_Library_Operator VARCHAR(255),
-  FOREIGN KEY (Library_Operator_id) REFERENCES School(Library_Operator_id),
   times_loaned INT,
   last_update DATETIME
 );
 
 CREATE TABLE School_Library_Operator (
-  Library_Operator_id INT PRIMARY KEY
+  Library_Operator_id INT PRIMARY KEY,
+  School_id INT,
   Name VARCHAR(255),
   First_Name VARCHAR(255),
   Last_Name VARCHAR(255),
@@ -26,11 +30,12 @@ CREATE TABLE School_Library_Operator (
   email VARCHAR(255),
   Username VARCHAR(255),
   Password VARCHAR(255),
-  FOREIGN KEY (School_id) REFERENCES School(School_id),
   Books_given INT,
   Approved BOOLEAN,
-  last_update DATETIME
+  last_update DATETIME,
+  FOREIGN KEY (School_id) REFERENCES School(School_id)
 );
+
 
 CREATE TABLE Book (
   Book_id INT PRIMARY KEY,
@@ -137,19 +142,21 @@ CREATE TABLE Reservation (
 
 CREATE TABLE Loan (
   Loan_id INT PRIMARY KEY,
+  Library_Operator_id INT,
   User_id INT,
   Book_id INT,
   date_borrowed DATETIME,
   date_returned DATETIME,
   FOREIGN KEY (User_id) REFERENCES User(User_id),
   FOREIGN KEY (Book_id) REFERENCES Book(Book_id),
-  FOREIGN KEY (Library_Operator_id) REFERENCES School_Library_Operator(Library_Operator_id)
+  FOREIGN KEY (Library_Operator_id) REFERENCES School_Library_Operator(Library_Operator_id),
   last_update DATETIME
 );
 
 CREATE TABLE Review (
   Review_id INT,
   Rating INT,
+  Book_id INT,
   Text TEXT,
   User_id INT,
   PRIMARY KEY (Review_id),
