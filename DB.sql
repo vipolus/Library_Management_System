@@ -13,16 +13,22 @@ CREATE TABLE School (
   Full_Name_of_School_Director VARCHAR(255),
   Full_Name_of_Responsible_School_Library_Operator VARCHAR(255),
   FOREIGN KEY (Library_Operator_id) REFERENCES School(Library_Operator_id),
+  times_loaned INT,
   last_update DATETIME
 );
 
 CREATE TABLE School_Library_Operator (
   Library_Operator_id INT PRIMARY KEY
   Name VARCHAR(255),
+  First_Name VARCHAR(255),
+  Last_Name VARCHAR(255),
+  Age INT,
   email VARCHAR(255),
   Username VARCHAR(255),
   Password VARCHAR(255),
   FOREIGN KEY (School_id) REFERENCES School(School_id),
+  Books_given INT,
+  Approved BOOLEAN,
   last_update DATETIME
 );
 
@@ -37,6 +43,8 @@ CREATE TABLE Book (
   Thematic_Category VARCHAR(255),
   Language VARCHAR(255),
   Keywords VARCHAR(255),
+  times_taken INT,
+  reviews INT,
   last_update DATETIME
 );
 
@@ -69,6 +77,8 @@ CREATE TABLE Author (
   Author_id INT PRIMARY KEY,
   First_Name VARCHAR(255),
   Last_Name VARCHAR(255),
+  Age INT,
+  Num_of_books_written INT,
   last_update DATETIME
 );
 
@@ -91,11 +101,13 @@ CREATE TABLE Approve (
   
 );
 
-
 CREATE TABLE User (
   User_id INT,
   School_id INT,
+  Age INT,
   PRIMARY KEY(User_id,School_id),
+  First_Name VARCHAR(255),
+  Last_Name VARCHAR(255),
   Name VARCHAR(255),
   Email VARCHAR(255),
   Username VARCHAR(255),
@@ -104,6 +116,9 @@ CREATE TABLE User (
   Borrow_Limit INT,
   last_update INT,
   FOREIGN KEY(School_id) REFERENCES School(School_id),
+  Number_of_loans INT,
+  books_taken INT,
+  Delayed_Book BOOLEAN,
   Approved BOOLEAN
 );
 
@@ -128,6 +143,7 @@ CREATE TABLE Loan (
   date_returned DATETIME,
   FOREIGN KEY (User_id) REFERENCES User(User_id),
   FOREIGN KEY (Book_id) REFERENCES Book(Book_id),
+  FOREIGN KEY (Library_Operator_id) REFERENCES School_Library_Operator(Library_Operator_id)
   last_update DATETIME
 );
 
