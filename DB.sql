@@ -1,6 +1,4 @@
 
-DROP DATABASE [IF EXISTS] library_system;
-CREATE DATABASE library_system;
 
 USE library_system;
 
@@ -104,7 +102,7 @@ CREATE TABLE User (
   Password VARCHAR(255) NOT NULL,
   Type VARCHAR(255) NOT NULL,
   Borrow_Limit INT NOT NULL,
-  last_update INT NOT NULL,
+  last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   Number_of_loans INT NOT NULL,
   books_taken INT NOT NULL,
   Delayed_Book BOOLEAN NOT NULL,
@@ -161,3 +159,6 @@ CREATE TABLE Review (
   FOREIGN KEY (User_id) REFERENCES User(User_id),
   last_update DATETIME NOT NULL
 );
+
+
+INSERT INTO School(School_Name , Address,City,Phone_Number,Email,Full_Name_of_School_Director,times_loaned,last_update) VALUES ("1o Gel", "Zwgrafou","Athens",912921,"test@gmail.com","Thanasis",0,CURRENT_TIMESTAMP);
