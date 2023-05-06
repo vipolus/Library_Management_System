@@ -69,6 +69,8 @@ if ($stmt = $con->prepare('SELECT Username FROM user WHERE Username =? ')) {
 	        $stmt->bind_param('sississsiiiib',$username,$schoolId,$password,$email,$age,$first_name,$last_name,$role,$Borrow_limit,$Number_of_loans,$books_taken,$Delayed_Book,$Approved);
 	        $stmt->execute();
 	        echo 'You have successfully registered! You can now login!';
+			header("Location: http://localhost/index.php");
+
 } else {
 	// Something is wrong with the SQL statement, so you must check to make sure your accounts table exists with all 3 fields.
 	echo 'Could not prepare statement!';
