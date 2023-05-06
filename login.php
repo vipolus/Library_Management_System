@@ -1,30 +1,56 @@
+<?php
+session_start();
+require_once 'config.php'; // Include the database configuration file
+
+if (isset($_POST['username'], $_POST['password'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Prepare the SQL statement
+    $stmt = $connection->prepare('SELECT Username, Password FROM user WHERE Username = ?');
+    $stmt->execute([$username]);
+    $user = $stmt->fetch();
+
+    if ($user) {
+        // Verify the password
+        if (password_verify($password, $user['Password'])) {
+            // Password is correct, create a session
+            $_SESSION['loggedin'] = true;
+            $_SESSION['username'] = $user['Username'];
+
+            // Redirect the user to the home page or any other authenticated page
+            header('Location: index.php');
+            exit();
+        } else {
+            // Incorrect password
+            echo 'Incorrect username or password!';
+        }
+    } else {
+        // Incorrect username
+        echo 'Incorrect username or password!';
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Login Page</title>
-        <link rel="stylesheet" type="text/css" href="Static/css/login.css">
-<form action="action_page.php" method="post">
-  <div class="imgcontainer">
-    <img src="Templates/Screenshot_3.png" alt="Avatar" class="avatar">
-  </div>
-  <div class="container">
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
-
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
-
-    <button type="submit">Login</button>
-    <label>
-      <input type="checkbox" checked="checked" name="remember"> Remember me
-    </label>
-  </div>
-
-  <div class="container" style="background-color:#f1f1f1">
-    <button type="button" class="cancelbtn">Cancel</button>
-    <span class="psw">Forgot <a href="#">password?</a></span>
-  </div>
-</form>
-
-
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <form action="" method="post">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" name="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" name="password" required>
+        </div>
+        <div>
+            <input type="submit" value="Login">
+        </div>
+    </form>
+</body>
 </html>
