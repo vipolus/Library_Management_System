@@ -18,6 +18,9 @@ if (isset($_POST['username'], $_POST['password'])) {
             $_SESSION['loggedin'] = true;
             $_SESSION['username'] = $user['Username'];
 
+            // Set a session cookie for the user
+            setcookie('user_session', session_id(), time() + (86400 * 30), '/'); // Cookie expires in 30 days
+
             // Redirect the user to the home page or any other authenticated page
             header('Location: index.php');
             exit();
@@ -31,6 +34,7 @@ if (isset($_POST['username'], $_POST['password'])) {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>

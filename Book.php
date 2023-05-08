@@ -1,15 +1,15 @@
 <?php
 require_once('config.php');
 // Check if school_id parameter is provided
-if (isset($_GET['school_id'])) {
+session_start();
    
-    $school_id = $_GET['school_id'];
 
-    try {
+    $username = $_SESSION['username'];
+  
         // Connect to the database using the config.php values
         $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+       
         // Prepare the SQL statement
         $sql = 'SELECT b.Book_id, b.Title, b.Publisher, b.ISBN, b.Number_of_Pages, b.Summary, b.Thematic_Category, b.Language, b.Keywords, a.First_Name, a.Last_Name, c.Number_of_Available_Copies
                 FROM Book AS b
@@ -17,10 +17,29 @@ if (isset($_GET['school_id'])) {
                 INNER JOIN Author AS a ON ba.Author_id = a.Author_id
                 INNER JOIN Copies AS c ON b.Book_id = c.Book_id
                 WHERE c.School_id = ?';
+       
+       
+       $school_id_query = 'SELECT School_id FROM user WHERE Username = ?';
 
+       $stmt = $pdo->prepare($school_id_query);
+       $stmt->bindParam(1, $username, PDO::PARAM_STR);
+       $stmt->execute();
+       
+       $row = $stmt->fetch(PDO::FETCH_ASSOC);
+       $id = $row['School_id'];
+      
+       
+       $sql = 'SELECT b.Book_id, b.Title, b.Publisher, b.ISBN, b.Number_of_Pages, b.Summary, b.Thematic_Category, b.Language, b.Keywords, a.First_Name, a.Last_Name, c.Number_of_Available_Copies
+       FROM Book AS b
+       INNER JOIN Book_Author AS ba ON b.Book_id = ba.Book_id
+       INNER JOIN Author AS a ON ba.Author_id = a.Author_id
+       INNER JOIN Copies AS c ON b.Book_id = c.Book_id
+       WHERE c.School_id = ?';
+        
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$school_id]);
-  
+        $stmt->execute([$id]);
+        
+
         // Check if there are any books available
         if ($stmt->rowCount() > 0) {
             // Fetch all the books into an associative array
@@ -133,8 +152,5 @@ if (isset($_GET['school_id'])) {
         $stmt = null;
         $pdo = null;
 
-    } catch (PDOException $e) {
-        throw $e;
-    }
-}
+   
 ?>

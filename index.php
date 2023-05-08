@@ -19,7 +19,7 @@
             </div>
             <nav class="menu">
                 <ul>
-                    <li><a href="Book.php?school_id=1">Search Book</a></li>
+                    <li><a href="Book.php">Search Book</a></li>
                     <li><a href="#">Lend a Book</a></li>
                     <li><a href="#">Return a Book</a></li>
                     <li><a href="#">Manage Users</a></li>
