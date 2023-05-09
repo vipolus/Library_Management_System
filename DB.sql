@@ -111,6 +111,16 @@ CREATE TABLE User (
   FOREIGN KEY(School_id) REFERENCES School(School_id),
   PRIMARY KEY(User_id,School_id)
 );
+
+CREATE TABLE Admin(
+Admin_id INT NOT NULL,
+First_Name VARCHAR(255) NOT NULL,
+Last_Name VARCHAR(255) NOT NULL,
+Email VARCHAR(255) NOT NULL,
+Username VARCHAR(255) NOT NULL,
+Password VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE Approve (
   User_id INT NOT NULL,
   Name VARCHAR(255) NOT NULL,
