@@ -1,6 +1,6 @@
 <?php
 require_once('config.php');
-// Check if school_id parameter is provided
+
 session_start();
    
 
