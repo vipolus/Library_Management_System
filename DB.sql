@@ -162,3 +162,19 @@ CREATE TABLE Review (
 
 
 INSERT INTO School(School_Name , Address,City,Phone_Number,Email,Full_Name_of_School_Director,times_loaned,last_update) VALUES ("1o Gel", "Zwgrafou","Athens",912921,"test@gmail.com","Thanasis",0,CURRENT_TIMESTAMP);
+/*INSERT INTO Book(
+  Book_id,
+  Title,
+  Publisher,
+  ISBN,
+  Number_of_Pages,
+  Summary,
+  Image,
+  Thematic_Category,
+  Language,
+  Kyewords,
+  times_taken,
+  reviews,
+  last_update
+
+) VALUES(1, "My fruit", "Monkey", "0985264ASJHYG", 5,"A fruit", "Drama", "Armenian", "strawberry", 1, 0, CURRENT_TIMESTAMP);*/
