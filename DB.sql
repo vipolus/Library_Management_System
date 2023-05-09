@@ -104,9 +104,10 @@ CREATE TABLE User (
   Borrow_Limit INT NOT NULL,
   last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   Number_of_loans INT NOT NULL,
-  books_taken INT NOT NULL,
+  books_taken_total INT NOT NULL,
   Delayed_Book BOOLEAN NOT NULL,
   Approved BOOLEAN NOT NULL,
+  books_taken_temp INT NOT NULL,
   FOREIGN KEY(School_id) REFERENCES School(School_id),
   PRIMARY KEY(User_id,School_id)
 );
