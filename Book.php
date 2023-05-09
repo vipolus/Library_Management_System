@@ -151,6 +151,11 @@ session_start();
         // Close the statement and database connection
         $stmt = null;
         $pdo = null;
+        if ($userType == "teacher") {
+            $maxBooks = 1;
+        } else {
+            $maxBooks = 2;
+        }
 
    
 ?>
