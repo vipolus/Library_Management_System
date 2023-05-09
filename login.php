@@ -25,12 +25,14 @@ if (isset($_POST['username'], $_POST['password'])) {
             header('Location: index.php');
             exit();
         } else {
+            echo $password;
+            echo $user['Password'];
             // Incorrect password
             echo 'Incorrect username or password!';
         }
     } else {
         // Incorrect username
-        echo 'Incorrect username or password!';
+        echo 'TestIncorrect username or password!';
     }
 }
 ?>
