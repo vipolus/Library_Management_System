@@ -26,7 +26,7 @@
     <label for="First Name"><b>First Name</b></label>
     <input type="text" placeholder="Enter your First Name" name="First_Name" id="First_Name" required>
 
-    <label for="Last_Name"><b>Username</b></label>
+    <label for="Last_Name"><b>Last Name</b></label>
     <input type="text" placeholder="Enter your Last Name" name="Last_Name" id="Last_Name" required>
 
   <?php
