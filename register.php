@@ -45,6 +45,7 @@
 	
 	exit('Failed to connect to MySQL: ' . mysqli_connect_error());
     }
+    
   $query = "SELECT School_Name FROM school";
   $result = mysqli_query($con,$query);
 

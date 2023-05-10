@@ -17,9 +17,10 @@ $password_repeat=$_POST['password-repeat'];
 $school=$_POST['nameSelect'];
 $role=$_POST['role'];
 $Number_of_loans=0;
-$books_taken=0;
+$books_taken_total=0;
 $Delayed_Book=0;
 $Approved=FALSE;
+$books_taken_temp=0;
 
 if (mysqli_connect_errno()) {
 	// If there is an error with the connection, stop the script and display the error.
@@ -63,10 +64,10 @@ if ($stmt = $con->prepare('SELECT Username FROM user WHERE Username =? ')) {
 		$stmt->fetch();
 		$stmt->close();
 		// Username doesn't exists, insert new account
-        if ($stmt = $con->prepare('INSERT INTO user (Username,School_id, Password, Email,Age,First_Name,Last_Name,Type,Borrow_Limit,Number_of_loans,books_taken,Delayed_Book,Approved) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)')) {
+        if ($stmt = $con->prepare('INSERT INTO user (Username,School_id, Password, Email,Age,First_Name,Last_Name,Type,Borrow_Limit,Number_of_loans,books_taken_total,Delayed_Book,Approved,books_taken_temp) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)')) {
 	// We do not want to expose passwords in our database, so hash the password and use password_verify when a user logs in.
 	        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-	        $stmt->bind_param('sississsiiiib',$username,$schoolId,$password,$email,$age,$first_name,$last_name,$role,$Borrow_limit,$Number_of_loans,$books_taken,$Delayed_Book,$Approved);
+	        $stmt->bind_param('sississsiiiibi',$username,$schoolId,$password,$email,$age,$first_name,$last_name,$role,$Borrow_limit,$Number_of_loans,$books_taken_total,$Delayed_Book,$Approved,$books_taken_temp);
 	        $stmt->execute();
 	        echo 'You have successfully registered! You can now login!';
 			header("Location: http://localhost/index.php");

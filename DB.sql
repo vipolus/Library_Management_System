@@ -111,6 +111,14 @@ CREATE TABLE User (
   FOREIGN KEY(School_id) REFERENCES School(School_id),
   PRIMARY KEY(User_id,School_id)
 );
+
+CREATE TABLE Admin(
+Admin_id INT NOT NULL AUTO_INCREMENT,
+User_id INT NOT NULL,
+PRIMARY KEY(Admin_id),
+FOREIGN KEY(User_id) REFERENCES User(User_id)
+);
+
 CREATE TABLE Approve (
   User_id INT NOT NULL,
   Name VARCHAR(255) NOT NULL,
@@ -162,20 +170,10 @@ CREATE TABLE Review (
 );
 
 
-INSERT INTO School(School_Name , Address,City,Phone_Number,Email,Full_Name_of_School_Director,times_loaned,last_update) VALUES ("1o Gel", "Zwgrafou","Athens",912921,"test@gmail.com","Thanasis",0,CURRENT_TIMESTAMP);
-/*INSERT INTO Book(
-  Book_id,
-  Title,
-  Publisher,
-  ISBN,
-  Number_of_Pages,
-  Summary,
-  Image,
-  Thematic_Category,
-  Language,
-  Kyewords,
-  times_taken,
-  reviews,
-  last_update
-
-) VALUES(1, "My fruit", "Monkey", "0985264ASJHYG", 5,"A fruit", "Drama", "Armenian", "strawberry", 1, 0, CURRENT_TIMESTAMP);*/
+INSERT INTO book(Title,Publisher,ISBN,Number_of_Pages,Summary,Image,Thematic_Category,Language,Keywords,times_taken,reviews) VALUES ("Test","Yolo",1231,10,"fsdfsd","fsdfsdfsd","comedy","en","ffsd",13,7);
+INSERT INTO book(Title,Publisher,ISBN,Number_of_Pages,Summary,Image,Thematic_Category,Language,Keywords,times_taken,reviews) VALUES ("fsdfs","fdsfsd",1243231,110,"bvcbx","fsdfsdbcxbxcbxcbfsd","thriller","en","fdfsf",11,4);
+INSERT INTO book(Title,Publisher,ISBN,Number_of_Pages,Summary,Image,Thematic_Category,Language,Keywords,times_taken,reviews) VALUES ("s23dvas","r32fdss",1231,10,"AADSAVCX","SDFS","comedy","en","ffsd",25,1);
+INSERT INTO copies(Number_of_Available_Copies,School_id,Book_id) VALUES(5,1,1);
+INSERT INTO copies(Number_of_Available_Copies,School_id,Book_id) VALUES(7,2,2);
+INSERT INTO school(School_Name,Address,City,Phone_Number,Email,Full_Name_of_School_Director,times_loaned) VALUES("13o EPAL","Kypselh","Athens",234243,"google@microsoft.com","Elenh",3);
+INSERT INTO author(First_Name,Last_Name,Age,Num_of_books_written) VALUES("Thanasis","Konstantopoulos",35,1);
