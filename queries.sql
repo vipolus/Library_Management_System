@@ -5,18 +5,19 @@ SELECT times_loaned FROM School
 
 /*3.1.2.Για δεδομένη κατηγορία βιβλίων (επιλέγει ο χρήστης), ποιοι συγγραφείς ανήκουν σε αυτήν
 και ποιοι εκπαιδευτικοί έχουν δανειστεί βιβλία αυτής της κατηγορίας το τελευταίο έτος;*/
-SELECT DISTINCT Author.First_Name, Author.Last_Name, User.Name
-FROM Book
-JOIN Book_Author ON Book.Book_id = Book_Author.Book_id
-JOIN Category ON Book_Category.Category_id = Category.Category_id
-JOIN Copies ON Copies.Book_id = Book.Book_id
-JOIN Loan ON Loan.Book_id = Book.Book_id
-JOIN User ON User.User_id = Loan.User_id
-JOIN School ON School.School_id = User.School_id
-JOIN Author ON Author.Author_id = Book_Author.Author_id
-WHERE Category.Name = 'your_category_name' AND YEAR(Loan.date_borrowed) = 2023 AND User.Type = 'teacher'
-ORDER BY User.Number_of_loans DESC
-LIMIT 1;
+$query = SELECT DISTINCT Author.First_Name, Author.Last_Name, User.username
+              FROM Book
+              JOIN Book_Author ON Book.Book_id = Book_Author.Book_id
+              JOIN Book_Category ON Book_Category.Book_id = Book.Book_id
+              JOIN Category ON Book_Category.Category_id = Category.Category_id
+              JOIN Copies ON Copies.Book_id = Book.Book_id
+              JOIN Loan ON Loan.Book_id = Book.Book_id
+              JOIN User ON User.User_id = Loan.User_id
+              JOIN School ON School.School_id = User.School_id
+              JOIN Author ON Author.Author_id = Book_Author.Author_id
+              WHERE Category.Name = :selectedCategory AND User.Type = 'teacher'
+              ORDER BY User.Number_of_loans DESC
+              LIMIT 1;
 /*3.1.3.Βρείτε τους νέους εκπαιδευτικούς (ηλικία < 40 ετών) που έχουν δανειστεί τα περισσότερα
 βιβλία και των αριθμό των βιβλίων.*/
 SELECT User.User_id, User.First_Name, User.Last_Name, COUNT(*) AS books_borrowed

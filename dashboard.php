@@ -197,14 +197,53 @@ if (isset($_SESSION['username'])) {
             ?>
             <table>
                 <tr>
-                    <th>Title</th>
+                    <th>Teachers</th>
                     <th>Category</th>
+                    <th>Authors</th>
                 </tr>
                <?php
+              $query = "SELECT DISTINCT Author.First_Name, Author.Last_Name, User.username
+              FROM Book
+              JOIN Book_Author ON Book.Book_id = Book_Author.Book_id
+              JOIN Book_Category ON Book_Category.Book_id = Book.Book_id
+              JOIN Category ON Book_Category.Category_id = Category.Category_id
+              JOIN Copies ON Copies.Book_id = Book.Book_id
+              JOIN Loan ON Loan.Book_id = Book.Book_id
+              JOIN User ON User.User_id = Loan.User_id
+              JOIN School ON School.School_id = User.School_id
+              JOIN Author ON Author.Author_id = Book_Author.Author_id
+              WHERE Category.Name = :selectedCategory AND User.Type = 'teacher'
+              ORDER BY User.Number_of_loans DESC
+              LIMIT 1";
+
+
+    
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':selectedCategory', $selectedCategory);
+    $stmt->execute();
+    
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    
+    
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+      $first_name = $row['First_Name'];
+      $last_name = $row['Last_Name'];
+      $username = $row['username'];
+      echo $first_name;
+    
+      // Process the data for each row
+      // ...
+  }
+  
+    
+
             if ($selectedCategory == 'all') {
               // Display all books
               for ($i = 0; $i < count($names); $i++) {
                   echo '<tr>
+                          <td>' .$first_name .'</td>
                           <td>' . $names[$i] . '</td>
                           <td>' . $category[$i] . '</td>
                         </tr>';
