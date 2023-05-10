@@ -1,6 +1,6 @@
 <?php
 require_once('Book.php');
-session_start();
+
 $username = $_SESSION['username'];
 
     $user_type='SELECT Type FROM User WHERE Username = ?';
@@ -19,7 +19,7 @@ $username = $_SESSION['username'];
             print("Naughty naughty!!");
         }
         else{
-            #gotoapprovedloaniguess??
+            print("Test");
         }
     }
 ?>
