@@ -104,11 +104,7 @@ if (isset($_SESSION['username'])) {
           <div class="admin-panel">
             <h1>Admin Panel</h1>
             <p>Welcome to the admin panel. What would you like to do?</p>
-            <p>
-              <a class="button" href="manage-users">Manage Users</a>
-              <a class="button" href="manage-books.php">Manage Books</a>
-              <a class="button" href="logout.php">Logout</a>
-            </p>
+            
             
             <h2>Total Loans by School</h2>
             <?php
@@ -141,7 +137,7 @@ if (isset($_SESSION['username'])) {
             }
             ?>
 
-<h2>Search books with category</h2>
+<h2>Search books by category</h2>
             <?php
             // Assuming you have established a database connection and executed the query to fetch the data
             // $loansData contains the fetched data from the database
@@ -212,53 +208,59 @@ if (isset($_SESSION['username'])) {
               JOIN User ON User.User_id = Loan.User_id
               JOIN School ON School.School_id = User.School_id
               JOIN Author ON Author.Author_id = Book_Author.Author_id
-              WHERE Category.Name = :selectedCategory AND User.Type = 'teacher'
-              ORDER BY User.Number_of_loans DESC
-              LIMIT 1";
+              WHERE Category.Name = :selectedCategory
+                AND User.Type = 'Teacher'
+                AND Loan.date_borrowed >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR);
+              ";
 
 
     
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':selectedCategory', $selectedCategory);
     $stmt->execute();
-    
-    $row = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-    
-    
+    $first_name = array();
+    $last_name = array();
+    $username = array();
+   
 
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-      $first_name = $row['First_Name'];
-      $last_name = $row['Last_Name'];
-      $username = $row['username'];
-      echo $first_name;
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $first_name[] = $row['First_Name']; // Add first name to the array
+    $last_name[] = $row['Last_Name'];
+    $username[] = $row['username'];
+}
+
+if ($selectedCategory == 'all') {
+    // Display all books
     
-      // Process the data for each row
-      // ...
+        for ($i = 0; $i < count($names); $i++) {
+            echo '<tr>
+                    <td>' .$first_name[$i] .'</td> 
+                    <td>' . $names[$i] . '</td>
+                    <td>' . $category[$i] . '</td>
+                  </tr>';
+        }
+    
+} else {
+
+    // Display books for the selected category
+    for ($i = 0; $i < count($names); $i++) {
+      if ($category[$i] == $selectedCategory && isset($username[$i], $category[$i]) && isset($first_name[$i])) {
+          echo '<tr>
+                  <td>' . $username[$i] . '</td>
+                  <td>' . $category[$i] . '</td>
+                  <td>' . $first_name[$i] .' '. $last_name[$i] . '</td> 
+                </tr>';
+      } elseif ($category[$i] == $selectedCategory && isset($username[$i], $category[$i])) {
+          echo '<tr>
+                  <td>' . $username[$i] . '</td>
+                  <td>' . $category[$i] . '</td>
+                  <td>Unknown</td> 
+                </tr>';
+      }
   }
   
-    
+}
 
-            if ($selectedCategory == 'all') {
-              // Display all books
-              for ($i = 0; $i < count($names); $i++) {
-                  echo '<tr>
-                          <td>' .$first_name .'</td>
-                          <td>' . $names[$i] . '</td>
-                          <td>' . $category[$i] . '</td>
-                        </tr>';
-              }
-          } else {
-              // Display books for the selected category
-              for ($i = 0; $i < count($names); $i++) {
-                  if ($category[$i] == $selectedCategory) {
-                      echo '<tr>
-                              <td>' . $names[$i] . '</td>
-                              <td>' . $category[$i] . '</td>
-                            </tr>';
-                  }
-              }
-          }
 
             ?>
 

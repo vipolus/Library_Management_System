@@ -180,3 +180,5 @@ INSERT INTO author(First_Name,Last_Name,Age,Num_of_books_written) VALUES("Thanas
 INSERT INTO book_author(Author_id,Book_id) VALUES(1,1);
 INSERT INTO category(Name) VALUES("comedy");
 INSERT INTO book_category(Category_id,Book_id) VALUES(1,1);
+INSERT INTO school_library_operator(School_id,Books_given) VALUES(1,10);
+INSERT INTO loan(Library_Operator_id,User_id,Book_id,date_borrowed,date_returned) VALUES(1,1,1,"2023-1-2","2023-7-7");
