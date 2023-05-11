@@ -42,6 +42,7 @@ CREATE TABLE Book (
   PRIMARY KEY(Book_id)
 );
 
+
 CREATE TABLE Category (
   Category_id INT NOT NULL AUTO_INCREMENT,
   Name VARCHAR(255) NOT NULL,
@@ -109,14 +110,15 @@ CREATE TABLE User (
   Approved BOOLEAN NOT NULL,
   books_taken_temp INT NOT NULL,
   FOREIGN KEY(School_id) REFERENCES School(School_id),
-  PRIMARY KEY(User_id,School_id)
+  PRIMARY KEY(User_id, School_id)
 );
 
 CREATE TABLE Admin(
 Admin_id INT NOT NULL AUTO_INCREMENT,
 User_id INT NOT NULL,
 PRIMARY KEY(Admin_id),
-FOREIGN KEY(User_id) REFERENCES User(User_id)
+FOREIGN KEY(User_id) REFERENCES User(User_id),
+last_update DATETIME
 );
 
 CREATE TABLE Approve (
