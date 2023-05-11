@@ -177,7 +177,7 @@ INSERT INTO book(Title,Publisher,ISBN,Number_of_Pages,Summary,Image,Thematic_Cat
 INSERT INTO book(Title,Publisher,ISBN,Number_of_Pages,Summary,Image,Thematic_Category,Language,Keywords,times_taken,reviews) VALUES ("fsdfs","fdsfsd",1243231,110,"bvcbx","fsdfsdbcxbxcbxcbfsd","thriller","en","fdfsf",11,4);
 INSERT INTO book(Title,Publisher,ISBN,Number_of_Pages,Summary,Image,Thematic_Category,Language,Keywords,times_taken,reviews) VALUES ("s23dvas","r32fdss",1231,10,"AADSAVCX","SDFS","comedy","en","ffsd",25,1);
 INSERT INTO copies(Number_of_Available_Copies,School_id,Book_id) VALUES(5,1,1);
-INSERT INTO copies(Number_of_Available_Copies,School_id,Book_id) VALUES(7,2,2);
+/*INSERT INTO copies(Number_of_Available_Copies,School_id,Book_id) VALUES(7,2,2);*/
 /*INSERT INTO school(School_Name,Address,City,Phone_Number,Email,Full_Name_of_School_Director,times_loaned) VALUES("13o EPAL","Kypselh","Athens",234243,"google@microsoft.com","Elenh",3);*/
 INSERT INTO author(First_Name,Last_Name,Age,Num_of_books_written) VALUES("Thanasis","Konstantopoulos",35,1);
 INSERT INTO book_author(Author_id,Book_id) VALUES(1,1);
