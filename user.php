@@ -1,14 +1,16 @@
 <?php
 require_once('Book.php');
 
-$username = $_SESSION['username'];
+    $username = $_SESSION['username'];
     $books_alrd_took='SELECT books_taken_temp FROM User WHERE Username = ?';
-    $delayed='SELECT Delayed_Book FROM User WHERE Username = ?'
+    $delayed='SELECT Delayed_Book FROM User WHERE Username = ?';
     
     $user_type='SELECT Type FROM User WHERE Username = ?';
+   
+    
     if ($user_type == "teacher") {
         $books_alrd_took='SELECT books_taken_temp FROM User WHERE Username = ?';
-        $delayed='SELECT Delayed_Book FROM User WHERE Username = ?'
+        $delayed='SELECT Delayed_Book FROM User WHERE Username = ?';
         if($books_alrd_took == 1 || $delayed == TRUE){
             print("Naughty naughty!!");
         }
