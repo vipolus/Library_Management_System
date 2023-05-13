@@ -58,7 +58,7 @@ if (isset($_SESSION['username'])) {
             }
 
             .admin-panel {
-              max-width: 600px;
+              max-width: 900px;
               margin: 0 auto;
               padding: 20px;
               border: 1px solid #ccc;
@@ -194,43 +194,52 @@ if (isset($_SESSION['username'])) {
         
           if (!empty($names)) {
             ?>
-            <table>
-                <tr>
-                    <th>Teachers</th>
-                    <th>Authors</th>
-                </tr>
                <?php
-              $query = "SELECT DISTINCT Author.First_Name, Author.Last_Name, User.username
-              FROM Book
-              JOIN Book_Author ON Book.Book_id = Book_Author.Book_id
-              JOIN Book_Category ON Book_Category.Book_id = Book.Book_id
-              JOIN Category ON Book_Category.Category_id = Category.Category_id
-              JOIN Copies ON Copies.Book_id = Book.Book_id
-              JOIN Loan ON Loan.Book_id = Book.Book_id
-              JOIN User ON User.User_id = Loan.User_id
-              JOIN School ON School.School_id = User.School_id
-              JOIN Author ON Author.Author_id = Book_Author.Author_id
-              WHERE Category.Name = :selectedCategory
-                AND User.Type = 'Teacher'
-                AND Loan.date_borrowed >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR);
-              ";
+              
 
+$query1="SELECT DISTINCT User.First_Name, User.Last_Name
+FROM User
+JOIN Loan ON Loan.User_id = User.User_id
+JOIN Book ON Book.Book_id = Loan.Book_id
+JOIN Book_Category ON Book_Category.Book_id = Book.Book_id
+JOIN Category ON Category.Category_id = Book_Category.Category_id
+WHERE Category.Name = :selectedCategory
+AND Loan.date_borrowed >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+AND User.Type = 'Teacher';
 
+";
+
+$query2="SELECT DISTINCT Author.First_Name, Author.Last_Name
+FROM Author
+JOIN Book_Author ON Author.Author_id = Book_Author.Author_id
+JOIN Book ON Book.Book_id = Book_Author.Book_id
+JOIN Book_Category ON Book_Category.Book_id = Book.Book_id
+JOIN Category ON Category.Category_id = Book_Category.Category_id
+WHERE Category.Name = :selectedCategory;
+";
     
-    $stmt = $pdo->prepare($query);
-    $stmt->bindParam(':selectedCategory', $selectedCategory);
-    $stmt->execute();
-    $first_name = array();
-    $last_name = array();
-    $username = array();
-   
+    $stmt1 = $pdo->prepare($query1);
+    $stmt1->bindParam(':selectedCategory', $selectedCategory);
+    $stmt1->execute();
 
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $first_name[] = $row['First_Name']; // Add first name to the array
-    $last_name[] = $row['Last_Name'];
-    $username[] = $row['username'];
+    $stmt2 = $pdo->prepare($query2);
+    $stmt2->bindParam(':selectedCategory', $selectedCategory);
+    $stmt2->execute();
+
+    $Author_first_name = array();
+    $Author_last_name = array();
+    $Teacher_first_name = array();
+    $Teacher_last_name = array();
+
+while ($row = $stmt1->fetch(PDO::FETCH_ASSOC)) {
+    $Teacher_first_name[] = $row['First_Name'];
+    $Teacher_last_name []= $row['Last_Name'];
 }
 
+while ($row = $stmt2->fetch(PDO::FETCH_ASSOC)) {
+$Author_first_name[] = $row['First_Name']; // Add first name to the array
+$Author_last_name[] = $row['Last_Name'];
+}
 
 if ($selectedCategory == 'all') {
     // Display all books
@@ -246,27 +255,49 @@ if ($selectedCategory == 'all') {
 } else {
 
     // Display books for the selected category
-    for ($i = 0; $i < count($names); $i++) {
-      if ($category[$i] == $selectedCategory && isset($username[$i], $category[$i]) && isset($first_name[$i])) {
-          echo '<tr>
-                  <td>' . $username[$i] . '</td>
-                  <td>' . $first_name[$i] .' '. $last_name[$i] . '</td> 
-                </tr>';
-      } elseif ($category[$i] == $selectedCategory && isset($username[$i], $category[$i])) {
-          echo '<tr>
-                  <td>' . $username[$i] . '</td>
-                  <td>' . $category[$i] . '</td>
-                  <td>Unknown</td> 
-                </tr>';
-      }
-  }
-  
+   ?>
+
+
+<div class="container">
+  <style>
+    .container {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .column {
+      flex: 1;
+      width:50%;
+      margin-right: 100px;
+    }
+  </style>
+  <div class="column">
+    <h2>Teachers</h2>
+    <?php 
+    for ($i = 0; $i < count($Author_first_name); $i++) {
+      echo $Author_first_name[$i]. " ";
+      echo $Author_last_name[$i]. "<br>";
+    }
+    ?>
+    <!-- Content for the first column -->
+  </div>
+  <div class="column">
+    <h2>Authors</h2>
+    <?php
+    for ($i = 0; $i < count($Teacher_first_name); $i++) {
+      echo $Teacher_first_name[$i]. " ";
+      echo $Teacher_last_name[$i]. "<br>";
+    }
+    ?>
+    <!-- Content for the second column -->
+  </div>
+</div>
+
+
+<?php
 }
-
-
             ?>
-
-
             </table>
             
             <?php
@@ -277,19 +308,12 @@ if ($selectedCategory == 'all') {
             ?>
 <h2>Search teachers with most books loans</h2>
 <?php 
-$query = "SELECT User.First_Name, User.Last_Name, User.Number_of_loans, COALESCE(B.Num_of_Books_Borrowed, 0) AS Num_of_Books_Borrowed
+$query = "SELECT User.First_Name, User.Last_Name, User.Number_of_loans, COUNT(Loan.Book_id) AS Num_of_Books_Borrowed
 FROM User
-LEFT JOIN (
-    SELECT Loan.User_id, COUNT(Loan.Book_id) AS Num_of_Books_Borrowed
-    FROM Loan
-    INNER JOIN User ON User.User_id = Loan.User_id
-    WHERE User.Type = 'Teacher' AND User.Age < 40
-    GROUP BY Loan.User_id
-) AS B ON User.User_id = B.User_id
+INNER JOIN Loan ON User.User_id = Loan.User_id
 WHERE User.Type = 'Teacher' AND User.Age < 40
-ORDER BY Num_of_Books_Borrowed DESC";
-
-
+GROUP BY User.First_Name, User.Last_Name, User.Number_of_loans
+ORDER BY COUNT(User.Number_of_loans)";
 
 
 
