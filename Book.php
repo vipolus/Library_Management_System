@@ -5,6 +5,9 @@ session_start();
    
 
     $username = $_SESSION['username'];
+
+    if($username==NULL)
+        header('Location: '.'http://localhost/login.php');
   
         // Connect to the database using the config.php values
         $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);

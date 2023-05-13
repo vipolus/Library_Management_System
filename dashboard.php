@@ -185,16 +185,18 @@ if (isset($_SESSION['username'])) {
 
 
           
-          
+
           <?php
+          
          $selectedCategory = $_POST['nameSelect'];
+         $text="Category you are searching for:";
+          echo $text." " .$selectedCategory;
         
           if (!empty($names)) {
             ?>
             <table>
                 <tr>
                     <th>Teachers</th>
-                    <th>Category</th>
                     <th>Authors</th>
                 </tr>
                <?php
@@ -229,16 +231,17 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $username[] = $row['username'];
 }
 
+
 if ($selectedCategory == 'all') {
     // Display all books
     
-        for ($i = 0; $i < count($names); $i++) {
+      /*  for ($i = 0; $i < count($names); $i++) {
             echo '<tr>
                     <td>' .$first_name[$i] .'</td> 
                     <td>' . $names[$i] . '</td>
                     <td>' . $category[$i] . '</td>
                   </tr>';
-        }
+        }*/
     
 } else {
 
@@ -247,7 +250,6 @@ if ($selectedCategory == 'all') {
       if ($category[$i] == $selectedCategory && isset($username[$i], $category[$i]) && isset($first_name[$i])) {
           echo '<tr>
                   <td>' . $username[$i] . '</td>
-                  <td>' . $category[$i] . '</td>
                   <td>' . $first_name[$i] .' '. $last_name[$i] . '</td> 
                 </tr>';
       } elseif ($category[$i] == $selectedCategory && isset($username[$i], $category[$i])) {
@@ -265,17 +267,61 @@ if ($selectedCategory == 'all') {
             ?>
 
 
-
-
-
             </table>
+            
             <?php
         } else {
             echo "<p>No data available.</p>";
         }
         
             ?>
+<h2>Search teachers with most books loans</h2>
+<?php 
+$query = "SELECT User.First_Name, User.Last_Name, User.Number_of_loans, COALESCE(B.Num_of_Books_Borrowed, 0) AS Num_of_Books_Borrowed
+FROM User
+LEFT JOIN (
+    SELECT Loan.User_id, COUNT(Loan.Book_id) AS Num_of_Books_Borrowed
+    FROM Loan
+    INNER JOIN User ON User.User_id = Loan.User_id
+    WHERE User.Type = 'Teacher' AND User.Age < 40
+    GROUP BY Loan.User_id
+) AS B ON User.User_id = B.User_id
+WHERE User.Type = 'Teacher' AND User.Age < 40
+ORDER BY Num_of_Books_Borrowed DESC";
 
+
+
+
+
+
+$stmt = $pdo->prepare($query);
+$stmt->execute();
+$first_name = array();
+$last_name = array();
+$number_of_loans=array();
+
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+$first_name[] = $row['First_Name']; // Add first name to the array
+$last_name[] = $row['Last_Name'];
+$number_of_loans[]=$row['Number_of_loans'];
+}
+
+
+echo '<table>
+                <tr>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Number of loans</th>
+                </tr>';
+      for ($i = 0; $i < count($first_name); $i++){
+                echo '<tr>
+                <td>' .$first_name[$i] .'</td> 
+                <td>' . $last_name[$i] . '</td>
+                <td>' . $number_of_loans[$i] . '</td>
+  
+              </tr>';
+      }
+?>
 
           </div>
         </body>
