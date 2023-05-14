@@ -137,7 +137,7 @@ if (isset($_SESSION['username'])) {
             }
             ?>
 
-<h2>Search books by category</h2>
+<h2>Display teachers and authors by book category</h2>
             <?php
             // Assuming you have established a database connection and executed the query to fetch the data
             // $loansData contains the fetched data from the database
@@ -279,7 +279,7 @@ if ($selectedCategory == 'all') {
     }
   </style>
   <div class="column">
-    <h2>Teachers</h2>
+    <h2>Authors wrote books in category</h2>
     <?php 
     for ($i = 0; $i < count($Author_first_name); $i++) {
       echo $Author_first_name[$i]. " ";
@@ -289,7 +289,7 @@ if ($selectedCategory == 'all') {
     <!-- Content for the first column -->
   </div>
   <div class="column">
-    <h2>Authors</h2>
+    <h2>Teachers borrowed book in category</h2>
     <?php
     for ($i = 0; $i < count($Teacher_first_name); $i++) {
       echo $Teacher_first_name[$i]. " ";
