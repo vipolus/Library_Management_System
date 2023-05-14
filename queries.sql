@@ -47,4 +47,13 @@ HAVING COUNT(DISTINCT Loan.Book_id) = (SELECT COUNT(DISTINCT Loan.Book_id)
                                        WHERE Loan.Operator_id = Operator.Operator_id
                                          AND Loan.Date_of_Loan BETWEEN '2023-01-01' AND '2023-12-31')
 AND COUNT(*) > 20
+/*3.3.1.Όλα τα βιβλία που έχουν καταχωριστεί (Κριτήρια αναζήτησης: τίτλος/ κατηγορία/
+συγγραφέας), δυνατότητα επιλογής βιβλίου και δημιουργία αιτήματος κράτησης.*/
+SELECT * FROM Book WHERE Title = 'search_title' OR Category = 'search_category' OR Author = 'search_author'
 
+/*3.3.2.Λίστα όλων των βιβλίων που έχει δανειστεί ο συγκεκριμένος χρήστης.*/
+SELECT Book.Title 
+FROM Book
+INNER JOIN Loan ON Book.Book_id = Loan.Book_id 
+INNER JOIN User ON Loan.User_id = User.User_id
+WHERE User.username = ""
