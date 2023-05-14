@@ -128,7 +128,37 @@ session_start();
                         var p9 = document.createElement('p');
                         p9.innerHTML = '<strong>Copies Available:</strong> ' + selectedBook.Number_of_Available_Copies;
                         detailsDiv.appendChild(p9);
+                        
+                        // Add a button to lend the book
+                        if(selectedBook.Number_of_Available_Copies > 0)
+                        {
+                            var takeButton = document.createElement('button');
+                            takeButton.innerHTML = 'Lend book';
+                            takeButton.onclick = function() {
+                                alert('You have taken the book!');
+                            };
+                            detailsDiv.appendChild(takeButton)
+                        }
+                        else
+                        {
+                            var p10 = document.createElement('p');
+                            p10.innerHTML = 'No copies available';
+                            detailsDiv.appendChild(p10);
+                        }
+                        //echo '<input type="submit" name="lend" value="Lend">';
+                    
+
+                        //if (selectedBook.Number_of_Available_Copies > 0) {
+                        // echo '<form method="post" action="Book.php">';
+                        // echo '<input type="hidden" name="book_id" value="' . $book_id . '">';
+                            //echo '<input type="submit" name="lend" value="Lend">';
+                           // echo '</form>';
+                        //} else {
+                           // echo 'Not available';
+                       // }
                     }
+
+                    
                 </script>
             </head>
             <body>
@@ -142,6 +172,7 @@ session_start();
                         echo '<option value="' . $index . '">' . $book['Title'] . '</option>';
                     }
                     ?>
+                    
                 </select>
                 <div id="book-details"></div>
             </body>
@@ -150,6 +181,7 @@ session_start();
         } else {
             echo 'No books available for the given school.';
         }
+        
 
         // Close the statement and database connection
         $stmt = null;
@@ -157,60 +189,7 @@ session_start();
         
 
        
-        require_once('Book.php');
-        
-            $username = $_SESSION['username'];
-            $books_alrd_took='SELECT books_taken_temp FROM User WHERE Username = ?';
-            $delayed='SELECT Delayed_Book FROM User WHERE Username = ?';
-            
-            $user_type='SELECT Type FROM User WHERE Username = ?';
-           
-            
-            if ($user_type == "teacher") {
-                $books_alrd_took='SELECT books_taken_temp FROM User WHERE Username = ?';
-                $delayed='SELECT Delayed_Book FROM User WHERE Username = ?';
-                if($books_alrd_took == 1 || $delayed == TRUE){
-                    print("Naughty naughty!!");
-                }
-                else {
-                    //if(copies avaliable >=1)
-                    //{
-                        $sql = "UPDATE User SET books_taken_temp = books_taken_temp + 1 
-                        WHERE User_id=$user_id";
-                        $sql = "UPDATE User SET books_taken_total = books_taken_total + 1 
-                        WHERE User_id=$user_id";
-                        print("Test");
-                    //}
-                    //else
-                    //{
-                        
-                        //reservation_pending make true and plus 1
-        
-                    //}
-                }
-            } else {
-                #see how many they have right now
-                if($books_alrd_took == 2 || $delayed == TRUE){
-                    print("Naughty naughty!!");
-                }
-                else{
-        
-                    //if(copies avaliable >=1)
-                    //{
-                        $sql = "UPDATE User SET books_taken_temp = books_taken_temp + 1 
-                        WHERE User_id=$user_id";
-                        $sql = "UPDATE User SET books_taken_total = books_taken_total + 1 
-                        WHERE User_id=$user_id";
-                        print("Test");
-                    //}
-                    //else
-                    //{
-                        //reservation_pending make true and plus 1
-        
-                    //}
-                    
-                }
-            }
-        
-   
-?>
+       
+                                
+                            
+

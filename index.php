@@ -46,7 +46,7 @@ else {
             <nav class="menu">
                 <ul>
                     <li><a href="Book.php">Search Book</a></li>
-                    <li><a href="#">Lend a Book</a></li>
+                    <li><a href="Book.php">Lend a Book</a></li>
                     <li><a href="#">Return a Book</a></li>
                     <li><a href="#">Manage Users</a></li>
                     <!-- Add more menu options as needed -->
