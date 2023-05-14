@@ -32,7 +32,7 @@ if (isset($_POST['username'], $_POST['password'])) {
         }
     } else {
         // Incorrect username
-        echo 'TestIncorrect username or password!';
+        echo 'Incorrect username or password!';
     }
 }
 ?>

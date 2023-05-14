@@ -137,7 +137,7 @@ if (isset($_SESSION['username'])) {
             }
             ?>
 
-<h2>Search books by category</h2>
+<h2>Display teachers and authors by book category</h2>
             <?php
             // Assuming you have established a database connection and executed the query to fetch the data
             // $loansData contains the fetched data from the database
@@ -188,7 +188,13 @@ if (isset($_SESSION['username'])) {
 
           <?php
           
-         $selectedCategory = $_POST['nameSelect'];
+          if (isset($_POST['nameSelect'])) {
+            $selectedCategory = $_POST['nameSelect'];
+            // Rest of your code
+        } else {
+            $selectedCategory="All";
+        }
+        
          $text="Category you are searching for:";
           echo $text." " .$selectedCategory;
         
@@ -273,7 +279,7 @@ if ($selectedCategory == 'all') {
     }
   </style>
   <div class="column">
-    <h2>Teachers</h2>
+    <h2>Authors wrote books in category</h2>
     <?php 
     for ($i = 0; $i < count($Author_first_name); $i++) {
       echo $Author_first_name[$i]. " ";
@@ -283,7 +289,7 @@ if ($selectedCategory == 'all') {
     <!-- Content for the first column -->
   </div>
   <div class="column">
-    <h2>Authors</h2>
+    <h2>Teachers borrowed book in category</h2>
     <?php
     for ($i = 0; $i < count($Teacher_first_name); $i++) {
       echo $Teacher_first_name[$i]. " ";
@@ -345,9 +351,58 @@ echo '<table>
   
               </tr>';
       }
+      echo '</table>';
 ?>
 
-          </div>
+
+
+
+
+
+
+
+
+
+<h2>Authors with zero books loaned</h2>
+<?php 
+$query = "SELECT A.Author_id, A.First_Name, A.Last_Name
+FROM Author A
+LEFT JOIN Book_Author BA ON A.Author_id = BA.Author_id
+LEFT JOIN Loan L ON BA.Book_id = L.Book_id
+WHERE L.Loan_id IS NULL";
+
+$stmt = $pdo->prepare($query);
+$stmt->execute();
+$first_name = array();
+$last_name = array();
+$number_of_loans=array();
+
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+$first_name[] = $row['First_Name']; // Add first name to the array
+$last_name[] = $row['Last_Name'];
+}
+
+
+echo '<table>
+                <tr>
+                    <th>First name</th>
+                    <th>Last name</th>
+                </tr>';
+      for ($i = 0; $i < count($first_name); $i++){
+                echo '<tr>
+                <td>' .$first_name[$i] .'</td> 
+                <td>' . $last_name[$i] . '</td>  
+              </tr>';
+      }
+?>
+
+
+
+
+
+    </div>
+
+
         </body>
         </html>
 

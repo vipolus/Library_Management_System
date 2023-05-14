@@ -14,8 +14,14 @@
         require_once('config.php');
 
         session_start();
+        if (!isset($_SESSION['username'])) {
+            header("Location: login.php");
+            exit;
+        }
         $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        
             $username = $_SESSION['username'];
             $sql='SELECT Type FROM user WHERE username=?';
             $stmt = $pdo->prepare($sql);
