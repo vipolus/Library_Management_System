@@ -330,7 +330,7 @@ require_once('Book.php');
                                 ?>
                                  //require_once('Book.php');
         
-        /*    $username = $_SESSION['username'];
+        /*  $username = $_SESSION['username'];
             $books_alrd_took='SELECT books_taken_temp FROM User WHERE Username = ?';
             $delayed='SELECT Delayed_Book FROM User WHERE Username = ?';
             
@@ -537,3 +537,148 @@ require_once('Book.php');
                                     echo '<p>No books found</p>';
                                 }*/
                                 ?>
+                                // Call API endpoint to lend the book
+            /*fetch('/lend-book.php?book_id=' + bookId)
+                .then(response => {
+                    if (response.ok) {
+                        alert('Book lent successfully');
+                        // Refresh the book details
+                        showBookDetails();
+                    } else {
+                        alert('Unable to lend book');
+                    }               
+                })
+                .catch(error => {
+                    console.error('Error lending book:', error);
+                     alert('Unable to lend book');
+            });*/
+            /*$servername = "localhost";
+                                $username = "w";
+                                $password = "w";
+                                $dbname = "library_system";
+
+                                // Create connection
+                                $conn = mysqli_connect($servername, $username, $password, $dbname);
+
+                                // Check connection
+                                if (!$conn) {
+                                    die("Connection failed: " . mysqli_connect_error());
+                                }
+
+                                // Construct SQL query
+                                $sql = "UPDATE User SET books_taken_total = 1, books_taken_temp = 1 WHERE User_id = 3 AND School_id = 1";
+
+                                // Execute SQL query
+                                if (mysqli_query($conn, $sql)) {
+                                    echo "Record updated successfully";
+                                } else {
+                                    echo "Error updating record: " . mysqli_error($conn);
+                                }
+
+                                // Close connection
+                                mysqli_close($conn);*/
+                                // function takeBook($username) {
+                           // $conn = mysqli_connect("localhost", "username", "password", "database");
+    
+                        // Check if the user is a teacher or a student
+                        //if ($user_type == "teacher") {
+                        //$sql = "UPDATE user SET books_taken_total = books_taken_total + 1, books_taken_temp = books_taken_temp +1 WHERE Username = '$username'";
+                        //} elseif ($user_type == "student") {
+                        //$sql = "UPDATE user SET total_books = total_books + 1, book_taken_temp = 2 WHERE user_id = '$user_id'";
+                       // }
+    
+                        /*if (mysqli_query($conn, $sql)) {
+                            echo "Book taken successfully!";
+                        } else {
+                            echo "Error taking book: " . mysqli_error($conn);
+                        }*/
+    
+                        //mysqli_close($conn);
+                       //}   
+                        //}
+                           /* $username = $_SESSION['username'];
+                            $books_alrd_took_stmt=$pdo->prepare('SELECT books_taken_temp FROM User WHERE Username = ?');
+                            $books_alrd_took_stmt->bindParam(1, $username);
+                            $books_alrd_took_stmt->execute();
+                            //$books_alrd_took = $books_alrd_took_stmt->fetchColumn();
+                            
+                            $delayed_stmt = $pdo->prepare('SELECT Delayed_Book FROM User WHERE Username = ?');
+                            $delayed_stmt->bindParam(1, $username);
+                            $delayed_stmt->execute();
+                            //$delayed = $delayed_stmt->fetchColumn();            
+                            
+                            $user_type_stmt = $pdo->prepare('SELECT Type FROM User WHERE Username = ?');
+                            $user_type_stmt->bindParam(1, $username);
+                            $user_type_stmt->execute();
+                            //$user_type = $user_type_stmt->fetchColumn();           
+            
+
+
+                            if ($user_type_stmt == 'teacher') {
+                                $books_alrd_took_stmt = 'SELECT books_taken_temp FROM User WHERE Username = ?';
+                                $delayed_stmt = 'SELECT Delayed_Book FROM User WHERE Username = ?';
+                                if ($books_alrd_took_stmt == 1 || $delayed_stmt == TRUE) {
+                                    print("Naughty naughty!!");
+                                } else {
+                                    $sql1 = "UPDATE User SET books_taken_temp = books_taken_temp + 1 WHERE Username = ?";
+                                    $stmt1 = $pdo->prepare($sql1);
+                                    $stmt1->bindParam(1, $username);
+                                    $stmt1->execute();
+
+                                    $sql2 = "UPDATE User SET books_taken_total = books_taken_total + 1 WHERE Username = ?";
+                                    $stmt2 = $pdo->prepare($sql2);
+                                    //$books_taken = 1;
+                                    $stmt2->bindParam(1, $books_alrd_took_stmt);
+                                    $stmt2->bindParam(2, $username);
+                                    $stmt2->execute();
+                                }
+                            } else {
+                                $sql1 = "UPDATE User SET books_taken_temp = books_taken_temp + 1 WHERE Username = ?";
+                                $stmt1 = $pdo->prepare($sql1);
+                                $stmt1->bindParam(1, $username);
+                                $stmt1->execute();
+
+                                $sql2 = "UPDATE User SET books_taken_total = books_taken_total + 1 WHERE Username = ?";
+                                $stmt2 = $pdo->prepare($sql2);
+                                //$books_taken = 1;
+                                $stmt2->bindParam(1, $books_alrd_took_stmt);
+                                $stmt2->bindParam(2, $username);
+                                $stmt2->execute();
+                            }   
+                        }*/
+                        
+
+
+
+            /*if ($user_type == "teacher") {
+                $books_alrd_took='SELECT books_taken_temp FROM User WHERE Username = ?';
+                $delayed='SELECT Delayed_Book FROM User WHERE Username = ?';
+                if($books_alrd_took == 1 || $delayed == TRUE){
+                    print("Naughty naughty!!");
+                }       
+                else {
+                    $sql1 = "UPDATE User SET books_taken_temp = books_taken_temp + 1 WHERE Username = ?";
+                    $stmt1 = $pdo->prepare($sql1);
+                    $stmt1->bindParam(1, $username);
+                    $stmt1->execute();
+
+
+                    $sql2 = "UPDATE User SET books_taken_total = books_taken_total + 1 WHERE Username = ?";
+                    $stmt2 = $pdo->prepare($sql2);
+                    $stmt2->bindParam(1, $username);
+                    $stmt2->execute();
+                }
+            } else {
+                //see how many they have right now
+                $sql1 = "UPDATE User SET books_taken_temp = books_taken_temp + 1 WHERE Username = ?";
+                $stmt1 = $pdo->prepare($sql1);
+                $stmt1->bindParam(1, $username);
+                $stmt1->execute();
+
+                $sql2 = "UPDATE User SET books_taken_total = books_taken_total + 1 WHERE Username = ?";
+                $stmt2 = $pdo->prepare($sql2);
+                $stmt2->bindParam(1, $username);
+                $stmt2->execute();
+            }*/
+        //}
+       
