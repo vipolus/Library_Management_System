@@ -175,18 +175,17 @@ CREATE TABLE Review (
 
 INSERT INTO school(School_Name,Address,City,Phone_Number,Email,Full_Name_of_School_Director,times_loaned) VALUES("13o EPAL","Kypselh","Athens",234243,"google@microsoft.com","Elenh",3);
 INSERT INTO User (School_id, Age, First_Name, Last_Name, Email, Username, Password, Type, Borrow_Limit, Number_of_loans, books_taken_total, Delayed_Book, Approved, books_taken_temp) VALUES (1, 25, 'John', 'Doe', 'john.doe@example.com', 'johndoe', 'password123', 'student', 5, 0, 0, 0, 1, 0);
-
-INSERT INTO book(Title,Publisher,ISBN,Number_of_Pages,Summary,Image,Thematic_Category,Language,Keywords,times_taken,reviews) VALUES ("Test","Yolo",1231,10,"fsdfsd","fsdfsdfsd","comedy","en","ffsd",13,7);
-INSERT INTO copies(Number_of_Available_Copies,School_id,Book_id) VALUES(5,1,1);*/
-
-/*INSERT INTO book(Title,Publisher,ISBN,Number_of_Pages,Summary,Image,Thematic_Category,Language,Keywords,times_taken,reviews) VALUES ("fsdfs","fdsfsd",1243231,110,"bvcbx","fsdfsdbcxbxcbxcbfsd","thriller","en","fdfsf",11,4);
-INSERT INTO book(Title,Publisher,ISBN,Number_of_Pages,Summary,Image,Thematic_Category,Language,Keywords,times_taken,reviews) VALUES ("s23dvas","r32fdss",1231,10,"AADSAVCX","SDFS","comedy","en","ffsd",25,1);
-INSERT INTO copies(Number_of_Available_Copies,School_id,Book_id) VALUES(5,1,1);*/
-/*INSERT INTO copies(Number_of_Available_Copies,School_id,Book_id) VALUES(7,2,2);*/
-/*INSERT INTO school(School_Name,Address,City,Phone_Number,Email,Full_Name_of_School_Director,times_loaned) VALUES("13o EPAL","Kypselh","Athens",234243,"google@microsoft.com","Elenh",3);*/
+INSERT INTO school(School_Name,Address,City,Phone_Number,Email,Full_Name_of_School_Director,times_loaned) VALUES("13o EPAL","Kypselh","Athens",234243,"google@microsoft.com","Elenh",3);
 INSERT INTO author(First_Name,Last_Name,Age,Num_of_books_written) VALUES("Thanasis","Konstantopoulos",35,1);
-INSERT INTO book_author(Author_id,Book_id) VALUES(1,1);
+INSERT INTO book(Title,Publisher,ISBN,Number_of_Pages,Summary,Image,Thematic_Category,Language,Keywords,times_taken,reviews) VALUES ("Test","Yolo",1231,10,"fsdfsd","fsdfsdfsd","comedy","en","ffsd",13,7);
+INSERT INTO copies(Number_of_Available_Copies,School_id,Book_id) VALUES(5,1,1);
 INSERT INTO category(Name) VALUES("comedy");
-INSERT INTO book_category(Category_id,Book_id) VALUES(1,1);
+INSERT INTO category(Name) VALUES("thriller");
 INSERT INTO school_library_operator(School_id,Books_given) VALUES(1,10);
+INSERT INTO book(Title,Publisher,ISBN,Number_of_Pages,Summary,Image,Thematic_Category,Language,Keywords,times_taken,reviews) VALUES ("fsdfs","fdsfsd",1243231,110,"bvcbx","fsdfsdbcxbxcbxcbfsd","thriller","en","fdfsf",11,4);
+INSERT INTO book(Title,Publisher,ISBN,Number_of_Pages,Summary,Image,Thematic_Category,Language,Keywords,times_taken,reviews) VALUES ("s23dvas","r32fdss",1231,10,"AADSAVCX","SDFS","comedy","en","ffsd",25,1);
+INSERT INTO copies(Number_of_Available_Copies,School_id,Book_id) VALUES(5,1,1);
+INSERT INTO copies(Number_of_Available_Copies,School_id,Book_id) VALUES(7,2,2);
+INSERT INTO book_author(Author_id,Book_id) VALUES(1,1);
+INSERT INTO book_category(Category_id,Book_id) VALUES(1,1);
 INSERT INTO loan(Library_Operator_id,User_id,Book_id,date_borrowed,date_returned) VALUES(1,1,1,"2023-1-2","2023-7-7");
