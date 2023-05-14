@@ -49,7 +49,7 @@ HAVING COUNT(DISTINCT Loan.Book_id) = (SELECT COUNT(DISTINCT Loan.Book_id)
 AND COUNT(*) > 20
 /*3.3.1.Όλα τα βιβλία που έχουν καταχωριστεί (Κριτήρια αναζήτησης: τίτλος/ κατηγορία/
 συγγραφέας), δυνατότητα επιλογής βιβλίου και δημιουργία αιτήματος κράτησης.*/
-SELECT * FROM Book WHERE Title = 'search_title' OR Category = 'search_category' OR Author = 'search_author'
+SELECT * FROM Book WHERE Title = '%search_title' OR Category = '%search_category' OR Author = '%search_author'
 
 /*3.3.2.Λίστα όλων των βιβλίων που έχει δανειστεί ο συγκεκριμένος χρήστης.*/
 SELECT Book.Title 
