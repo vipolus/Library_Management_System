@@ -138,7 +138,7 @@ session_start();
                         if(selectedBook.Number_of_Available_Copies > 0)
                         {
                             var takeButton = document.createElement('button');
-                            takeButton.innerHTML = 'Lend book';
+                            takeButton.innerHTML = 'Reserve book now!';
                             takeButton.onclick = function() {
                                 //alert("hello");
                                 //function takebook(selectedBookId);
