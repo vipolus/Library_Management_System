@@ -136,62 +136,35 @@ session_start();
                             var takeButton = document.createElement('button');
                             takeButton.innerHTML = 'Lend book';
                             takeButton.onclick = function() {
-                               
+                                //alert("hello");
+                                //function takebook(selectedBookId);
                                 //$sql = "UPDATE Copies SET Number_of_Available_Copies = 0 WHERE Copies_id = 1 ;"
-                                alert("Successful loan");
+                                //alert("Successful loan");
                                 /* $username = $_SESSION['username'];
-                            $books_alrd_took_stmt=$pdo->prepare('SELECT books_taken_temp FROM User WHERE Username = ?');
-                            $books_alrd_took_stmt->bindParam(1, $username);
-                            $books_alrd_took_stmt->execute();
-                            //$books_alrd_took = $books_alrd_took_stmt->fetchColumn();
-                            
-                            $delayed_stmt = $pdo->prepare('SELECT Delayed_Book FROM User WHERE Username = ?');
-                            $delayed_stmt->bindParam(1, $username);
-                            $delayed_stmt->execute();
-                            //$delayed = $delayed_stmt->fetchColumn();            
-                            
-                            $user_type_stmt = $pdo->prepare('SELECT Type FROM User WHERE Username = ?');
-                            $user_type_stmt->bindParam(1, $username);
-                            $user_type_stmt->execute();
                             //$user_type = $user_type_stmt->fetchColumn();           
             
 
 
-                            if ($user_type_stmt == 'teacher') {
-                                $books_alrd_took_stmt = 'SELECT books_taken_temp FROM User WHERE Username = ?';
-                                $delayed_stmt = 'SELECT Delayed_Book FROM User WHERE Username = ?';
-                                if ($books_alrd_took_stmt == 1 || $delayed_stmt == TRUE) {
-                                    print("Naughty naughty!!");
-                                } else {
-                                    $sql1 = "UPDATE User SET books_taken_temp = books_taken_temp + 1 WHERE Username = ?";
-                                    $stmt1 = $pdo->prepare($sql1);
-                                    $stmt1->bindParam(1, $username);
-                                    $stmt1->execute();
+                                    }*/
+                                    // Send an Ajax request to update the database
+                               
 
-                                    $sql2 = "UPDATE User SET books_taken_total = books_taken_total + 1 WHERE Username = ?";
-                                    $stmt2 = $pdo->prepare($sql2);
-                                    //$books_taken = 1;
-                                    $stmt2->bindParam(1, $books_alrd_took_stmt);
-                                    $stmt2->bindParam(2, $username);
-                                    $stmt2->execute();
-                                }
-                            } else {
-                                $sql1 = "UPDATE User SET books_taken_temp = books_taken_temp + 1 WHERE Username = ?";
-                                $stmt1 = $pdo->prepare($sql1);
-                                $stmt1->bindParam(1, $username);
-                                $stmt1->execute();
-
-                                $sql2 = "UPDATE User SET books_taken_total = books_taken_total + 1 WHERE Username = ?";
-                                $stmt2 = $pdo->prepare($sql2);
-                                //$books_taken = 1;
-                                $stmt2->bindParam(1, $books_alrd_took_stmt);
-                                $stmt2->bindParam(2, $username);
-                                $stmt2->execute();
-                            }   
-                        }*/
+                                var xmlhttp = new XMLHttpRequest();
+                                xmlhttp.onreadystatechange = function() {
+                                    if (this.readyState == 4 && this.status == 200) {
+                                        // Handle the server response here
+                                        
+                                    }
+                                };
+                                
+                                xmlhttp.open("POST", "update_book.php", true);
+                                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                
+                                xmlhttp.send("Book_id=" + $selectedBookId);
+                                alert("hello4");
                                 
 
-
+                        
 
                             };
                             detailsDiv.appendChild(takeButton)
@@ -203,7 +176,7 @@ session_start();
                             detailsDiv.appendChild(p10);
                         }
                     }
-                </script>
+                    </script>
             </head>
             <body>
                 <h1>Books</h1>
@@ -225,6 +198,7 @@ session_start();
         } else {
             echo 'No books available for the given school.';
         }
+        
         // Close the statement and database connection
         $stmt = null;
         $pdo = null;
