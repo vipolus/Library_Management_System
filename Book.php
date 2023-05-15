@@ -160,13 +160,8 @@ session_start();
                                 
                                 xmlhttp.open("POST", "update_book.php", true);
                                 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                                
-                                xmlhttp.send("Book_id=" + $selectedBookId);
-                                alert("hello4");
-                                
-
-                        
-
+                                xmlhttp.send("Book_id=" + selectedBookId);
+                           
                             };
                             detailsDiv.appendChild(takeButton)
                         }
