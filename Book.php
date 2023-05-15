@@ -141,9 +141,6 @@ session_start();
                                 //$sql = "UPDATE Copies SET Number_of_Available_Copies = 0 WHERE Copies_id = 1 ;"
                                 //alert("Successful loan");
                                 /* $username = $_SESSION['username'];
-                            //$user_type = $user_type_stmt->fetchColumn();           
-            
-
 
                                     }*/
                                     // Send an Ajax request to update the database
