@@ -118,7 +118,7 @@ require_once('Book.php');
                                 /*if ($stmt->rowCount() > 0) {
                                     // Fetch all the books into an associative array
                                     $books = $stmt->fetchAll(PDO::FETCH_ASSOC);*/
-                                ?>
+                                
                                    //require_once('Book.php');
         
         /*    $username = $_SESSION['username'];
@@ -327,7 +327,7 @@ require_once('Book.php');
                                /* } else {
                                     echo '<p>No books found</p>';
                                 }*/
-                                ?>
+                                
                                  //require_once('Book.php');
         
         /*  $username = $_SESSION['username'];
@@ -535,7 +535,7 @@ require_once('Book.php');
                                 <?php
                                /* } else {
                                     echo '<p>No books found</p>';
-                                }*/
+                                }
                                 ?>
                                 // Call API endpoint to lend the book
             /*fetch('/lend-book.php?book_id=' + bookId)
