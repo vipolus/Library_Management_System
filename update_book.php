@@ -5,8 +5,8 @@ require_once("Book.php");
 //session_start();
 //alert("hello4");
 // Get the selected book ID from the POST request
-if ($_SERVER['REQUEST_METHOD'] === 'POST')
-$book_id = $_POST["Book_id"];
+//if ($_SERVER['REQUEST_METHOD'] === 'POST')
+    $book_id = $_POST["Book_id"];
 
 //alert("hello");
 // Update the database table here
@@ -14,11 +14,11 @@ $book_id = $_POST["Book_id"];
 $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$sql = "UPDATE Book SET times_taken = times_taken + 1 WHERE Book_id = $book_id";
+$sql = "UPDATE Book SET times_taken = times_taken + 1 WHERE Book_id = :book_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':book_id', $book_id);
+    $stmt->execute();
 
-
-$stmt = $pdo->prepare($sql);
-        $stmt->execute();
 
 if (mysqli_query($conn, $sql)) {
     // Return a success message to the client

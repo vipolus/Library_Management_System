@@ -45,7 +45,7 @@ session_start();
         
 
 
-        
+
 
         
         // Check if there are any books available
@@ -160,7 +160,7 @@ session_start();
                                 
                                 xmlhttp.open("POST", "update_book.php", true);
                                 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                                xmlhttp.send("Book_id=" + selectedBookId);
+                                xmlhttp.send("Book_id" + selectedBookId);
                            
                             };
                             detailsDiv.appendChild(takeButton)
