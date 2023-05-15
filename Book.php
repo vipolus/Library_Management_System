@@ -33,20 +33,20 @@ session_start();
        //$user_id = $_SESSION['user_id'];
 
        
-       $sql = 'SELECT b.Book_id, b.Title, b.Publisher, b.ISBN, b.Number_of_Pages, b.Summary, b.Thematic_Category, b.Language, b.Keywords, a.First_Name, a.Last_Name, c.Number_of_Available_Copies
+       $sql = 'SELECT b.Book_id, b.Title, b.Publisher, b.ISBN, b.Number_of_Pages, b.Summary, b.Thematic_Category, b.Language, b.Keywords, c.Number_of_Available_Copies
        FROM Book AS b
-       INNER JOIN Book_Author AS ba ON b.Book_id = ba.Book_id
-       INNER JOIN Author AS a ON ba.Author_id = a.Author_id
        INNER JOIN Copies AS c ON b.Book_id = c.Book_id
        WHERE c.School_id = ?';
         
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$id]);
+        $stmt->bindParam(1, $id, PDO::PARAM_STR);
+
+        $stmt->execute();
         
 
         // Check if there are any books available
         if ($stmt->rowCount() > 0) {
-            // Fetch all the books into an associative array
+                        // Fetch all the books into an associative array
             $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
             ?>
             <!DOCTYPE html>
