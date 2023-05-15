@@ -158,9 +158,9 @@ session_start();
                                     }
                                 };
                                 
-                                xmlhttp.open("POST", "update_book.php", true);
+                                xmlhttp.open("POST", `update_book.php?Book_id=${selectedBook.Book_id}`, true);
                                 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                                xmlhttp.send("Book_id" + selectedBookId);
+                                xmlhttp.send();
                            
                             };
                             detailsDiv.appendChild(takeButton)
