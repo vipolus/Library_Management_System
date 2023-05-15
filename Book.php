@@ -44,6 +44,10 @@ session_start();
         $stmt->execute();
         
 
+
+        
+
+        
         // Check if there are any books available
         if ($stmt->rowCount() > 0) {
                         // Fetch all the books into an associative array
