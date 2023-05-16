@@ -1,12 +1,21 @@
 <?php
 require_once('Book.php');
+require_once('config.php');
 
     $username = $_SESSION['username'];
     $books_alrd_took='SELECT books_taken_temp FROM User WHERE Username = ?';
     $delayed='SELECT Delayed_Book FROM User WHERE Username = ?';
     
     $user_type='SELECT Type FROM User WHERE Username = ?';
-   
+    if (!isset($_SESSION['username'])) {
+        // If the user is not logged in, redirect them to the login page
+        header('Location: login.php');
+        exit();
+    }
+    
+    // Get the username from the session
+    $username = $_SESSION['username'];
+    
     
     if ($user_type == "teacher") {
         $books_alrd_took='SELECT books_taken_temp FROM User WHERE Username = ?';
@@ -455,15 +464,7 @@ require_once('Book.php');
                     //require_once 'dbconnect.php';
                     
                     // Check if the user is logged in
-                    if (!isset($_SESSION['username'])) {
-                        // If the user is not logged in, redirect them to the login page
-                        header('Location: login.php');
-                        exit();
-                    }
-                    
-                    // Get the username from the session
-                    $username = $_SESSION['username'];
-                    
+                   
                     // Get the school ID of the user from the database
                    /* $school_id_query = 'SELECT School_id FROM user WHERE Username = ?';
                     $stmt = $pdo->prepare($school_id_query);
