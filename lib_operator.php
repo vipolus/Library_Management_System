@@ -1,8 +1,4 @@
 <?php
-// Assuming you have already established a database connection
-
-// Check if the user is logged in as an operator
-$isOperator = true; // Replace this with your actual operator validation code
 
 require_once 'config.php';
 // Get the user's information, such as their user ID
@@ -11,11 +7,39 @@ $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
-if (!$isOperator) {
-    // Redirect to login page or display an error message
+session_start();
+
+// Check if the user is logged in and has a valid session
+if (!isset($_SESSION['username'])) {
+    // Redirect to the login page or display an error message
     header("Location: login.php");
     exit();
 }
+
+// Retrieve the user ID from the session
+    $userId = $_SESSION['username'];
+
+    $query = "SELECT Type,School_id FROM User WHERE Username = :username";
+    $userStmt = $pdo->prepare($query);
+    $userStmt->bindParam(':username', $userId);
+    $userStmt->execute();
+    $user = $userStmt->fetch(PDO::FETCH_ASSOC);
+
+    // Check if the user is a library operator or admin
+    
+    if ($user['Type'] === 'library_operator' || $user['Type'] === 'Admin')
+    $isLibraryOperator = true;
+    else $isLibraryOperator = false;
+
+    if (!$isLibraryOperator) {
+        // Redirect to a page or display an error message indicating access denied
+        header("Location: login.php");
+        exit();
+    }
+
+    // Retrieve the school ID of the library operator
+    $schoolId = $user['School_id'];
+
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
     if ($_POST["action"] === "approve") {
@@ -41,39 +65,40 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
         $deleteUserStmt->execute();
 
     } elseif ($_POST["action"] === "add_book") {
-        // Retrieve the form data
-        $title = $_POST["title"];
-        $publisher = $_POST["publisher"];
-        $isbn = $_POST["isbn"];
-        $numPages = $_POST["num_pages"];
-        $summary = $_POST["summary"];
-        $image = $_POST["image"];
-        $category = $_POST["category"];
-        $language = $_POST["language"];
-        $keywords = $_POST["keywords"];
+            // Retrieve the form data
+            $title = $_POST["title"];
+            $publisher = $_POST["publisher"];
+            $isbn = $_POST["isbn"];
+            $numPages = $_POST["num_pages"];
+            $summary = $_POST["summary"];
+            $image = $_POST["image"];
+            $category = $_POST["category"];
+            $language = $_POST["language"];
+            $keywords = $_POST["keywords"];
+            $copies = $_POST["copies"];
+    
+            // Perform any necessary data validation here
+    
+            // Prepare the SQL statement for inserting into the Book table
+            $insertBookQuery = "INSERT INTO Book (Title, Publisher, ISBN, Number_of_Pages, Summary, Image, Thematic_Category, Language, Keywords)
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $insertBookStmt = $pdo->prepare($insertBookQuery);
+            $insertBookStmt->execute([$title, $publisher, $isbn, $numPages, $summary, $image, $category, $language, $keywords]);
+    
+            // Retrieve the generated Book_id
+            $bookId = $pdo->lastInsertId();
+           
 
-        // Perform any necessary data validation here
 
-        // Prepare the SQL statement
-        $stmt = $pdo->prepare("INSERT INTO Book (Title, Publisher, ISBN, Number_of_Pages, Summary, Image, Thematic_Category, Language, Keywords, times_taken, reviews, last_update) 
-                               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, NOW())");
+            // Prepare the SQL statement for inserting into the Copies table
+            $insertCopiesQuery = "INSERT INTO Copies (Number_of_Available_Copies, School_id, Book_id, last_update)
+                              VALUES (?, ?, ?, NOW())";
+        $insertCopiesStmt = $pdo->prepare($insertCopiesQuery);
+        $insertCopiesStmt->execute([$copies, $schoolId, $bookId]);
 
-        // Bind the parameters
-        $stmt->bindParam(1, $title);
-        $stmt->bindParam(2, $publisher);
-        $stmt->bindParam(3, $isbn);
-        $stmt->bindParam(4, $numPages);
-        $stmt->bindParam(5, $summary);
-        $stmt->bindParam(6, $image);
-        $stmt->bindParam(7, $category);
-        $stmt->bindParam(8, $language);
-        $stmt->bindParam(9, $keywords);
-
-        // Execute the statement
-        $stmt->execute();
-    }
 }
 
+}
 ?>
 
 <!DOCTYPE html>
@@ -92,7 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
     <div id="users-panel">
         <?php
         // Retrieve users with Approved value false from the database
-        $query = "SELECT User_id, First_Name, Last_Name, Email FROM User WHERE Approved = 0";
+        $query = "SELECT User_id, First_Name, Last_Name, Email FROM User WHERE Approved = 0 AND Type!='Library Operator'";
         $stmt = $pdo->query($query);
         
         // Display the user data in the panel
@@ -120,8 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
         }
         ?>
             
-        <!-- Add Book Form -->
-        <h2>Add Book</h2>
+            <h2>Add Book</h2>
 <div id="add-book-form">
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
         <input type="hidden" name="action" value="add_book">
@@ -152,9 +176,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
         <label for="keywords">Keywords:</label>
         <input type="text" id="keywords" name="keywords" required>
         <br>
+        <label for="copies">Number of Copies:</label>
+        <input type="number" id="copies" name="copies" required>
+        <br>
         <input type="submit" value="Add Book">
     </form>
 </div>
+
 
         <!-- Your HTML content for the operator page -->
         </body>

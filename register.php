@@ -71,6 +71,7 @@ $con->close();
 <select name="role" id="role">
   <option value="Student">Student</option>
   <option value="Teacher">Teacher</option>
+  <option value="Library Operator">Library Operator</option>
   
 </select>
 
@@ -84,7 +85,6 @@ $con->close();
 </select>
     <hr>
 
-    <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
     <button type="submit" class="register">Register</button>
   </div>
 

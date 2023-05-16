@@ -105,6 +105,111 @@ if (isset($_SESSION['username'])) {
             <h1>Admin Panel</h1>
             <p>Welcome to the admin panel. What would you like to do?</p>
             
+
+            <h2>Pending Library Operators</h2>
+            <?php
+        // Retrieve users with Approved value false from the database
+        $query = "SELECT User_id, First_Name, Last_Name, Email FROM User WHERE Approved = 0 AND Type = 'Library Operator'";
+        $stmt = $pdo->query($query);
+        
+        // Display the user data in the panel
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $userId = $row['User_id'];
+            $firstName = $row['First_Name'];
+            $lastName = $row['Last_Name'];
+            $email = $row['Email'];
+        
+            // Generate the HTML markup dynamically
+            echo '<div>';
+            echo '<p>Name: ' . $firstName . ' ' . $lastName . '</p>';
+            echo '<p>Email: ' . $email . '</p>';
+            echo '<form action="' . $_SERVER['PHP_SELF'] . '" method="POST">';
+            echo '<input type="hidden" name="action" value="approve">';
+            echo '<input type="hidden" name="userId" value="' . $userId . '">';
+            echo '<input type="submit" value="Approve">';
+            echo '</form>';
+            echo '<form action="' . $_SERVER['PHP_SELF'] . '" method="POST">';
+            echo '<input type="hidden" name="action" value="reject">';
+            echo '<input type="hidden" name="userId" value="' . $userId . '">';
+            echo '<input type="submit" value="Reject">';
+            echo '</form>';
+            echo '</div>';
+        }
+        if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
+          if ($_POST["action"] === "approve") {
+              $userId = $_POST["userId"];
+              // Execute an UPDATE query to set Approved value to 1 for the user
+              $updateQuery = "UPDATE User SET Approved = 1 WHERE User_id = :userId";
+              $updateStmt = $pdo->prepare($updateQuery);
+              $updateStmt->bindParam(':userId', $userId);
+              $updateStmt->execute();
+          } elseif ($_POST["action"] === "reject") {
+              $userId = $_POST["userId"];
+      
+              // Delete associated loan records
+              $deleteLoanQuery = "DELETE FROM loan WHERE User_id = :userId";
+              $deleteLoanStmt = $pdo->prepare($deleteLoanQuery);
+              $deleteLoanStmt->bindParam(':userId', $userId);
+              $deleteLoanStmt->execute();
+      
+              // Delete the user from the database
+              $deleteUserQuery = "DELETE FROM User WHERE User_id = :userId";
+              $deleteUserStmt = $pdo->prepare($deleteUserQuery);
+              $deleteUserStmt->bindParam(':userId', $userId);
+              $deleteUserStmt->execute();
+      
+          } 
+          elseif ($_POST["action"] === "add_school") {
+            // Retrieve the form data
+           
+           $school=$_POST['school_name'];
+           $address=$_POST['address'];
+           $city=$_POST['city'];
+           $phone_number=$_POST['phone_number'];
+           //$email="";
+           $email=$_POST['email'];
+           $school_director=$_POST['full_name_of_school_director'];
+
+            $insertSchoolQuery = "INSERT INTO School (School_Name, Address, City, Phone_Number,Email,Full_Name_of_School_Director)
+                                VALUES (?, ?, ?, ?, ?, ?)";
+            $insertSchoolStmt = $pdo->prepare($insertSchoolQuery);
+            $insertSchoolStmt->execute([$school, $address, $city, $phone_number, $email, $school_director]);
+
+
+}
+      
+      }
+      ?>
+
+<h2>Add School</h2>
+<div id="add-school-form">
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+        <input type="hidden" name="action" value="add_school">
+        <label for="school_name">School name:</label>
+        <input type="text" id="school_name" name="school_name" required>
+        <br>
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required>
+        <br>
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required>
+        <br>
+        <label for="phone_number">Phone number:</label>
+        <input type="text" id="phone_number" name="phone_number" required>
+        <br>
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required>
+        <br>
+        <label for="full_name_of_school_director">Full name of school director:</label>
+        <input type="text" id="full_name_of_school_director" name="full_name_of_school_director">
+        <br>
+        <input type="submit" value="Add school">
+    </form>
+</div>
+
+
+
+
             
             <h2>Total Loans by School</h2>
             <?php
