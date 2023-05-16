@@ -19,15 +19,16 @@ if (!isset($_SESSION['username'])) {
 // Retrieve the user ID from the session
     $userId = $_SESSION['username'];
 
-    $query = "SELECT Type,School_id FROM User WHERE Username = :username";
+    $query = "SELECT Type,School_id,Approved FROM User WHERE Username = :username";
     $userStmt = $pdo->prepare($query);
     $userStmt->bindParam(':username', $userId);
     $userStmt->execute();
     $user = $userStmt->fetch(PDO::FETCH_ASSOC);
 
     // Check if the user is a library operator or admin
+
     
-    if ($user['Type'] === 'library_operator' || $user['Type'] === 'Admin')
+    if (($user['Type'] === 'Library Operator' || $user['Type'] === 'Admin') && $user['Approved'] )
     $isLibraryOperator = true;
     else $isLibraryOperator = false;
 

@@ -6,7 +6,10 @@
     <link rel="stylesheet" href="Static/css/style.css">
 </head>
 <body>
-    
+<div class="main-content">
+            <h1>Welcome to the Library Management System</h1>
+            <!-- Add your main content here -->
+        </div>
 
     <div class="container">
         <div class="top-bar">
@@ -34,9 +37,19 @@
            { echo'<div class="buttons">
                 <a href="login.php" class="button">Login</a>
                 <a href="register.php" class="button">Register</a>
+                <a href="lib_operator.php" class="button">Operator Panel</a>
                 <a href="dashboard.php" class="button">Dashboard</a>
             </div>';
         }
+elseif ($row['Type']=='Library Operator') { 
+    echo' <div class="buttons">
+    <a href="login.php" class="button">Login</a>
+    <a href="register.php" class="button">Register</a>
+    <a href="lib_operator.php" class="button">Operator Panel</a>
+
+</div>';
+}
+
 else { 
     echo' <div class="buttons">
     <a href="login.php" class="button">Login</a>
@@ -45,24 +58,22 @@ else {
 }
 ?>
         </div>
-        <div class="sidebar">
-            <div class="logo">
-                <img src="Templates/Screenshot_3.png" alt="Library Logo">
+    
+            <div style="text-align: center;">
+
+            <img width="400" src="Templates/Screenshot_3.png">
+
             </div>
             <nav class="menu">
                 <ul>
                     <li><a href="Book.php">Search Book</a></li>
                     <li><a href="Book.php">Lend a Book</a></li>
-                    <li><a href="#">Return a Book</a></li>
-                    <li><a href="#">Manage Users</a></li>
+                    
                     <!-- Add more menu options as needed -->
                 </ul>
             </nav>
         </div>
-        <div class="main-content">
-            <h1>Welcome to the Library Management System</h1>
-            <!-- Add your main content here -->
-        </div>
+        
     </div>
 </body>
 </html>

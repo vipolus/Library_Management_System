@@ -143,6 +143,9 @@ if (isset($_SESSION['username'])) {
               $updateStmt = $pdo->prepare($updateQuery);
               $updateStmt->bindParam(':userId', $userId);
               $updateStmt->execute();
+              header('Location: http://localhost/dashboard.php');
+              exit();
+
           } elseif ($_POST["action"] === "reject") {
               $userId = $_POST["userId"];
       
@@ -157,7 +160,8 @@ if (isset($_SESSION['username'])) {
               $deleteUserStmt = $pdo->prepare($deleteUserQuery);
               $deleteUserStmt->bindParam(':userId', $userId);
               $deleteUserStmt->execute();
-      
+              header('Location: http://localhost/dashboard.php');
+              exit();
           } 
           elseif ($_POST["action"] === "add_school") {
             // Retrieve the form data
@@ -174,6 +178,8 @@ if (isset($_SESSION['username'])) {
                                 VALUES (?, ?, ?, ?, ?, ?)";
             $insertSchoolStmt = $pdo->prepare($insertSchoolQuery);
             $insertSchoolStmt->execute([$school, $address, $city, $phone_number, $email, $school_director]);
+            header('Location: http://localhost/dashboard.php');
+            exit();
 
 
 }
