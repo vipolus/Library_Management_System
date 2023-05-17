@@ -35,7 +35,7 @@ $username = $_SESSION['username'];
         $reservations = $result['reservations'];
         if($reservations >= 1 )
         {
-            $message = "Hello, localhost!"; // The message you want to display
+            $message = "No more reservations!"; // The message you want to display
 
             // Generate JavaScript code to display the alert
                             $jsCode = "alert('" . $message . "');";
@@ -52,6 +52,11 @@ $username = $_SESSION['username'];
             $stmt->execute();
 
             $sql = "UPDATE Book SET times_requested = times_requested + 1 WHERE Book_id = :book_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':book_id', $book_id);
+            $stmt->execute();
+
+            $sql = "UPDATE Reservation SET date_created = CURRENT_TIMESTAMP WHERE Book_id = :book_id";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':book_id', $book_id);
             $stmt->execute();
@@ -88,6 +93,12 @@ $username = $_SESSION['username'];
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':book_id', $book_id);
             $stmt->execute();
+            
+            /*$sql = "INSERT INTO Reservation(School_id, User_id)"
+            $sql = "UPDATE Reservation SET date_created = CURRENT_TIMESTAMP WHERE Book_id = :book_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':book_id', $book_id);
+            $stmt->execute();*/
         }
     }
     else if($type === "Library Operator")
@@ -123,6 +134,12 @@ $username = $_SESSION['username'];
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':book_id', $book_id);
             $stmt->execute();
+
+            $sql = "UPDATE Reservation SET date_created = CURRENT_TIMESTAMP WHERE Book_id = :book_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':book_id', $book_id);
+            $stmt->execute();
+
         }
     }
 }
