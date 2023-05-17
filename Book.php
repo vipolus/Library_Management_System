@@ -149,7 +149,7 @@ session_start();
                                     }*/
                                     // Send an Ajax request to update the database
                                
-
+                                    
                                 var xmlhttp = new XMLHttpRequest();
                                 xmlhttp.onreadystatechange = function() {
                                     if (this.readyState == 4 && this.status == 200) {
@@ -160,7 +160,9 @@ session_start();
                                 
                                 xmlhttp.open("POST", `update_book.php?Book_id=${selectedBook.Book_id}`, true);
                                 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                alert("hello");
                                 xmlhttp.send();
+                                alert("hello1");
                            
                             };
                             detailsDiv.appendChild(takeButton)
