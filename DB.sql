@@ -167,6 +167,7 @@ CREATE TABLE Review (
   Book_id INT NOT NULL,
   Text TEXT NOT NULL,
   User_id INT NOT NULL,
+  Approved BOOLEAN NOT NULL,
   PRIMARY KEY (Review_id),
   FOREIGN KEY (Book_id) REFERENCES Book(Book_id),
   FOREIGN KEY (User_id) REFERENCES User(User_id),

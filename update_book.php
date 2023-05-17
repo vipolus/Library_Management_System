@@ -35,7 +35,13 @@ $username = $_SESSION['username'];
         $reservations = $result['reservations'];
         if($reservations >= 1 )
         {
-            alert('beware');
+            $message = "Hello, localhost!"; // The message you want to display
+
+            // Generate JavaScript code to display the alert
+                            $jsCode = "alert('" . $message . "');";
+
+            // Output the JavaScript code within a script tag
+                        echo "<script>" . $jsCode . "</script>";
         }
         else
         {
@@ -62,7 +68,48 @@ $username = $_SESSION['username'];
         $reservations = $result['reservations'];
         if($reservations >= 2 )
         {
-            alert('beware');
+            $message = "No more reservations!"; // The message you want to display
+
+            // Generate JavaScript code to display the alert
+            $jsCode = "alert('" . $message . "');";
+
+            // Output the JavaScript code within a script tag
+            echo "<script>" . $jsCode . "</script>";
+        }
+        else
+        {
+            // Update the User table based on the username and book_id
+            $sql = "UPDATE User SET reservations = reservations + 1 WHERE Username = :username";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':username', $username);
+            $stmt->execute();
+
+            $sql = "UPDATE Book SET times_requested = times_requested + 1 WHERE Book_id = :book_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':book_id', $book_id);
+            $stmt->execute();
+        }
+    }
+    else if($type === "Library Operator")
+    {
+        $sql = "SELECT reservations FROM User WHERE Username = :username";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $reservations = $result['reservations'];
+        if($reservations >= 1 )
+        {
+            
+            $message = "No more reservations!"; // The message you want to display
+
+            // Generate JavaScript code to display the alert
+            $jsCode = "alert('" . $message . "');";
+
+            // Output the JavaScript code within a script tag
+            echo "<script>" . $jsCode . "</script>";
+           
+
         }
         else
         {
