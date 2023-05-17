@@ -1,12 +1,12 @@
 
 <?php
-require_once('config.php');
+require_once 'config.php';
 
 $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Get the selected book ID from the POST request
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
+if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {   
     $book_id = $_GET["Book_id"];
 }
@@ -26,90 +26,35 @@ $username = $_SESSION['username'];
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if($result){
-        $type = $result['Type'];
-        if($type == 'Teacher')
+    $type = $result['Type'];
+    if($type == 'Teacher')
+    {
+        $sql = "SELECT reservations FROM User WHERE Username = :username";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $reservations = $result['reservations'];
+        if($reservations >= 1 )
         {
-            $sql = "SELECT reservations FROM User WHERE Username = :username";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':username', $username);
-            $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            $reservations = $result['reservations'];
-            if($reservations >= 1 )
-            {
-                alert('beware');
-            }
-            else
-            {
-                // Update the User table based on the username and book_id
-                $sql = "UPDATE User SET reservations = reservations + 1 WHERE Username = :username";
-                $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(':username', $username);
-                $stmt->execute();
-
-                $sql = "UPDATE Book SET times_requested = times_requested + 1 WHERE Book_id = :book_id";
-                $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(':book_id', $book_id);
-                $stmt->execute();
-
-                $sql = "UPDATE Copies SET Number_of_Available_Copies = Number_of_Available_Copies - 1 WHERE Book_id = :book_id";
-                $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(':book_id', $book_id);
-                $stmt->execute();
-
-            }
-
+            alert('beware');
         }
-        else if($type == 'Student')
+        else
         {
-            $sql = "SELECT reservations FROM User WHERE Username = :username";
+            // Update the User table based on the username and book_id
+            $sql = "UPDATE User SET reservations = reservations + 1 WHERE Username = :username";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':username', $username);
             $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            $reservations = $result['reservations'];
-            if($reservations => 2 )
-            {
-                alert('beware');
-            }
-            else
-            {
-                // Update the User table based on the username and book_id
-                $sql = "UPDATE User SET reservations = reservations + 1 WHERE Username = :username";
-                $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(':username', $username);
-                $stmt->execute();
 
-                $sql = "UPDATE Book SET times_requested = times_requested + 1 WHERE Book_id = :book_id";
-                $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(':book_id', $book_id);
-                $stmt->execute();
+            $sql = "UPDATE Book SET times_requested = times_requested + 1 WHERE Book_id = :book_id";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':book_id', $book_id);
+            $stmt->execute();
+        }
 
-                $sql = "UPDATE Copies SET Number_of_Available_Copies = Number_of_Available_Copies - 1 WHERE Book_id = :book_id";
-                $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(':book_id', $book_id);
-                $stmt->execute();
-            }
     }
-   
-
-    
-    }
-    $userId = $_SESSION['username'];
-
-    $query = "SELECT Type,School_id,Approved FROM User WHERE Username = :username";
-    $userStmt = $pdo->prepare($query);
-    $userStmt->bindParam(':username', $userId);
-    $userStmt->execute();
-    $user = $userStmt->fetch(PDO::FETCH_ASSOC);
-
-    // Check if the user is a library operator or admin
-
-
-    if (($user['Type'] === 'Library Operator' || $user['Type'] === 'Admin') && $user['Approved'] )
-    $isLibraryOperator = true;
-    else $isLibraryOperator = false;
-    if($isLibraryOperator)
+    else if($type == 'Student')
     {
         $sql = "SELECT reservations FROM User WHERE Username = :username";
         $stmt = $pdo->prepare($sql);
@@ -133,14 +78,9 @@ $username = $_SESSION['username'];
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':book_id', $book_id);
             $stmt->execute();
-
-            $sql = "UPDATE Copies SET Number_of_Available_Copies = Number_of_Available_Copies - 1 WHERE Book_id = :book_id";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindParam(':book_id', $book_id);
-            $stmt->execute();
         }
-
     }
+}
 
 
     //$result = $stmt->fetch(PDO::FETCH_ASSOC);
