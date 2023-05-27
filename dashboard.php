@@ -23,7 +23,7 @@ if (isset($_SESSION['username'])) {
     if (!$user) {
         // User does not exist, return a 403 Forbidden error
         http_response_code(403);
-        echo "403 Forbiddenfsd";
+        echo "403 Forbidden";
         exit();
     }
 

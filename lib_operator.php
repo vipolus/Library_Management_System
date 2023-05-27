@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
             }
 
             .operator-panel {
-              max-width: 900px;
+              max-width: 1500px;
               margin: 0 auto;
               padding: 20px;
               border: 1px solid #ccc;
@@ -152,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
             .operator-panel table th,
             .operator-panel table td {
               border: 1px solid #ddd;
-              padding: 8px;
+              padding: 10px;
               text-align: left;
             }
 
@@ -168,8 +168,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
             
 
     <!-- Display users to be approved or rejected -->
-    <h2>Pending Users</h2>
+    
     <div id="users-panel">
+    <h2>Pending Users</h2>
         <?php
         // Retrieve users with Approved value false from the database
         $query = "SELECT User_id, First_Name, Last_Name, Email FROM User WHERE Approved = 0 AND Type!='Library Operator'";
@@ -202,28 +203,39 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
             
             
             
-            <div class="container">
-            
-  <style>
+           
+            <style>
     .container {
       display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .forms-container {
+      display: flex;
       width: 100%;
-      justify-content: space-between;
     }
 
-    .add-book-form {
-      flex: 1;
-      width:50%;
-      margin-right: 100x;
-    }
-
+    .add-book-form,
     .edit-book-form {
       flex: 1;
-      width:50%;
-      margin-right: 100x;
+      margin-right: 20px;
     }
-  </style>
 
+    .Reservations {
+      width: 25%;
+      margin-right: 20px; 
+    }
+
+    .Loans {
+      margin-left: 300px;
+    }
+</style>
+
+  </div>
+
+  <div class="container">
+  <div class="forms-container">
 <div class="add-book-form">
 <h2>Add Book</h2>
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
@@ -276,13 +288,59 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
     $stmt->bindParam(':school_id', $schoolId);
     $stmt->execute();
     $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+  
 
     $options = '<option value="">Select a book</option>';
     foreach ($books as $book) {
         $options .= '<option value="' . $book['Book_id'] . '">' . $book['Title'] . '</option>';
     }
     
+
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"]))
+    if ($_POST["action"] === "update_book")
+{
+      $book_id=$_POST['Book_id'];
+      $Title = $_POST["title-input"];
+      $Publisher=$_POST['publisher'];
+      $Isbn=$_POST['isbn'];
+      $Pages=$_POST['pages'];
+      $Summary=$_POST['summary'];
+      $Image=$_POST['book-image'];
+      $Category=$_POST['category'];
+      $Language=$_POST['language'];
+      $Keywords=$_POST['keywords'];
+      $Copies=$_POST['copies'];
+
+      $updateBookQuery = "UPDATE Book AS b
+      INNER JOIN Copies AS c ON b.Book_id = c.Book_id
+      SET b.Title = :title, b.Publisher = :publisher, b.ISBN = :isbn, b.Number_of_Pages = :pages,
+      b.Summary = :summary, b.Image = :image, b.Thematic_Category = :category, b.Language = :language,
+      b.Keywords = :keywords, c.Number_of_Available_Copies = :copies
+      WHERE c.School_id = :school_id AND b.Book_id = :book_id";
+$updateBookStmt = $pdo->prepare($updateBookQuery);
+
+$updateBookStmt->execute([
+':title' => $Title,
+':publisher' => $Publisher,
+':isbn' => $Isbn,
+':pages' => $Pages,
+':summary' => $Summary,
+':image' => $Image,
+':category' => $Category,
+':language' => $Language,
+':keywords' => $Keywords,
+':copies' => $Copies,
+':school_id' => $schoolId,
+':book_id' => $book_id
+]);
+
+header("Location: lib_operator.php");
+exit();
+//header("Location: lib_operator.php");
+   // exit(); 
+}
+
 
     ?>
 
@@ -300,6 +358,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
     document.getElementById('isbn-input').value = selectedBook['ISBN'];
     document.getElementById('pages-input').value = selectedBook['Number_of_Pages'];
     document.getElementById('summary-input').value = selectedBook['Summary'];
+    document.getElementById('book-image').value = selectedBook['Image'];
+    document.getElementById('category-input').value = selectedBook['Thematic_Category'];
+    document.getElementById('language-input').value = selectedBook['Language'];
+    document.getElementById('keywords-input').value = selectedBook['Keywords'];
+    document.getElementById('copies-input').value = selectedBook['Number_of_Available_Copies'];
     // Update other input fields accordingly
 
     // Update the 'src' attribute of the <img> element with the book image
@@ -307,12 +370,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
 }
 
     </script>
-    <form>
+   <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
         <label for="book-select">Choose Book:</label>
         <select id="book-select" name="Book_id" onchange="showBookDetails()">
             <?php echo $options; ?>
         </select>
-
+        <input type="hidden" name="action" value="update_book">
         <br>
         <label for="title-input">Title:</label>
         <input type="text" id="title-input" name="title-input">
@@ -329,19 +392,186 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
         <label for="summary-input">Summary:</label>
         <textarea id="summary-input" name="summary"></textarea>
         <br>
-        <!-- Add other input fields for additional book details -->
         <label for="book-image">Image:</label>
         <textarea id="book-image" name="book-image"></textarea>
-
-        
+        <br>
+        <label for="category-input">Catergory:</label>
+        <textarea id="category-input" name="category"></textarea>
+        <br>
+        <label for="language-input">Language:</label>
+        <textarea id="language-input" name="language"></textarea>
+        <br>
+        <label for="keywords-input">Keywords:</label>
+        <textarea id="keywords-input" name="keywords"></textarea>
+        <br>
+        <label for="copies-input">Number of copies:</label>
+        <textarea id="copies-input" name="copies"></textarea>
+        <br>
+        <input type="submit" value="Update Book">
 
 
     </form>
 
-   
+</div>
+</div>
+
+<div class="forms-container">
+  <?php
+  // Assuming you have established a database connection using PDO
+
+  // SQL query to fetch users with reservations
+  $query = "SELECT u.First_Name, u.Last_Name
+            FROM User AS u
+            INNER JOIN Reservation AS r ON u.User_id = r.User_id";
+
+  // Prepare and execute the query
+  $stmt = $pdo->prepare($query);
+  $stmt->execute();
+
+  // Fetch all rows as an associative array
+  $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  ?>
+
+  <div class="Reservations">
+    <h2>Reservations</h2>
+
+    <select id="user-select" onchange="showUserDetails()">
+      <option value="all">All</option>
+      <?php foreach ($users as $user): ?>
+        <option value="<?php echo $user['First_Name']; ?>"><?php echo $user['First_Name']; ?></option>
+      <?php endforeach; ?>
+    </select>
+
+    <table id="user-details-table">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($users as $user): ?>
+          <tr>
+            <td><?php echo $user['First_Name']; ?></td>
+            <td><?php echo $user['Last_Name']; ?></td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    function showUserDetails() {
+      var userSelect = document.getElementById('user-select');
+      var selectedUser = userSelect.value;
+      var userDetailsTable = document.getElementById('user-details-table');
+      var rows = userDetailsTable.getElementsByTagName('tr');
+
+      // Show all rows if "All" is selected
+      if (selectedUser === 'all') {
+        for (var i = 0; i < rows.length; i++) {
+          rows[i].style.display = '';
+        }
+      } else {
+        for (var i = 0; i < rows.length; i++) {
+          var firstName = rows[i].getElementsByTagName('td')[0].innerText;
+
+          // Hide rows that don't match the selected user
+          if (firstName !== selectedUser) {
+            rows[i].style.display = 'none';
+          } else {
+            rows[i].style.display = '';
+          }
+        }
+      }
+    }
+  </script>
 </div>
 
 
+
+
+<?php
+// Assuming you have established a database connection using PDO
+
+// SQL query to fetch all loans with user names
+$query = "SELECT l.Loan_id, u.First_Name, u.Last_Name, b.Title, l.date_borrowed, l.date_returned
+          FROM Loan AS l
+          INNER JOIN User AS u ON l.User_id = u.User_id
+          INNER JOIN Book AS b ON l.Book_id = b.Book_id";
+
+// Prepare and execute the query
+$stmt = $pdo->prepare($query);
+$stmt->execute();
+
+// Fetch all rows as an associative array
+$loans = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
+<div class="Loans">
+  <h2>Loans</h2>
+
+  <select id="loan-select" onchange="showLoanDetails()">
+    <option value="all">All</option>
+    <?php foreach ($loans as $loan): ?>
+      <option value="<?php echo $loan['Loan_id']; ?>"><?php echo $loan['Loan_id']; ?></option>
+    <?php endforeach; ?>
+  </select>
+  
+  <table id="loan-details-table">
+    <thead>
+      <tr>
+        <th>Loan ID</th>
+        <th>User</th>
+        <th>Book Title</th>
+        <th>Date Borrowed</th>
+        <th>Date Returned</th>
+      </tr>
+    </thead>
+    <tbody>
+      <?php foreach ($loans as $loan): ?>
+        <tr>
+          <td><?php echo $loan['Loan_id']; ?></td>
+          <td><?php echo $loan['First_Name'] . ' ' . $loan['Last_Name']; ?></td>
+          <td><?php echo $loan['Title']; ?></td>
+          <td><?php echo $loan['date_borrowed']; ?></td>
+          <td><?php echo $loan['date_returned']; ?></td>
+        </tr>
+      <?php endforeach; ?>
+    </tbody>
+  </table>
+</div>
+
+<script>
+  function showLoanDetails() {
+    var loanSelect = document.getElementById('loan-select');
+    var selectedLoan = loanSelect.value;
+    var loanDetailsTable = document.getElementById('loan-details-table');
+    var rows = loanDetailsTable.getElementsByTagName('tr');
+
+    // Show all rows if "All" is selected
+    if (selectedLoan === 'all') {
+      for (var i = 0; i < rows.length; i++) {
+        rows[i].style.display = '';
+      }
+    } else {
+      for (var i = 0; i < rows.length; i++) {
+        var loanId = rows[i].getElementsByTagName('td')[0].innerText;
+
+        // Hide rows that don't match the selected loan
+        if (loanId !== selectedLoan) {
+          rows[i].style.display = 'none';
+        } else {
+          rows[i].style.display = '';
+        }
+      }
+    }
+  }
+</script>
+
+
+</div>
+</div>
 
         <!-- Your HTML content for the operator page -->
         </body>

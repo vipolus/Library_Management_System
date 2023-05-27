@@ -148,7 +148,7 @@ session_start();
                    <option value="">Select</option>
                    <?php
                    foreach ($books as $index => $book) {
-                       //echo '<option value="' . $index . '">' . $book['Title'] . '</option>';
+                       echo '<option value="' . $index . '">' . $book['Title'] . '</option>';
                    }
                    ?>
        
