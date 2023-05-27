@@ -8,7 +8,7 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 // Get the selected book ID from the POST request
 
     $book_id = $_GET["Book_id"];
-
+    echo $book_id;
 // Update the database table here
 // You would need to replace the following line with your own database update code
 // Retrieve the username from the session

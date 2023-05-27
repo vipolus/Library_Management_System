@@ -187,11 +187,12 @@
   $names=array();
 
 
-while ($row = mysqli_fetch_assoc($result)) {
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
  $names[]=$row['School_Name'];
 }
 
-$options = '';
+$options = 'Select';
+
 foreach ($names as $name) {
     $options .= '<option value="' . $name . '">' . $name . '</option>';
 }

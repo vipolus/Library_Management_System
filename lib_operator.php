@@ -107,11 +107,65 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
 <head>
     <title>Operator Panel</title>
     <style>
-        /* Your CSS styles here */
-    </style>
+            body {
+              font-family: Arial, sans-serif;
+              margin: 0;
+              padding: 20px;
+              
+            }
+
+            h1 {
+              text-align: center;
+            }
+
+            .operator-panel {
+              max-width: 900px;
+              margin: 0 auto;
+              padding: 20px;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+              background-color: #f9f9f9;
+            }
+
+            .operator-panel p {
+              margin: 10px 0;
+            }
+
+            .operator-panel .button {
+              display: inline-block;
+              padding: 10px 20px;
+              background-color: #4CAF50;
+              color: white;
+              text-decoration: none;
+              border-radius: 4px;
+            }
+
+            .operator-panel .button:hover {
+              background-color: #45a049;
+            }
+
+            .operator-panel table {
+              width: 100%;
+              border-collapse: collapse;
+            }
+
+            .operator-panel table th,
+            .operator-panel table td {
+              border: 1px solid #ddd;
+              padding: 8px;
+              text-align: left;
+            }
+
+            .operator-panel table th {
+              background-color: #f2f2f2;
+            }
+          </style>
 </head>
 <body>
-    <h1>Operator Panel</h1>
+<div class="operator-panel">
+            <h1>Operator Panel</h1>
+            <p>Welcome to the operator panel. What would you like to do?</p>
+            
 
     <!-- Display users to be approved or rejected -->
     <h2>Pending Users</h2>
@@ -146,8 +200,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
         }
         ?>
             
-            <h2>Add Book</h2>
-<div id="add-book-form">
+            
+            
+            <div class="container">
+            
+  <style>
+    .container {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .add-book-form {
+      flex: 1;
+      width:50%;
+      margin-right: 100x;
+    }
+
+    .edit-book-form {
+      flex: 1;
+      width:50%;
+      margin-right: 100x;
+    }
+  </style>
+
+<div class="add-book-form">
+<h2>Add Book</h2>
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
         <input type="hidden" name="action" value="add_book">
         <label for="title">Title:</label>
@@ -183,6 +261,86 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
         <input type="submit" value="Add Book">
     </form>
 </div>
+
+
+<div class="edit-book-form">
+    <h2>Edit</h2>
+   
+    <?php
+    $sql = 'SELECT b.Book_id, b.Title, b.Publisher, b.ISBN, b.Number_of_Pages, b.Summary, b.Image, b.Thematic_Category, b.Language, b.Keywords, c.Number_of_Available_Copies
+    FROM Book AS b
+    INNER JOIN Copies AS c ON b.Book_id = c.Book_id
+    WHERE c.School_id = :school_id';
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':school_id', $schoolId);
+    $stmt->execute();
+    $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+    $options = '<option value="">Select a book</option>';
+    foreach ($books as $book) {
+        $options .= '<option value="' . $book['Book_id'] . '">' . $book['Title'] . '</option>';
+    }
+    
+
+    ?>
+
+<script>
+        function showBookDetails() {
+            var bookSelect = document.getElementById('book-select');
+    var selectedBookId = parseInt(bookSelect.value);
+    var selectedBook = <?= json_encode($books) ?>.find(function(book) {
+        return book['Book_id'] === selectedBookId;
+    });
+    console.log(selectedBook);
+
+    document.getElementById('title-input').value = selectedBook['Title'];
+    document.getElementById('publisher-input').value = selectedBook['Publisher'];
+    document.getElementById('isbn-input').value = selectedBook['ISBN'];
+    document.getElementById('pages-input').value = selectedBook['Number_of_Pages'];
+    document.getElementById('summary-input').value = selectedBook['Summary'];
+    // Update other input fields accordingly
+
+    // Update the 'src' attribute of the <img> element with the book image
+    document.getElementById('book-image').value = selectedBook['Image'];
+}
+
+    </script>
+    <form>
+        <label for="book-select">Choose Book:</label>
+        <select id="book-select" name="Book_id" onchange="showBookDetails()">
+            <?php echo $options; ?>
+        </select>
+
+        <br>
+        <label for="title-input">Title:</label>
+        <input type="text" id="title-input" name="title-input">
+        <br>
+        <label for="publisher-input">Publisher:</label>
+        <input type="text" id="publisher-input" name="publisher">
+        <br>
+        <label for="isbn-input">ISBN:</label>
+        <input type="text" id="isbn-input" name="isbn">
+        <br>
+        <label for="pages-input">Number of Pages:</label>
+        <input type="number" id="pages-input" name="pages">
+        <br>
+        <label for="summary-input">Summary:</label>
+        <textarea id="summary-input" name="summary"></textarea>
+        <br>
+        <!-- Add other input fields for additional book details -->
+        <label for="book-image">Image:</label>
+        <textarea id="book-image" name="book-image"></textarea>
+
+        
+
+
+    </form>
+
+   
+</div>
+
 
 
         <!-- Your HTML content for the operator page -->

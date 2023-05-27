@@ -9,11 +9,9 @@ session_start();
     if($username==NULL)
         header('Location: '.'http://localhost/login.php');
   
-        // Connect to the database using the config.php values
         $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
        
-        // Prepare the SQL statement
         $sql = 'SELECT b.Book_id, b.Title, b.Publisher, b.ISBN, b.Number_of_Pages, b.Summary, b.Thematic_Category, b.Language, b.Keywords, a.First_Name, a.Last_Name, c.Number_of_Available_Copies
                 FROM Book AS b
                 INNER JOIN Book_Author AS ba ON b.Book_id = ba.Book_id
@@ -43,9 +41,9 @@ session_start();
        $stmt->bindParam(1, $id, PDO::PARAM_STR);
        $stmt->execute();
        
-       // Check if there are any books available
+       
        if ($stmt->rowCount() > 0) {
-           // Fetch all the books into an associative array
+           
            $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
            
        ?>
@@ -110,16 +108,36 @@ session_start();
                        detailsDiv.appendChild(img);
        
                        var form = document.createElement('form');
-                       form.method = 'post';
-                       form.action = 'update_book.php?Book_id=' + selectedBook['Book_id'];
-       
-                       var button = document.createElement('button');
-                       button.type = 'submit';
-                       button.name = 'reserve-button';
-                       button.innerHTML = 'Reserve book now!';
-       
-                       form.appendChild(button);
-                       detailsDiv.appendChild(form);
+                        form.method = 'post';
+                        form.action = 'update_book.php?Book_id=' + selectedBook['Book_id'];
+
+                        var button = document.createElement('button');
+                        button.type = 'submit';
+                        button.name = 'reserve-button';
+                        button.innerHTML = 'Reserve book now!';
+
+                        form.appendChild(button);
+                        detailsDiv.appendChild(form);
+
+                        
+                        form.addEventListener('submit', function(event) {
+                          
+                          event.preventDefault();
+                        
+                          var formData = new FormData(form);
+                          fetch(form.action, {
+                            method: form.method,
+                            body: formData
+                          })
+                            .then(function(response) {
+                              window.location.href = '/Book.php';
+                            })
+                            .catch(function(error) {
+                             
+                              console.error('Form submission error:', error);
+                            });
+                        });
+
                    }
                </script>
            </head>
@@ -129,9 +147,8 @@ session_start();
                <select id="book-select" onchange="showBookDetails()">
                    <option value="">Select</option>
                    <?php
-                   // Generate dropdown options for each book
                    foreach ($books as $index => $book) {
-                       echo '<option value="' . $index . '">' . $book['Title'] . '</option>';
+                       //echo '<option value="' . $index . '">' . $book['Title'] . '</option>';
                    }
                    ?>
        
@@ -146,7 +163,6 @@ session_start();
        }
        
        
-        // Close the statement and database connection
         $stmt = null;
         $pdo = null;
 
