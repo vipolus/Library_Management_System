@@ -28,7 +28,7 @@ if (!isset($_SESSION['username'])) {
     // Check if the user is a library operator or admin
 
     
-    if (($user['Type'] === 'Library Operator' || $user['Type'] === 'Admin') && $user['Approved'] )
+    if ((($user['Type'] === 'Library Operator' && $user['Approved']) || $user['Type'] === 'Admin')  )
     $isLibraryOperator = true;
     else $isLibraryOperator = false;
 
