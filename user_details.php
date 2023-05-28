@@ -49,6 +49,7 @@ if ($user) {
                 <label for="age">Age:</label>
                 <input type="number" name="age" id="age" required value="<?php echo htmlspecialchars($user['Age']); ?>"> 
                 <input type="submit" value="Update">
+                
             </form>
         </body>
         </html>
