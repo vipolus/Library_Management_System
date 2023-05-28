@@ -95,6 +95,10 @@ if ($user) {
             }
         }
     }
+    echo "<form method='POST' action='show_books_by_user.php'>";
+    echo "<input type='hidden' name='username' value='$username'>";
+    echo "<input type='submit' value='Show Books Loaned'>";
+    echo "</form>";
 } else {
     echo "<p>User not found.</p>";
 }
