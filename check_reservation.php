@@ -18,13 +18,13 @@ try {
 
 $sevenDaysAgo = date('Y-m-d H:i:s', strtotime('-7 days'));
 
-$sql = "UPDATE Reservation 
+/*$sql = "UPDATE Reservation 
         SET date_created = CURRENT_TIMESTAMP 
         WHERE date_created <= :seven_days_ago";
 
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':seven_days_ago', $sevenDaysAgo);
-$stmt->execute();
+$stmt->execute();*/
 
 $count = $stmt->rowCount();
 
