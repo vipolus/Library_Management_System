@@ -47,8 +47,7 @@ if ($user) {
                 <input type="text" name="last_name" id="last_name" required value="<?php echo htmlspecialchars($user['Last_Name']); ?>">
 
                 <label for="age">Age:</label>
-                <input type="number" name="age" id="age" required value="<?php echo htmlspecialchars($user['Age']); ?>">
-
+                <input type="number" name="age" id="age" required value="<?php echo htmlspecialchars($user['Age']); ?>"> 
                 <input type="submit" value="Update">
             </form>
         </body>
