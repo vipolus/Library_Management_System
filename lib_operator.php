@@ -422,14 +422,16 @@ exit();
   // SQL query to fetch users with reservations
   $query = "SELECT u.First_Name, u.Last_Name
             FROM User AS u
-            INNER JOIN Reservation AS r ON u.User_id = r.User_id";
+            INNER JOIN Reservation AS r ON u.User_id = r.User_id
+            WHERE u.School_id=:school_id";
 
-  // Prepare and execute the query
-  $stmt = $pdo->prepare($query);
-  $stmt->execute();
+$stmt = $pdo->prepare($query);
+$stmt->execute([':school_id' => $schoolId]);
 
-  // Fetch all rows as an associative array
-  $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Fetch all rows as an associative array
+$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
   ?>
 
   <div class="Reservations">
@@ -498,11 +500,12 @@ exit();
 $query = "SELECT l.Loan_id, u.First_Name, u.Last_Name, b.Title, l.date_borrowed, l.date_returned
           FROM Loan AS l
           INNER JOIN User AS u ON l.User_id = u.User_id
-          INNER JOIN Book AS b ON l.Book_id = b.Book_id";
+          INNER JOIN Book AS b ON l.Book_id = b.Book_id
+          WHERE u.School_id=:school_id";
 
-// Prepare and execute the query
 $stmt = $pdo->prepare($query);
-$stmt->execute();
+$stmt->execute([':school_id' => $schoolId]);
+
 
 // Fetch all rows as an associative array
 $loans = $stmt->fetchAll(PDO::FETCH_ASSOC);

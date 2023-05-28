@@ -187,7 +187,7 @@
   $names=array();
 
 
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+  while ($row = mysqli_fetch_assoc($result)) {
  $names[]=$row['School_Name'];
 }
 
