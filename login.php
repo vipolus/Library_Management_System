@@ -23,34 +23,6 @@ if (isset($_POST['username'], $_POST['password'])) {
 
             // Redirect the user to the home page or any other authenticated page
             header('Location: index.php');
-            $userID = $_SESSION['user_id']; // Replace with the appropriate way to get the user ID
-
-        // Step 2: Fetch the reservations associated with the user
-        $sql = "SELECT Reservation_id, date_created
-                FROM Reservation
-                WHERE User_id = :user_id";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':user_id', $userID);
-        $stmt->execute();
-        $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Step 3: Check if the specified number of days has passed for each reservation
-        $daysThreshold = 7; // Number of days to check
-        $currentDate = new DateTime();
-        foreach ($reservations as $reservation) {
-            $reservationDate = new DateTime($reservation['date_created']);
-            $daysPassed = $currentDate->diff($reservationDate)->days;
-
-            // Step 4: If the condition is met, update the user's reservation count
-            if ($daysPassed >= $daysThreshold) {
-                $sql = "UPDATE User
-                        SET reservations = reservations - 1
-                        WHERE User_id = :user_id";
-                $stmt = $pdo->prepare($sql);
-                $stmt->bindParam(':user_id', $userID);
-                $stmt->execute();
-            }
-        }
             exit();
         } else {
             //echo $password;
