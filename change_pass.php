@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$hashedPassword, $username]);
 
         // Redirect the user to a success page or show a success message
-        header("Location: change_pass_success.php");
+        header("Location: index.php");
         exit;
     } catch (PDOException $e) {
         exit("Error: " . $e->getMessage());
