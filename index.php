@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="Static/css/style.css">
 </head>
 <body>
+ 
+
 <div class="main-content">
             <h1>Welcome to the Library Management System</h1>
             <!-- Add your main content here -->
@@ -50,15 +52,39 @@ elseif ($row['Type']=='Library Operator') {
 </div>';
 }
 
-else { 
-    echo' <div class="buttons">
-    <a href="login.php" class="button">Login</a>
-    <a href="register.php" class="button">Register</a>
-</div>';
+else {
+    echo '<div class="buttons">
+        <a href="login.php" class="button">Login</a>
+        <a href="register.php" class="button">Register</a>
+    </div>';
+}
+
+// Check if the logout button is clicked
+if (isset($_POST['logout'])) {
+    // Clear all session variables
+    $_SESSION = array();
+
+    // Clear the session cookie
+    if (isset($_COOKIE[session_name()])) {
+        setcookie(session_name(), '', time() - 3600, '/');
+    }
+
+    // Destroy the session
+    session_destroy();
+
+    // Redirect to the login page or any other desired location
+    header('Location: login.php');
+    exit;
 }
 ?>
+<form method="post">
+            <button type="submit" name="logout" class="button">Logout</button>
+        </form>
         </div>
-    
+
+        
+
+
             <div style="text-align: center;">
 
             <img width="400" src="Templates/Screenshot_3.png">
