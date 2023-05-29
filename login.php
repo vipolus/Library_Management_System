@@ -2,7 +2,11 @@
 session_start();
 require_once 'config.php'; // Include the database configuration file
 
-
+if (isset($_SESSION['username'])) {
+    // Redirect to the login page or display an error message
+    header("Location: index.php");
+    exit();
+}
  
 if (isset($_POST['username'], $_POST['password'])) {
     $username = $_POST['username'];
@@ -45,12 +49,24 @@ if (isset($_POST['username'], $_POST['password'])) {
 ?>
 
 
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Login</title>
 </head>
 <body>
+    <style>
+        .Form{
+            margin: auto;
+  width: 50%;
+  border: 3px solid green;
+  padding: 10px;
+        }
+
+        </style>
+    
+    <div class="Form">
     <h1>Login</h1>
     <form action="" method="post">
         <div>
@@ -61,9 +77,14 @@ if (isset($_POST['username'], $_POST['password'])) {
             <label for="password">Password:</label>
             <input type="password" name="password" required>
         </div>
-        <div>
+        <div>        
             <input type="submit" value="Login">
+            
         </div>
     </form>
+    <form method='GET' action='register.php'>
+            <input type="submit" value="Register">
+            </form>
+</div>
 </body>
 </html>

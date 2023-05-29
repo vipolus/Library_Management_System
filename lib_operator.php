@@ -414,24 +414,20 @@ exit();
 
 </div>
 </div>
-
 <div class="forms-container">
   <?php
-  // Assuming you have established a database connection using PDO
-
-  // SQL query to fetch users with reservations
-  $query = "SELECT u.First_Name, u.Last_Name
+  $query = "SELECT u.User_id, u.First_Name, u.Last_Name, GROUP_CONCAT(b.Title SEPARATOR ', ') AS Titles
             FROM User AS u
             INNER JOIN Reservation AS r ON u.User_id = r.User_id
-            WHERE u.School_id=:school_id";
+            INNER JOIN Book AS b ON r.Book_id = b.Book_id
+            WHERE u.School_id = :school_id
+            GROUP BY u.User_id";
 
-$stmt = $pdo->prepare($query);
-$stmt->execute([':school_id' => $schoolId]);
+  $stmt = $pdo->prepare($query);
+  $stmt->execute([':school_id' => $schoolId]);
 
-
-// Fetch all rows as an associative array
-$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+  // Fetch all rows as an associative array
+  $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
   ?>
 
   <div class="Reservations">
@@ -440,7 +436,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <select id="user-select" onchange="showUserDetails()">
       <option value="all">All</option>
       <?php foreach ($users as $user): ?>
-        <option value="<?php echo $user['First_Name']; ?>"><?php echo $user['First_Name']; ?></option>
+        <option value="<?php echo $user['User_id']; ?>"><?php echo $user['First_Name'] . ' ' . $user['Last_Name']; ?></option>
       <?php endforeach; ?>
     </select>
 
@@ -449,13 +445,15 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <tr>
           <th>First Name</th>
           <th>Last Name</th>
+          <th>Titles</th>
         </tr>
       </thead>
       <tbody>
         <?php foreach ($users as $user): ?>
-          <tr>
+          <tr class="user-row" data-userid="<?php echo $user['User_id']; ?>">
             <td><?php echo $user['First_Name']; ?></td>
             <td><?php echo $user['Last_Name']; ?></td>
+            <td><?php echo $user['Titles']; ?></td>
           </tr>
         <?php endforeach; ?>
       </tbody>
@@ -463,27 +461,21 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
   </div>
 
   <script>
+    var users = <?php echo json_encode($users); ?>;
+
     function showUserDetails() {
       var userSelect = document.getElementById('user-select');
-      var selectedUser = userSelect.value;
+      var selectedUserId = userSelect.value;
       var userDetailsTable = document.getElementById('user-details-table');
-      var rows = userDetailsTable.getElementsByTagName('tr');
+      var rows = userDetailsTable.getElementsByClassName('user-row');
 
-      // Show all rows if "All" is selected
-      if (selectedUser === 'all') {
-        for (var i = 0; i < rows.length; i++) {
+      for (var i = 0; i < rows.length; i++) {
+        var userId = rows[i].getAttribute('data-userid');
+
+        if (selectedUserId === 'all' || userId === selectedUserId) {
           rows[i].style.display = '';
-        }
-      } else {
-        for (var i = 0; i < rows.length; i++) {
-          var firstName = rows[i].getElementsByTagName('td')[0].innerText;
-
-          // Hide rows that don't match the selected user
-          if (firstName !== selectedUser) {
-            rows[i].style.display = 'none';
-          } else {
-            rows[i].style.display = '';
-          }
+        } else {
+          rows[i].style.display = 'none';
         }
       }
     }
@@ -494,9 +486,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
 <?php
-// Assuming you have established a database connection using PDO
 
-// SQL query to fetch all loans with user names
 $query = "SELECT l.Loan_id, u.First_Name, u.Last_Name, b.Title, l.date_borrowed, l.date_returned
           FROM Loan AS l
           INNER JOIN User AS u ON l.User_id = u.User_id

@@ -137,7 +137,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $reservations = $result['reservations'];
-        if($reservations >= 1 )
+        if($reservations >= 5 )
         {
             
             $message = "No more reservations!"; // The message you want to display
