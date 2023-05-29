@@ -253,6 +253,10 @@ if ($user) {
     echo "<input type='hidden' name='username' value='$username'>";
     echo "<input type='submit' value='Show Books Loaned'>";
     echo "</form>";
+    echo "<form method='POST' action='reservations.php'>";
+    echo "<input type='hidden' name='username' value='$username'>";
+    echo "<input type='submit' value='Show Books Reserved'>";
+    echo "</form>";
 } else {
     echo "<p>User not found.</p>";
 }
