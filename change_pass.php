@@ -29,6 +29,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$hashedPassword, $username]);
 
         // Redirect the user to a success page or show a success message
+        $message = "Change of password was a success!"; // The message you want to display
+
+            // Generate JavaScript code to display the alert
+                            $jsCode = "alert('" . $message . "');";
+
+            // Output the JavaScript code within a script tag
+                        echo "<script>" . $jsCode . "</script>";
         header("Location: index.php");
         exit;
     } catch (PDOException $e) {
