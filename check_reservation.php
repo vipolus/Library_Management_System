@@ -42,9 +42,6 @@ if ($count > 0) {
     $stmt->execute();
 }
 
-
-
-
 } catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
     exit;

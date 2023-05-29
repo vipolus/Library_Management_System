@@ -2,6 +2,8 @@
 session_start();
 require_once 'config.php'; // Include the database configuration file
 
+
+ 
 if (isset($_POST['username'], $_POST['password'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -11,6 +13,7 @@ if (isset($_POST['username'], $_POST['password'])) {
     $stmt->execute([$username]);
     $user = $stmt->fetch();
 
+     
     if ($user) {
         // Verify the password
         if (password_verify($password, $user['Password'])) {
@@ -34,7 +37,11 @@ if (isset($_POST['username'], $_POST['password'])) {
         // Incorrect username
         echo 'Incorrect username or password!';
     }
+    echo "<form method='POST' action='register.php'>";
+    echo "<input type='submit' value='Register Now!'>";
+    echo "</form>";      
 }
+
 ?>
 
 

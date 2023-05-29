@@ -24,6 +24,7 @@ if ($user) {
     echo "<p>Age: " . $user['Age'] . "</p>";
     echo "<p>First Name: " . $user['First_Name'] . "</p>";
     echo "<p>Last Name: " . $user['Last_Name'] . "</p>";
+    echo "<a href='change_pass.php'><button>Change Password</button></a>";
 
     // Check if the user has the type "Teacher"
     if ($user['Type'] === "Teacher") {
@@ -102,7 +103,6 @@ if ($user) {
     if ($user['Type'] === "Library Operator") {
         // Display the edit link for teachers
         //echo "<p><a href='edit_teacher.php'>Edit Teacher Data</a></p>";
-        echo "<a href='change_pass.php'><button>Change Password</button></a>";
 
         ?>
         <!DOCTYPE html>
@@ -179,8 +179,6 @@ if ($user) {
     if ($user['Type'] === "Admin") {
         // Display the edit link for teachers
         //echo "<p><a href='edit_teacher.php'>Edit Teacher Data</a></p>";
-        echo "<a href='change_pass.php'><button>Change Password</button></a>";
-
         ?>
         <!DOCTYPE html>
         <html>
@@ -253,6 +251,7 @@ if ($user) {
     echo "<input type='hidden' name='username' value='$username'>";
     echo "<input type='submit' value='Show Books Loaned'>";
     echo "</form>";
+    
     echo "<form method='POST' action='reservations.php'>";
     echo "<input type='hidden' name='username' value='$username'>";
     echo "<input type='submit' value='Show Books Reserved'>";
