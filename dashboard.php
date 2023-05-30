@@ -530,7 +530,7 @@ echo '<table>
 
 <h2>Authors with zero books loaned</h2>
 <?php 
-$query = "SELECT A.Author_id, A.First_Name, A.Last_Name
+$query = "SELECT DISTINCT A.Author_id, A.First_Name, A.Last_Name
 FROM Author A
 LEFT JOIN Book_Author BA ON A.Author_id = BA.Author_id
 LEFT JOIN Loan L ON BA.Book_id = L.Book_id

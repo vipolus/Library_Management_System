@@ -11,7 +11,7 @@ CREATE TABLE School (
   Email VARCHAR(255) NOT NULL,
   Full_Name_of_School_Director VARCHAR(255) NOT NULL,
   times_loaned INT NOT NULL,
-  last_update DATETIME NOT NULL,
+  last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(School_id)
 );
 
@@ -19,7 +19,7 @@ CREATE TABLE School_Library_Operator (
   Library_Operator_id INT NOT NULL AUTO_INCREMENT,
   School_id INT NOT NULL,
   Books_given INT NOT NULL,
-  last_update DATETIME NOT NULL,
+  last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(Library_Operator_id),
   FOREIGN KEY (School_id) REFERENCES School(School_id)
 );
@@ -39,7 +39,7 @@ CREATE TABLE Book (
   times_taken INT NOT NULL,
   times_requested INT NOT NULL,
   reviews INT NOT NULL,
-  last_update DATETIME NOT NULL,
+  last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(Book_id)
 );
 
@@ -68,7 +68,7 @@ CREATE TABLE Copies (
   PRIMARY KEY(Copies_id),
   FOREIGN KEY (School_id) REFERENCES School(School_id),
   FOREIGN KEY (Book_id) REFERENCES Book(Book_id),
-  last_update DATETIME NOT NULL
+  last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 
@@ -76,9 +76,8 @@ CREATE TABLE Author (
   Author_id INT NOT NULL AUTO_INCREMENT,
   First_Name VARCHAR(255) NOT NULL,
   Last_Name VARCHAR(255) NOT NULL,
-  Age INT NOT NULL,
   Num_of_books_written INT NOT NULL,
-  last_update DATETIME NOT NULL,
+  last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY(Author_id)
 );
 
@@ -88,7 +87,7 @@ CREATE TABLE Book_Author(
   PRIMARY KEY(Book_id,Author_id),
   FOREIGN KEY(Book_id) REFERENCES Book(Book_id),
   FOREIGN KEY(Author_id) REFERENCES Author(Author_id),
-  last_update DATETIME
+  last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 
 );
 
@@ -120,7 +119,7 @@ Admin_id INT NOT NULL AUTO_INCREMENT,
 User_id INT NOT NULL,
 PRIMARY KEY(Admin_id),
 FOREIGN KEY(User_id) REFERENCES User(User_id),
-last_update DATETIME
+  last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Approve (
@@ -129,7 +128,7 @@ CREATE TABLE Approve (
   Email VARCHAR(255) NOT NULL,
   Username VARCHAR(255) NOT NULL,
   Password VARCHAR(255) NOT NULL,
-  last_update DATETIME NOT NULL,
+  last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY(User_id) REFERENCES User(User_id)
 );
 
@@ -144,7 +143,7 @@ CREATE TABLE Reservation (
   FOREIGN KEY (School_id) REFERENCES School(School_id),
   FOREIGN KEY (User_id) REFERENCES User(User_id),
   FOREIGN KEY (Book_id) REFERENCES Book(Book_id),
-  last_update DATETIME
+  last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Loan (
@@ -158,7 +157,7 @@ CREATE TABLE Loan (
   FOREIGN KEY (User_id) REFERENCES User(User_id),
   FOREIGN KEY (Book_id) REFERENCES Book(Book_id),
   FOREIGN KEY (Library_Operator_id) REFERENCES School_Library_Operator(Library_Operator_id),
-  last_update DATETIME NOT NULL
+  last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Review (
@@ -171,11 +170,11 @@ CREATE TABLE Review (
   PRIMARY KEY (Review_id),
   FOREIGN KEY (Book_id) REFERENCES Book(Book_id),
   FOREIGN KEY (User_id) REFERENCES User(User_id),
-  last_update DATETIME NOT NULL
+  last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 
-
+/*
 INSERT INTO School(School_Name,Address,City,Phone_Number,Email,Full_Name_of_School_Director,times_loaned) VALUES("13o EPAL","Kypselh","Athens",234243,"google@microsoft.com","Elenh",3);
 INSERT INTO User (School_id, Age, First_Name, Last_Name, Email, Username, Password, Type, Borrow_Limit, Number_of_loans, books_taken_total, Delayed_Book, Approved, books_taken_temp) VALUES (1, 25, 'John', 'Doe', 'john.doe@example.com', 'johndoe', 'password123', 'student', 5, 0, 0, 0, 1, 0);
 INSERT INTO School(School_Name,Address,City,Phone_Number,Email,Full_Name_of_School_Director,times_loaned) VALUES("13o EPAL","Kypselh","Athens",234243,"google@microsoft.com","Elenh",3);
@@ -194,3 +193,4 @@ INSERT INTO Book_category(Category_id,Book_id) VALUES(1,1);
 INSERT INTO Loan(Library_Operator_id,User_id,Book_id,date_borrowed,date_returned) VALUES(1,1,1,"2023-1-2","2023-7-7");
 INSERT INTO Reservation(Reservation_id, School_id,User_id, Book_id, date_created,
   date_expired) VALUES(1,1,1, 1,"2023-1-2","2023-7-7");
+*/

@@ -116,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
             $authorIdStmt->bindParam(':lastname', $split_name[1]);
             $authorIdStmt->execute();
             $authorId = $authorIdStmt->fetchColumn();
-            
+
             $book_author_query = "SELECT COUNT(*) FROM Book_Author WHERE Author_id = :authorid AND Book_id = :bookid";
             $book_author_querystmt = $pdo->prepare($book_author_query);
             $book_author_querystmt->bindParam(':authorid', $authorId);
@@ -157,6 +157,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
         $insertStmt = $pdo->prepare($insertQuery);
         $insertStmt->bindParam(':categoryName', $categoryName);
         $insertStmt->execute();
+    }
+
+    $catquery="SELECT Category_id FROM Category WHERE Name=:categoryName";
+    $catquerystmt=$pdo->prepare($catquery);
+    $catquerystmt->bindParam(':categoryName',$categoryName);
+    $catquerystmt->execute();
+    $cat_id=$catquerystmt->fetchColumn();
+
+    $book_category="SELECT COUNT(*) FROM Book_Category WHERE Category_id=:categoryid AND Book_id=:bookid";
+    $book_categorystmt=$pdo->prepare($book_category);
+    $book_categorystmt->bindParam(':categoryid',$cat_id);
+    $book_categorystmt->bindParam(':bookid',$bookId);
+    $book_categorystmt->execute();
+    $result=$book_categorystmt->fetchColumn();
+
+    if($result==0){
+      $book_category="INSERT INTO Book_Category(Category_id,Book_id) VALUES(?,?)";
+      $book_categorystmt=$pdo->prepare($book_category);
+      $book_categorystmt->execute([$cat_id,$bookId]);
+
     }
 }
 

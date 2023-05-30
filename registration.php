@@ -59,20 +59,30 @@ if ($stmt = $con->prepare('SELECT Username FROM user WHERE Username =? ')) {
 		else $Borrow_limit=1;
 
 		$query = "SELECT School_id FROM school WHERE School_Name = ?";
-		$stmt = $con->prepare($query);
-		$stmt->bind_param('s', $school);
-		$stmt->execute();
-		$stmt->bind_result($schoolId);
-		$stmt->fetch();
-		$stmt->close();
-		// Username doesn't exists, insert new account
-        if ($stmt = $con->prepare('INSERT INTO user (Username,School_id, Password, Email,Age,First_Name,Last_Name,Type,Borrow_Limit,Number_of_loans,books_taken_total,Delayed_Book,Approved,books_taken_temp) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)')) {
-	// We do not want to expose passwords in our database, so hash the password and use password_verify when a user logs in.
-	        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-	        $stmt->bind_param('sississsiiiibi',$username,$schoolId,$password,$email,$age,$first_name,$last_name,$role,$Borrow_limit,$Number_of_loans,$books_taken_total,$Delayed_Book,$Approved,$books_taken_temp);
-	        $stmt->execute();
-	        echo 'You have successfully registered! You can now login!';
-			header("Location: http://localhost/index.php");
+$stmt = $con->prepare($query);
+$stmt->bind_param('s', $school);
+$stmt->execute();
+$stmt->bind_result($schoolId);
+$stmt->fetch();
+$stmt->close();
+
+// Username doesn't exist, insert new account
+if ($stmt = $con->prepare('INSERT INTO user (Username, School_id, Password, Email, Age, First_Name, Last_Name, Type, Borrow_Limit, Number_of_loans, books_taken_total, Delayed_Book, Approved, books_taken_temp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')) {
+    // We do not want to expose passwords in our database, so hash the password and use password_verify when a user logs in.
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $stmt->bind_param('sississsiiiibi', $username, $schoolId, $password, $email, $age, $first_name, $last_name, $role, $Borrow_limit, $Number_of_loans, $books_taken_total, $Delayed_Book, $Approved, $books_taken_temp);
+    $stmt->execute();
+    echo 'You have successfully registered! You can now login!';
+    header("Location: http://localhost/index.php");
+
+    // Check if the user type is "Library Operator" and insert the School_id into School_Library_Operator table using a trigger
+    if ($role === 'Library Operator') {
+        $triggerQuery = "INSERT INTO School_Library_Operator (School_id) VALUES (?)";
+        $triggerStmt = $con->prepare($triggerQuery);
+        $triggerStmt->bind_param('i', $schoolId);
+        $triggerStmt->execute();
+    }
+
 
 } else {
 	// Something is wrong with the SQL statement, so you must check to make sure your accounts table exists with all 3 fields.
