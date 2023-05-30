@@ -88,7 +88,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
     
             // Retrieve the generated Book_id
             $bookId = $pdo->lastInsertId();
+            $split_categories = explode(",", $category);
+            $split_categories = explode(",", $category);
+
+// Iterate over the split categories array
+foreach ($split_categories as $categoryName) {
+    $count=0;
+    // Check if the category name exists in the Category table
+    $checkQuery = "SELECT COUNT(*) FROM Category WHERE Name = :categoryName";
+    $checkStmt = $pdo->prepare($checkQuery);
+    $checkStmt->bindParam(':categoryName', $categoryName);
+    $checkStmt->execute();
+    $count = $checkStmt->fetchColumn();
+
+    // If the category name doesn't exist, insert it into the Category table
+    if ($count == 0) {
+        $insertQuery = "INSERT INTO Category (Name) VALUES (:categoryName)";
+        $insertStmt = $pdo->prepare($insertQuery);
+        $insertStmt->bindParam(':categoryName', $categoryName);
+        $insertStmt->execute();
+    }
+}
+
            
+
+
 
 
             // Prepare the SQL statement for inserting into the Copies table
@@ -96,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
                               VALUES (?, ?, ?, NOW())";
         $insertCopiesStmt = $pdo->prepare($insertCopiesQuery);
         $insertCopiesStmt->execute([$copies, $schoolId, $bookId]);
-
+       
 }
 
 }
@@ -262,8 +286,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
         <input type="text" id="image" name="image">
         <br>
         <label for="category">Category:</label>
-        <input type="text" id="category" name="category" required>
+        <input type="text" id="category" name="category" value="Ex:Action,Horror" required>
         <br>
+        <label for="categories">Example Categories:</label>
+        
+        <select id="all_categories" name="all_categories">
+    <?php
+   
+    $query = "SELECT * FROM Category";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($categories as $category) {
+        echo '<option value="' . $category['Category_id'] . '">' . $category['Name'] . '</option>';
+    }
+    ?>
+</select>
+
+    <br>
         <label for="language">Language:</label>
         <input type="text" id="language" name="language" required>
         <br>
@@ -340,8 +381,7 @@ $updateBookStmt->execute([
 
 header("Location: lib_operator.php");
 exit();
-//header("Location: lib_operator.php");
-   // exit(); 
+
 }
 
 
@@ -372,6 +412,8 @@ exit();
     document.getElementById('book-image').value = selectedBook['Image'];
 }
 
+
+
     </script>
    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
         <label for="book-select">Choose Book:</label>
@@ -400,6 +442,7 @@ exit();
         <br>
         <label for="category-input">Catergory:</label>
         <textarea id="category-input" name="category"></textarea>
+
         <br>
         <label for="language-input">Language:</label>
         <textarea id="language-input" name="language"></textarea>
@@ -432,6 +475,7 @@ exit();
   // Fetch all rows as an associative array
   $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
   ?>
+
 
   <div class="Reservations">
     <h2>Reservations</h2>
