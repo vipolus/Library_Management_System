@@ -143,6 +143,19 @@ if (isset($_SESSION['username'])) {
               $updateStmt = $pdo->prepare($updateQuery);
               $updateStmt->bindParam(':userId', $userId);
               $updateStmt->execute();
+
+              $school_lib_op = "SELECT School_id FROM User WHERE User_id=:userId";
+              $school_lib_opstmt = $pdo->prepare($school_lib_op);
+              $school_lib_opstmt->bindParam(':userId', $userId);
+              $school_lib_opstmt->execute();
+              $school_id = $school_lib_opstmt->fetch(PDO::FETCH_ASSOC);
+
+
+              $lib_oper_query="INSERT INTO school_library_operator(School_id) VALUES(:school_id)";
+              $stmt = $pdo->prepare($lib_oper_query);
+              $stmt->execute([':school_id'=> $school_id['School_id']]);
+             
+              
               header('Location: http://localhost/dashboard.php');
               exit();
 
@@ -217,48 +230,89 @@ if (isset($_SESSION['username'])) {
 
 
             
-            <h2>Total Loans by School</h2>
-            <?php
-            // Assuming you have established a database connection and executed the query to fetch the data
-            // $loansData contains the fetched data from the database
-            $query = "SELECT * FROM School";
-            $stmt = $pdo->prepare($query);
-            $stmt->execute();
+<h2>Total Loans by School</h2>
 
-            // Fetch the result
-            $loansData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+<!-- Create a form with a dropdown for month and year selection -->
+<form method="POST">
+  <label for="month">Select Month:</label>
+  <select name="month" id="month">
+    <option value="all">All</option> <!-- Add an "ALL" option -->
+    <?php
+    // Generate options for months (1 to 12)
+    for ($i = 1; $i <= 12; $i++) {
+      printf('<option value="%02d">%s</option>', $i, date("F", mktime(0, 0, 0, $i, 1)));
+    }
+    ?>
+  </select>
+  <label for="year">Select Year:</label>
+  <select name="year" id="year">
+    <?php
+    // Generate options for years (from current year to 10 years back)
+    $currentYear = date("Y");
+    for ($i = $currentYear; $i >= $currentYear - 10; $i--) {
+      echo "<option value='$i'>$i</option>";
+    }
+    ?>
+  </select>
+  <input type="submit" name="submit" value="Search">
+</form>
 
-            if (!empty($loansData)) {
-              ?>
-              <table>
-                <tr>
-                  <th>School</th>
-                  <th>Total Loans</th>
-                </tr>
-                <?php foreach ($loansData as $data) : ?>
-                  <tr>
-                    <td><?php echo $data['School_Name']; ?></td>
-                    <td><?php echo $data['times_loaned']; ?></td>
-                  </tr>
-                <?php endforeach; ?>
-              </table>
-              <?php
-            } else {
-              echo "<p>No data available.</p>";
-            }
-            ?>
+<?php
+if (isset($_POST['submit'])) {
+  $selectedMonth = $_POST['month'];
+  $selectedYear = $_POST['year'];
+
+  $query = "SELECT School.School_Name, School.times_loaned, Lib_op.School_id
+  FROM School AS School
+  JOIN School_Library_Operator AS Lib_op ON School.School_id = Lib_op.School_id
+  LEFT JOIN Loan ON Lib_op.Library_Operator_id = Loan.Library_Operator_id
+  WHERE (:month = 'all' OR MONTH(Loan.date_borrowed) = :month) AND YEAR(Loan.date_borrowed) = :year
+  GROUP BY School.School_id";
+  $stmt = $pdo->prepare($query);
+  $stmt->bindParam(':month', $selectedMonth, PDO::PARAM_STR); 
+  $stmt->bindParam(':year', $selectedYear, PDO::PARAM_INT);
+  $stmt->execute();
+
+  
+  $loansData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+  unset($selectedMonth);
+  unset($selectedYear);
+  if (!empty($loansData)) {
+    ?>
+    <table>
+      <tr>
+        <th>School</th>
+        <th>Total Loans</th>
+      </tr>
+      <?php foreach ($loansData as $data) : ?>
+        <tr>
+          <td><?php echo $data['School_Name']; ?></td>
+          <td><?php echo $data['times_loaned']; ?></td>
+        </tr>
+      <?php endforeach; ?>
+    </table>
+    <?php
+  } else {
+    echo "<p>No data available.</p>";
+  }
+ 
+ 
+}
+?>
+
+
 
 <h2>Display teachers and authors by book category</h2>
             <?php
-            // Assuming you have established a database connection and executed the query to fetch the data
-            // $loansData contains the fetched data from the database
+            
            
             $query = "SELECT * FROM book";
             $stmt = $pdo->prepare($query);
     
     $stmt->execute();
 
-    // Fetch the result
+ 
     
           
           

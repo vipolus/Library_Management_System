@@ -173,8 +173,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
     <h2>Pending Users</h2>
         <?php
         // Retrieve users with Approved value false from the database
-        $query = "SELECT User_id, First_Name, Last_Name, Email FROM User WHERE Approved = 0 AND Type!='Library Operator'";
-        $stmt = $pdo->query($query);
+        $query = "SELECT User_id, First_Name, Last_Name, Email FROM User WHERE Approved = 0 AND Type != 'Library Operator' AND School_id = :school_id";
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':school_id', $schoolId);
+        $stmt->execute();
+        
         
         // Display the user data in the panel
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

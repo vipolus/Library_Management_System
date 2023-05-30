@@ -87,11 +87,14 @@ $pdo = null;
             margin-bottom: 10px;
         }
     </style>
-    <script>
+
+
+
+<script>
         function showBookDetails() {
             var bookSelect = document.getElementById('book-select');
             var selectedBookId = bookSelect.value;
-            var selectedBook = <?= json_encode($books) ?>[selectedBookId];
+            var selectedBook = JSON.parse('<?php echo json_encode($books); ?>')[selectedBookId];
 
             var detailsDiv = document.getElementById('book-details');
             detailsDiv.innerHTML = '';
@@ -101,7 +104,7 @@ $pdo = null;
             detailsDiv.appendChild(h2);
 
             var p1 = document.createElement('p');
-            p1.innerHTML = '<strong>Author:</strong> ' + selectedBook['First_Name'] + ' ' + selectedBook['Last_Name'];
+            p1.innerHTML = '<strong>Author:</strong> ' + selectedBook['Author'];
             detailsDiv.appendChild(p1);
 
             var p2 = document.createElement('p');
@@ -137,24 +140,26 @@ $pdo = null;
             detailsDiv.appendChild(p9);
 
             var img = document.createElement('img');
-            img.src ='http://localhost/Book_cover/' + selectedBook['Image'];
+            img.src = 'http://localhost/Book_cover/' + selectedBook['Image'];
             img.width = '250';
             img.height = '250';
             detailsDiv.appendChild(img);
 
-            var form = document.createElement('form');
-            form.method = 'post';
-            form.action = 'update_book.php?Book_id=' + selectedBook['Book_id'];
+            var reserveForm = document.createElement('form');
+            reserveForm.method = 'post';
+            reserveForm.action = 'update_book.php?Book_id=' + selectedBook['Book_id'];
 
-            var button = document.createElement('button');
-            button.type = 'submit';
-            button.name = 'reserve-button';
-            button.innerHTML = 'Reserve book now!';
+            var reserveButton = document.createElement('button');
+            reserveButton.type = 'submit';
+            reserveButton.name = 'reserve-button';
+            reserveButton.innerHTML = 'Reserve book now!';
 
-            form.appendChild(button);
-            var form = document.createElement('form');
-            form.method = 'post';
-            form.action = 'approve_reviews.php';
+            reserveForm.appendChild(reserveButton);
+            detailsDiv.appendChild(reserveForm);
+
+            var reviewForm = document.createElement('form');
+            reviewForm.method = 'post';
+            reviewForm.action = 'approve_reviews.php';
 
             var ratingLabel = document.createElement('label');
             ratingLabel.for = 'rating';
@@ -185,37 +190,17 @@ $pdo = null;
             submitButton.name = 'submit-review';
             submitButton.innerHTML = 'Submit Review';
 
-            form.appendChild(ratingLabel);
-            form.appendChild(ratingInput);
-            form.appendChild(document.createElement('br'));
-            form.appendChild(reviewLabel);
-            form.appendChild(reviewInput);
-            form.appendChild(document.createElement('br'));
-            form.appendChild(bookIdInput);
-            form.appendChild(submitButton);
+            reviewForm.appendChild(ratingLabel);
+            reviewForm.appendChild(ratingInput);
+            reviewForm.appendChild(document.createElement('br'));
+            reviewForm.appendChild(reviewLabel);
+            reviewForm.appendChild(reviewInput);
+            reviewForm.appendChild(document.createElement('br'));
+            reviewForm.appendChild(bookIdInput);
+            reviewForm.appendChild(submitButton);
 
-            //detailsDiv.appendChild(form);
-            detailsDiv.appendChild(form);
-
-            form.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                var formData = new FormData(form);
-                fetch(form.action, {
-                    method: form.method,
-                    body: formData
-                })
-                .then(function(response) {
-                    window.location.href = '/Book.php';
-                })
-                .catch(function(error) {
-                    console.error('Form submission error:', error);
-                });
-            });
-
-            // Fetch reviews for the selected book
+            detailsDiv.appendChild(reviewForm);
             fetchReviews(selectedBook['Book_id']);
-            
         }
 
         function fetchReviews(bookId) {
@@ -245,8 +230,40 @@ $pdo = null;
                     console.error('Error fetching reviews:', error);
                 });
         }
-    
-    
+
+        function reserveBook(event) {
+            event.preventDefault();
+            var form = event.target;
+
+            var formData = new FormData(form);
+            fetch(form.action, {
+                method: form.method,
+                body: formData
+            })
+            .then(function(response) {
+                // Handle the response here (e.g., show a success message)
+            })
+            .catch(function(error) {
+                console.error('Form submission error:', error);
+            });
+        }
+
+        function submitReview(event) {
+            event.preventDefault();
+            var form = event.target;
+
+            var formData = new FormData(form);
+            fetch(form.action, {
+                method: form.method,
+                body: formData
+            })
+            .then(function(response) {
+                // Handle the response here (e.g., show a success message)
+            })
+            .catch(function(error) {
+                console.error('Form submission error:', error);
+            });
+        }
     </script>
 </head>
 <body>
@@ -265,5 +282,13 @@ $pdo = null;
         <h2>Reviews</h2>
         <ul id="reviews-list"></ul>
     </div>
+
+    <script>
+        var reserveForm = document.querySelector('#book-details form[action="update_book.php"]');
+        reserveForm.addEventListener('submit', reserveBook);
+
+        var reviewForm = document.querySelector('#book-details form[action="approve_reviews.php"]');
+        reviewForm.addEventListener('submit', submitReview);
+    </script>
 </body>
 </html>

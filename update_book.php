@@ -45,6 +45,8 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // Output the JavaScript code within a script tag
                         echo "<script>" . $jsCode . "</script>";
+                        
+                       
         }
         else
         {
@@ -76,7 +78,9 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
                 $stmt->bindParam(':Book_id', $Book_id);
                 $stmt->execute();
                 }
+                //header('Location: Book.php');
             }
+            
 
     }
     else if($type === 'Student')
@@ -128,6 +132,8 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
                 $stmt->execute();
                 }
             }
+            
+
     }
     else if($type === "Library Operator")
     {
@@ -182,11 +188,14 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
             }
         }
+        sleep(1);
+                        header('Location: Book.php');
+
     }
 }
 
 
-    //$result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
 
 
 
