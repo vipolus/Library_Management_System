@@ -6,7 +6,10 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $bookId = $_GET['Book_id'];
 
-$sql = 'SELECT Rating, Text FROM Review WHERE Book_id = ?';
+$sql = 'SELECT r.Rating, r.Text, u.Username
+        FROM Review AS r
+        INNER JOIN User AS u ON r.User_id = u.User_id
+        WHERE r.Book_id = ? AND r.Approved = 1';
 
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(1, $bookId, PDO::PARAM_INT);

@@ -35,6 +35,7 @@ if ($stmt->rowCount() > 0) {
     echo 'No books available for the given school.';
 }
 
+
 $stmt = null;
 $pdo = null;
 ?>
@@ -128,6 +129,49 @@ $pdo = null;
             button.innerHTML = 'Reserve book now!';
 
             form.appendChild(button);
+            var form = document.createElement('form');
+            form.method = 'post';
+            form.action = 'approve_reviews.php';
+
+            var ratingLabel = document.createElement('label');
+            ratingLabel.for = 'rating';
+            ratingLabel.innerHTML = 'Rating: ';
+
+            var ratingInput = document.createElement('input');
+            ratingInput.type = 'number';
+            ratingInput.name = 'rating';
+            ratingInput.min = '0';
+            ratingInput.max = '5';
+            ratingInput.required = true;
+
+            var reviewLabel = document.createElement('label');
+            reviewLabel.for = 'review';
+            reviewLabel.innerHTML = 'Review: ';
+
+            var reviewInput = document.createElement('textarea');
+            reviewInput.name = 'review';
+            reviewInput.required = true;
+
+            var bookIdInput = document.createElement('input');
+            bookIdInput.type = 'hidden';
+            bookIdInput.name = 'book_id';
+            bookIdInput.value = selectedBook['Book_id'];
+
+            var submitButton = document.createElement('button');
+            submitButton.type = 'submit';
+            submitButton.name = 'submit-review';
+            submitButton.innerHTML = 'Submit Review';
+
+            form.appendChild(ratingLabel);
+            form.appendChild(ratingInput);
+            form.appendChild(document.createElement('br'));
+            form.appendChild(reviewLabel);
+            form.appendChild(reviewInput);
+            form.appendChild(document.createElement('br'));
+            form.appendChild(bookIdInput);
+            form.appendChild(submitButton);
+
+            //detailsDiv.appendChild(form);
             detailsDiv.appendChild(form);
 
             form.addEventListener('submit', function(event) {
@@ -148,6 +192,7 @@ $pdo = null;
 
             // Fetch reviews for the selected book
             fetchReviews(selectedBook['Book_id']);
+            
         }
 
         function fetchReviews(bookId) {
@@ -163,7 +208,8 @@ $pdo = null;
                         reviews.forEach(function(review) {
                             var li = document.createElement('li');
                             li.innerHTML = '<strong>Rating:</strong> ' + review['Rating'] + '<br>' +
-                                '<strong>Review:</strong> ' + review['Text'];
+                                '<strong>Review:</strong> ' + review['Text'] + '<br>' +
+                                '<strong>User:</strong> ' + review['Username'];
                             reviewsList.appendChild(li);
                         });
                     } else {
