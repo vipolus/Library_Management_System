@@ -69,6 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
             // Retrieve the form data
             $title = $_POST["title"];
             $publisher = $_POST["publisher"];
+            $author=$_POST["author"];
             $isbn = $_POST["isbn"];
             $numPages = $_POST["num_pages"];
             $summary = $_POST["summary"];
@@ -88,11 +89,60 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
     
             // Retrieve the generated Book_id
             $bookId = $pdo->lastInsertId();
-            $split_categories = explode(",", $category);
-            $split_categories = explode(",", $category);
 
-// Iterate over the split categories array
-foreach ($split_categories as $categoryName) {
+            //Insert authors in author table 
+            $split_authors=explode(",",$author);
+            foreach($split_authors as $Name)
+            {
+              $split_name=explode(" ",$Name);;
+              $checkQuery="SELECT COUNT(*) FROM Author WHERE First_Name=:firstname AND Last_Name=:lastname";
+              $checkStmt = $pdo->prepare($checkQuery);
+              $checkStmt->bindParam(':firstname', $split_name[0]);
+              $checkStmt->bindParam(':lastname', $split_name[1]);
+              $checkStmt->execute();
+              $count = $checkStmt->fetchColumn();
+
+              if($count==0)
+              {
+                $authorsquery="INSERT INTO Author(First_Name,Last_Name) VALUES(?,?)";
+              $authorsquerystmt=$pdo->prepare($authorsquery);
+              $authorsquerystmt->execute([$split_name[0],$split_name[1]]);
+              $authorId=$pdo->lastInsertId();
+            }
+            
+            $authorIdQuery = "SELECT Author_id FROM Author WHERE First_Name = :firstname AND Last_Name = :lastname";
+            $authorIdStmt = $pdo->prepare($authorIdQuery);
+            $authorIdStmt->bindParam(':firstname', $split_name[0]);
+            $authorIdStmt->bindParam(':lastname', $split_name[1]);
+            $authorIdStmt->execute();
+            $authorId = $authorIdStmt->fetchColumn();
+            
+            $book_author_query = "SELECT COUNT(*) FROM Book_Author WHERE Author_id = :authorid AND Book_id = :bookid";
+            $book_author_querystmt = $pdo->prepare($book_author_query);
+            $book_author_querystmt->bindParam(':authorid', $authorId);
+            $book_author_querystmt->bindParam(':bookid', $bookId);
+            $book_author_querystmt->execute();
+            
+            $check = $book_author_querystmt->fetchColumn();
+            if ($check == 0) {
+                $book_author = "INSERT INTO Book_Author(Author_id, Book_id) VALUES (?, ?)";
+                $book_authorstmt = $pdo->prepare($book_author);
+                $book_authorstmt->execute([$authorId, $bookId]);
+            }
+            
+
+          }
+
+         
+
+
+         
+
+
+          $split_categories = explode(",", $category);
+
+            //Insert categories in category table 
+            foreach ($split_categories as $categoryName) {
     $count=0;
     // Check if the category name exists in the Category table
     $checkQuery = "SELECT COUNT(*) FROM Category WHERE Name = :categoryName";
@@ -210,7 +260,7 @@ foreach ($split_categories as $categoryName) {
             $lastName = $row['Last_Name'];
             $email = $row['Email'];
         
-            // Generate the HTML markup dynamically
+           
             echo '<div>';
             echo '<p>Name: ' . $firstName . ' ' . $lastName . '</p>';
             echo '<p>Email: ' . $email . '</p>';
@@ -272,6 +322,9 @@ foreach ($split_categories as $categoryName) {
         <br>
         <label for="publisher">Publisher:</label>
         <input type="text" id="publisher" name="publisher" required>
+        <br>
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" required>
         <br>
         <label for="isbn">ISBN:</label>
         <input type="text" id="isbn" name="isbn" required>
