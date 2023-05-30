@@ -11,6 +11,29 @@ if ($username == NULL)
 $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+try {
+    $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $stmt = $pdo->prepare("SELECT Approved FROM User WHERE Username = ?");
+    $stmt->execute([$username]);
+
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $approved = $row['Approved'];
+
+    if ($approved == 1) {
+        echo "User is approved.";
+    } else {
+        echo "User is not approved.";
+        header('Location: http://localhost/login.php');
+
+    }
+} catch(PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+
+    
+
 $school_id_query = 'SELECT School_id FROM user WHERE Username = ?';
 
 $stmt = $pdo->prepare($school_id_query);
@@ -222,6 +245,8 @@ $pdo = null;
                     console.error('Error fetching reviews:', error);
                 });
         }
+    
+    
     </script>
 </head>
 <body>
