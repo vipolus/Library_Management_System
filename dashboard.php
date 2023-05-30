@@ -302,47 +302,42 @@ if (isset($_POST['submit'])) {
 ?>
 
 
-
+<div class="Teacher_Authors">
 <h2>Display teachers and authors by book category</h2>
             <?php
             
            
             $query = "SELECT * FROM book";
             $stmt = $pdo->prepare($query);
-    
-    $stmt->execute();
+            $stmt->execute();
 
- 
-    
-          
-          
-          
-          while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $category[]=$row['Thematic_Category'];
-           $names[]=$row['Title'];
-          }
+            $cat_query="SELECT Name,Category_id FROM category";
+            $cat_querystmt=$pdo->prepare($cat_query);
+            $cat_querystmt->execute();
           
           $options = '';
-          $options .= '<option value="all">All Categories</option>';
-          $uniqueCategories = array(); // Associative array to store unique categories
+          $options .= '<option value="all">Choose Category</option>';
+          $uniqueCategories = array(); // Initialize the unique categories array
           
-
-          foreach ($category as $cat) {
-    // Check if the category is already added to the uniqueCategories array
-          if (!isset($uniqueCategories[$cat])) {
-        // Add the category to the uniqueCategories array
-        $uniqueCategories[$cat] = true;
-        
-        // Generate the option element with the category value
-        $options .= '<option value="' . $cat . '">' . $cat . '</option>';
-    }
-}
+          
+          foreach ($cat_querystmt as $row) {
+              $cat = $row['Name'];
+              
+              if (!array_key_exists($cat, $uniqueCategories)) {
+                  // Add the category to the uniqueCategories array
+                  $uniqueCategories[$cat] = true;
+                  
+                  // Generate the option element with the category value
+                  $options .= '<option value="' . $cat . '">' . $cat . '</option>';
+              }
+          }
 
           ?>
+        
+          </div>
           <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
     <label for="nameSelect">Choose category to search for:</label>
     <select name="nameSelect" style="width: 100px !important; min-width: 50px; max-width: 100px; height: 20px; font-size: 16px;">
-        <!-- Options here -->
         <?php echo $options; ?>
     </select>
     <input type="submit" value="Search">
@@ -355,7 +350,7 @@ if (isset($_POST['submit'])) {
           
           if (isset($_POST['nameSelect'])) {
             $selectedCategory = $_POST['nameSelect'];
-            // Rest of your code
+            
         } else {
             $selectedCategory="All";
         }
@@ -363,7 +358,7 @@ if (isset($_POST['submit'])) {
          $text="Category you are searching for:";
           echo $text." " .$selectedCategory;
         
-          if (!empty($names)) {
+          
             ?>
                <?php
               
@@ -412,21 +407,11 @@ $Author_first_name[] = $row['First_Name']; // Add first name to the array
 $Author_last_name[] = $row['Last_Name'];
 }
 
-if ($selectedCategory == 'all') {
-    // Display all books
-    
-      /*  for ($i = 0; $i < count($names); $i++) {
-            echo '<tr>
-                    <td>' .$first_name[$i] .'</td> 
-                    <td>' . $names[$i] . '</td>
-                    <td>' . $category[$i] . '</td>
-                  </tr>';
-        }*/
-    
-} else {
+
 
     // Display books for the selected category
    ?>
+
 
 
 <div class="container">
@@ -467,14 +452,12 @@ if ($selectedCategory == 'all') {
 
 
 <?php
-}
+
             ?>
             </table>
             
             <?php
-        } else {
-            echo "<p>No data available.</p>";
-        }
+      
         
             ?>
 <h2>Search teachers with most books loans</h2>
