@@ -92,9 +92,8 @@ if (isset($_POST['logout'])) {
             </div>
             <nav class="menu">
                 <ul>
-                    <li><a href="Book.php">Search Book</a></li>
-                    <li><a href="Book.php">Lend a Book</a></li>
-                    <li><a href="user_details.php">Show user's details</a></li>
+                    <li><a href="Book.php">Search\Lend\Review a Book!</a></li>
+                    <li><a href="user_details.php">Show user's details!</a></li>
 
                     <!-- Add more menu options as needed -->
                 </ul>
