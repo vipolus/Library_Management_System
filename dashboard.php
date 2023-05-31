@@ -454,7 +454,7 @@ $Author_last_name[] = $row['Last_Name'];
 <?php
 
             ?>
-            </table>
+          
             
             <?php
       
@@ -510,7 +510,7 @@ echo '<table>
 
 
 
-
+<div class="Authors_zero_books">
 <h2>Authors with zero books loaned</h2>
 <?php 
 $query = "SELECT DISTINCT A.Author_id, A.First_Name, A.Last_Name
@@ -530,7 +530,6 @@ $first_name[] = $row['First_Name']; // Add first name to the array
 $last_name[] = $row['Last_Name'];
 }
 
-
 echo '<table>
                 <tr>
                     <th>First name</th>
@@ -543,14 +542,54 @@ echo '<table>
               </tr>';
       }
 ?>
+</div>
 
+
+
+   </table>
+
+    
+   <div class="Combined_categories">
+    <h2>Most Combined Categories</h2>
+    <?php
+        $mult_cat = "SELECT c1.Name AS Category1, c2.Name AS Category2, COUNT(*) AS Frequency
+                     FROM (
+                         SELECT DISTINCT bc1.Category_id AS Category1, bc2.Category_id AS Category2
+                         FROM Book_Category AS bc1
+                         JOIN Book_Category AS bc2 ON bc1.Book_id = bc2.Book_id
+                         JOIN Loan AS l ON l.Book_id = bc1.Book_id OR l.Book_id = bc2.Book_id
+                         WHERE bc1.Category_id <> bc2.Category_id
+                     ) AS pairs
+                     JOIN Category AS c1 ON c1.Category_id = pairs.Category1
+                     JOIN Category AS c2 ON c2.Category_id = pairs.Category2
+                     GROUP BY Category1, Category2
+                     ORDER BY Frequency DESC
+                     LIMIT 3";
+
+        $mult_catstmt = $pdo->prepare($mult_cat);
+        $mult_catstmt->execute();
+
+        if ($mult_catstmt->rowCount() > 0) {
+            echo "<h3>Top 3 Combined Categories:</h3>";
+            echo "<ul>";
+            while ($row = $mult_catstmt->fetch(PDO::FETCH_ASSOC)) {
+                $category1 = $row['Category1'];
+                $category2 = $row['Category2'];
+                $frequency = $row['Frequency'];
+
+                echo "<li>Categories: $category1, $category2 | Frequency: $frequency</li>";
+            }
+            echo "</ul>";
+        } else {
+            echo "No results found.";
+        }
+    ?>
+</div>
 
 
 
 
     </div>
-
-
         </body>
         </html>
 

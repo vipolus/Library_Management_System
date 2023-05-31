@@ -172,7 +172,6 @@ $pdo = null;
                                 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                                 alert("hello");
                                 xmlhttp.send();
-                                alert("hello1");
                            
                             };
                             detailsDiv.appendChild(takeButton)
