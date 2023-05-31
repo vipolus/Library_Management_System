@@ -19,7 +19,7 @@ if (!isset($_SESSION['username'])) {
 // Retrieve the user ID from the session
     $userId = $_SESSION['username'];
 
-    $query = "SELECT Type,School_id,Approved FROM User WHERE Username = :username";
+    $query = "SELECT Type,School_id,Approved,User_id FROM User WHERE Username = :username";
     $userStmt = $pdo->prepare($query);
     $userStmt->bindParam(':username', $userId);
     $userStmt->execute();
@@ -43,7 +43,24 @@ if (!isset($_SESSION['username'])) {
 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
-    if ($_POST["action"] === "approve") {
+  if ($_POST["action"] === "res_approve") {
+    
+    $lib_op = $user['User_id'];
+    $user_Id = $_POST["userId"];
+    $bookId = $_POST["bookId"];
+    $loanquery = "INSERT INTO Loan (Library_Operator_id, User_id, Book_id, date_borrowed) 
+                  VALUES (:Library_Operator_id, :User_id, :Book_id, CURRENT_TIMESTAMP)";
+    
+    $stmt = $pdo->prepare($loanquery);
+    $stmt->bindParam(':Library_Operator_id', $lib_op);
+    $stmt->bindParam(':User_id', $user_Id);
+    $stmt->bindParam(':Book_id', $bookId);
+    $stmt->execute();
+  }
+  
+
+
+    elseif ($_POST["action"] === "approve") {
         $userId = $_POST["userId"];
         // Execute an UPDATE query to set Approved value to 1 for the user
         $updateQuery = "UPDATE User SET Approved = 1 WHERE User_id = :userId";
@@ -535,12 +552,13 @@ exit();
 </div>
 <div class="forms-container">
   <?php
-  $query = "SELECT u.User_id, u.First_Name, u.Last_Name, GROUP_CONCAT(b.Title SEPARATOR ', ') AS Titles
-            FROM User AS u
-            INNER JOIN Reservation AS r ON u.User_id = r.User_id
-            INNER JOIN Book AS b ON r.Book_id = b.Book_id
-            WHERE u.School_id = :school_id
-            GROUP BY u.User_id";
+ $query = "SELECT u.User_id, u.First_Name, u.Last_Name, GROUP_CONCAT(b.Title SEPARATOR ', ') AS Titles, r.Book_id
+ FROM User AS u
+ INNER JOIN Reservation AS r ON u.User_id = r.User_id
+ INNER JOIN Book AS b ON r.Book_id = b.Book_id
+ LEFT JOIN Loan AS l ON u.User_id = l.User_id AND r.Book_id = l.Book_id
+ WHERE u.School_id = :school_id AND l.Loan_id IS NULL
+ GROUP BY u.User_id";
 
   $stmt = $pdo->prepare($query);
   $stmt->execute([':school_id' => $schoolId]);
@@ -566,6 +584,7 @@ exit();
           <th>First Name</th>
           <th>Last Name</th>
           <th>Titles</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -574,6 +593,20 @@ exit();
             <td><?php echo $user['First_Name']; ?></td>
             <td><?php echo $user['Last_Name']; ?></td>
             <td><?php echo $user['Titles']; ?></td>
+            <td>
+              <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                <input type="hidden" name="action" value="res_approve">
+                <input type="hidden" name="userId" value="<?php echo $user['User_id']; ?>">
+                <input type="hidden" name="bookId" value="<?php echo $user['Book_id']; ?>">
+                <input type="submit" value="Approve">
+              </form>
+              <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+                <input type="hidden" name="action" value="res_reject">
+                <input type="hidden" name="userId" value="<?php echo $user['User_id']; ?>">
+                <input type="hidden" name="bookId" value="<?php echo $user['Book_id']; ?>">
+                <input type="submit" value="Reject">
+              </form>
+            </td>
           </tr>
         <?php endforeach; ?>
       </tbody>

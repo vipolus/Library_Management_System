@@ -34,6 +34,47 @@ try {
 
     
 
+
+
+        if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit-review"]))
+                {
+                    $userId = "SELECT User_id FROM User WHERE Username=:username";
+                    $useridstmt = $pdo->prepare($userId);
+                    $useridstmt->bindParam(":username", $username);
+                    $useridstmt->execute();
+                    
+                    $result = $useridstmt->fetch(PDO::FETCH_ASSOC); 
+                    $userId = $result['User_id']; 
+                    
+                    $rev = $_POST['review'];
+                    $rating = $_POST['rating'];
+                    $bookId = $_POST['book_id'];
+
+                    $revquery="INSERT INTO review(Rating,Book_id,Text,User_id,Approved) VALUES(:rating,:bookid,:text,:userid,0)";
+                    $revquerystmt=$pdo->prepare($revquery);
+                    $revquerystmt->bindparam(":rating",$rating);
+                    $revquerystmt->bindparam(":bookid",$bookId);
+                    $revquerystmt->bindparam(":text",$rev);
+                    $revquerystmt->bindparam(":userid",$userId);
+                    $revquerystmt->execute();
+
+
+                }
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 $school_id_query = 'SELECT School_id FROM user WHERE Username = ?';
 
 $stmt = $pdo->prepare($school_id_query);
@@ -198,7 +239,7 @@ $pdo = null;
 
             var reviewForm = document.createElement('form');
             reviewForm.method = 'post';
-            reviewForm.action = 'approve_reviews.php';
+            reviewForm.action = 'Book.php';
 
             var ratingLabel = document.createElement('label');
             ratingLabel.for = 'rating';
@@ -241,6 +282,12 @@ $pdo = null;
             detailsDiv.appendChild(reviewForm);
             fetchReviews(selectedBook['Book_id']);
         }
+
+        
+
+
+
+
 
         function fetchReviews(bookId) {
             var reviewsList = document.getElementById('reviews-list');
@@ -326,7 +373,7 @@ $pdo = null;
         var reserveForm = document.querySelector('#book-details form[action="update_book.php"]');
         reserveForm.addEventListener('submit', reserveBook);
 
-        var reviewForm = document.querySelector('#book-details form[action="approve_reviews.php"]');
+        var reviewForm = document.querySelector('#book-details form[action="Book.php"]');
         reviewForm.addEventListener('submit', submitReview);
     </script>
 </body>
