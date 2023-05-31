@@ -209,9 +209,9 @@ $pdo = null;
                                     }
                                 };
                                 
-                                xmlhttp.open("POST", `update_book.php?Book_id=${selectedBook.Book_id}`, true);
-                                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                                alert("hello");
+                                 xmlhttp.open("POST", `update_book.php?Book_id=${selectedBook.Book_id}`, true);
+                                 xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                
                                 xmlhttp.send();
                            
                             };
@@ -225,17 +225,6 @@ $pdo = null;
                         }
                     
 
-           /* var reserveForm = document.createElement('form');
-            reserveForm.method = 'post';
-            reserveForm.action = 'update_book.php?Book_id=' + selectedBook['Book_id'];
-*/
-            /*var reserveButton = document.createElement('button');
-            reserveButton.type = 'submit';
-            reserveButton.name = 'reserve-button';
-            reserveButton.innerHTML = 'Reserve book now!';*/
-
-            /*reserveForm.appendChild(reserveButton);
-            detailsDiv.appendChild(reserveForm);*/
 
             var reviewForm = document.createElement('form');
             reviewForm.method = 'post';
@@ -290,32 +279,35 @@ $pdo = null;
 
 
         function fetchReviews(bookId) {
-            var reviewsList = document.getElementById('reviews-list');
-            reviewsList.innerHTML = '';
+  var reviewsList = document.getElementById('reviews-list');
+  reviewsList.innerHTML = '';
 
-            fetch('fetch_reviews.php?Book_id=' + bookId)
-                .then(function(response) {
-                    return response.json();
-                })
-                .then(function(reviews) {
-                    if (reviews.length > 0) {
-                        reviews.forEach(function(review) {
-                            var li = document.createElement('li');
-                            li.innerHTML = '<strong>Rating:</strong> ' + review['Rating'] + '<br>' +
-                                '<strong>Review:</strong> ' + review['Text'] + '<br>' +
-                                '<strong>User:</strong> ' + review['Username'];
-                            reviewsList.appendChild(li);
-                        });
-                    } else {
-                        var li = document.createElement('li');
-                        li.innerHTML = 'No reviews available for this book.';
-                        reviewsList.appendChild(li);
-                    }
-                })
-                .catch(function(error) {
-                    console.error('Error fetching reviews:', error);
-                });
-        }
+  fetch('fetch_reviews.php?Book_id=' + bookId)
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(reviews) {
+      console.log(reviews); // Check the response data in the browser console
+
+      if (reviews.length > 0) {
+        reviews.forEach(function(review) {
+          var li = document.createElement('li');
+          li.innerHTML = '<strong>Rating:</strong> ' + review['Rating'] + '<br>' +
+            '<strong>Review:</strong> ' + review['Text'] + '<br>' +
+            '<strong>User:</strong> ' + review['Username'];
+          reviewsList.appendChild(li);
+        });
+      } else {
+        var li = document.createElement('li');
+        li.innerHTML = 'No reviews available for this book.';
+        reviewsList.appendChild(li);
+      }
+    })
+    .catch(function(error) {
+      console.error('Error fetching reviews:', error);
+    });
+}
+
 
         function reserveBook(event) {
             event.preventDefault();

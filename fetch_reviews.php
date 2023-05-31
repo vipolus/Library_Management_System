@@ -4,7 +4,7 @@ require_once('config.php');
 $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$bookId = $_GET['Book_id'];
+$bookId = $_GET['book_id'];
 
 $sql = 'SELECT r.Rating, r.Text, u.Username
         FROM Review AS r
@@ -17,8 +17,9 @@ $stmt->execute();
 
 $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-echo json_encode($reviews);
-
 $stmt = null;
 $pdo = null;
+
+header('Content-Type: application/json');
+echo json_encode($reviews);
 ?>
