@@ -144,18 +144,58 @@ $pdo = null;
             img.width = '250';
             img.height = '250';
             detailsDiv.appendChild(img);
+            if(selectedBook.Number_of_Available_Copies > 0)
+                        {
+                            var takeButton = document.createElement('button');
+                            takeButton.innerHTML = 'Reserve book now!';
+                            takeButton.onclick = function() {
+                                //alert("hello");
+                                //function takebook(selectedBookId);
+                                //$sql = "UPDATE Copies SET Number_of_Available_Copies = 0 WHERE Copies_id = 1 ;"
+                                //alert("Successful loan");
+                                /* $username = $_SESSION['username'];
 
-            var reserveForm = document.createElement('form');
+                                    }*/
+                                    // Send an Ajax request to update the database
+                               
+                                    
+
+                                var xmlhttp = new XMLHttpRequest();
+                                xmlhttp.onreadystatechange = function() {
+                                    if (this.readyState == 4 && this.status == 200) {
+                                        // Handle the server response here
+                                        
+                                    }
+                                };
+                                
+                                xmlhttp.open("POST", `update_book.php?Book_id=${selectedBook.Book_id}`, true);
+                                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                alert("hello");
+                                xmlhttp.send();
+                                alert("hello1");
+                           
+                            };
+                            detailsDiv.appendChild(takeButton)
+                        }
+                        else
+                        {
+                            var p10 = document.createElement('p');
+                            p10.innerHTML = 'No copies available';
+                            detailsDiv.appendChild(p10);
+                        }
+                    
+
+           /* var reserveForm = document.createElement('form');
             reserveForm.method = 'post';
             reserveForm.action = 'update_book.php?Book_id=' + selectedBook['Book_id'];
-
-            var reserveButton = document.createElement('button');
+*/
+            /*var reserveButton = document.createElement('button');
             reserveButton.type = 'submit';
             reserveButton.name = 'reserve-button';
-            reserveButton.innerHTML = 'Reserve book now!';
+            reserveButton.innerHTML = 'Reserve book now!';*/
 
-            reserveForm.appendChild(reserveButton);
-            detailsDiv.appendChild(reserveForm);
+            /*reserveForm.appendChild(reserveButton);
+            detailsDiv.appendChild(reserveForm);*/
 
             var reviewForm = document.createElement('form');
             reviewForm.method = 'post';
