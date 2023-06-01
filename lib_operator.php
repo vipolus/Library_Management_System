@@ -39,19 +39,20 @@ if (!isset($_SESSION['username'])) {
         header("Location: login.php");
         exit();
     }
-    if (isset($_SESSION['rev'], $_SESSION['rating'], $_SESSION['bookId'], $_SESSION['userId'])) {
+    /*if (isset($_SESSION['rev'], $_SESSION['rating'], $_SESSION['bookId'], $_SESSION['userId'])) {
       // Retrieve the values from the session variables
       $rev = $_SESSION['rev'];
       $rating = $_SESSION['rating'];
       $bookId = $_SESSION['bookId'];
       $userId = $_SESSION['userId'];
 
+
       if (isset($_POST['reject'])) {
         // Code to handle rejection
 
         echo "Review rejected!";
         // Additional logic for rejection
-    } elseif (isset($_POST['approve'])) {
+      } elseif (isset($_POST['approve'])) {
         // Code to handle approval
         $sql = "UPDATE Review SET Approved = 1 WHERE User_id = :userId";
         $updaterev = $pdo->prepare($sql);
@@ -60,12 +61,9 @@ if (!isset($_SESSION['username'])) {
         echo "Review Approved!";
         header("Location: index.php");
 
-    }
-    }
+      }*/
+    //}
     
-
-  
-
     // Retrieve the school ID of the library operator
     $schoolId = $user['School_id'];
 
@@ -755,4 +753,82 @@ $loans = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <input type="submit" name="reject" value="Reject">
     <input type="submit" name="approve" value="Approve">
 </form>
-        
+
+    <!DOCTYPE html>
+<html>
+<head>
+    <title>Reviews</title>
+</head>
+<body>
+    <h1>Reviews</h1>
+
+    <?php
+    
+
+    if (isset($_SESSION['rev'], $_SESSION['rating'], $_SESSION['bookId'], $_SESSION['userId'])) {
+        // Retrieve the values from the session variables
+        $rev = $_SESSION['rev'];
+        $rating = $_SESSION['rating'];
+        $bookId = $_SESSION['bookId'];
+        $userId = $_SESSION['userId'];
+
+        $query = "SELECT r.Text AS Review, r.Rating, b.Title AS BookName, u.Username
+          FROM Review r
+          INNER JOIN Book b ON r.Book_id = b.Book_id
+          INNER JOIN User u ON r.User_id = u.User_id
+          WHERE r.Book_id = :bookId";
+
+// Prepare the statement
+$statement = $pdo->prepare($query);
+
+// Bind the parameter
+$statement->bindParam(':bookId', $bookId);
+
+// Execute the query
+$statement->execute();
+
+// Fetch the review details
+$row = $statement->fetch(PDO::FETCH_ASSOC);
+$review = $row['Review'];
+$rating = $row['Rating'];
+$bookName = $row['BookName'];
+$username = $row['Username'];
+
+// Display the review details
+echo "<h2>Review Details</h2>";
+echo "<p>Review: $review</p>";
+echo "<p>Rating: $rating</p>";
+echo "<p>Book Name: $bookName</p>";
+echo "<p>Username: $username</p>";
+} else {
+    // Error occurred
+    echo "Error retrieving review details: " . mysqli_error($connection);
+}
+        // Display reject and approve buttons
+        echo "<form method='post' action='lib_operator.php'>";
+        echo "<input type='submit' name='reject' value='Reject'>";
+        echo "<input type='submit' name='approve' value='Approve'>";
+        echo "</form>";
+
+        if (isset($_POST['reject'])) {
+            // Code to handle rejection
+
+            echo "Review rejected!";
+            // Additional logic for rejection
+        } elseif (isset($_POST['approve'])) {
+            // Code to handle approval
+            $sql = "UPDATE Review SET Approved = 1 WHERE User_id = :userId";
+            $updaterev = $pdo->prepare($sql);
+            $updaterev->bindParam(':userId', $userId);
+            $updaterev->execute();
+            echo "Review Approved!";
+            header("Location: index.php");
+        }
+
+    ?>
+</body>
+</html>
+    
+
+  
+<?
