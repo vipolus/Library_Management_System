@@ -161,7 +161,7 @@ CREATE TABLE Loan (
 );
 
 CREATE TABLE Review (
-  Review_id INT NOT NULL,
+  Review_id INT NOT NULL AUTO_INCREMENT,
   Rating INT NOT NULL,
   Book_id INT NOT NULL,
   Text TEXT NOT NULL,

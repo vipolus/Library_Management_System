@@ -49,13 +49,8 @@ try {
                     $rev = $_POST['review'];
                     $rating = $_POST['rating'];
                     $bookId = $_POST['book_id'];
-                    $_SESSION['rev'] = $rev;
-                $_SESSION['rating'] = $rating;
-                $_SESSION['bookId'] = $bookId;
-                $_SESSION['userId'] = $userId;
 
-
-                    $revquery="INSERT INTO Review (Rating,Book_id,Text,User_id,Approved) VALUES(:rating,:bookid,:text,:userid,0)";
+                    $revquery="INSERT INTO Review(Rating,Book_id,Text,User_id,Approved) VALUES(:rating,:bookid,:text,:userid,'0')";
                     $revquerystmt=$pdo->prepare($revquery);
                     $revquerystmt->bindparam(":rating",$rating);
                     $revquerystmt->bindparam(":bookid",$bookId);
@@ -63,11 +58,8 @@ try {
                     $revquerystmt->bindparam(":userid",$userId);
                     $revquerystmt->execute();
 
-                    header("Location: lib_operator.php");
-exit;
 
                 }
-        
         
 
 
