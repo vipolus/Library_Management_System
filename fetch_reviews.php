@@ -4,7 +4,7 @@ require_once('config.php');
 $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$bookId = $_GET['book_id'];
+$bookId = $_GET['Book_id'];
 
 $sql = 'SELECT r.Rating, r.Text, u.Username
         FROM Review AS r

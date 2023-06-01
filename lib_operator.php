@@ -3,18 +3,20 @@
 require_once 'config.php';
 // Get the user's information, such as their user ID
 
+
+
 $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
 session_start();
-
 // Check if the user is logged in and has a valid session
 if (!isset($_SESSION['username'])) {
     // Redirect to the login page or display an error message
     header("Location: login.php");
     exit();
 }
+
 
 // Retrieve the user ID from the session
     $userId = $_SESSION['username'];
@@ -37,6 +39,32 @@ if (!isset($_SESSION['username'])) {
         header("Location: login.php");
         exit();
     }
+    if (isset($_SESSION['rev'], $_SESSION['rating'], $_SESSION['bookId'], $_SESSION['userId'])) {
+      // Retrieve the values from the session variables
+      $rev = $_SESSION['rev'];
+      $rating = $_SESSION['rating'];
+      $bookId = $_SESSION['bookId'];
+      $userId = $_SESSION['userId'];
+
+      if (isset($_POST['reject'])) {
+        // Code to handle rejection
+
+        echo "Review rejected!";
+        // Additional logic for rejection
+    } elseif (isset($_POST['approve'])) {
+        // Code to handle approval
+        $sql = "UPDATE Review SET Approved = 1 WHERE User_id = :userId";
+        $updaterev = $pdo->prepare($sql);
+        $updaterev->bindParam(':userId', $userId);
+        $updaterev->execute();
+        echo "Review Approved!";
+        header("Location: index.php");
+
+    }
+    }
+    
+
+  
 
     // Retrieve the school ID of the library operator
     $schoolId = $user['School_id'];
@@ -60,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
   
 
 
-    elseif ($_POST["action"] === "approve") {
+    if ($_POST["action"] === "approve") {
         $userId = $_POST["userId"];
         // Execute an UPDATE query to set Approved value to 1 for the user
         $updateQuery = "UPDATE User SET Approved = 1 WHERE User_id = :userId";
@@ -722,4 +750,9 @@ $loans = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <!-- Your HTML content for the operator page -->
         </body>
         </html>
+        <!-- HTML form to display the buttons -->
+<form method="post">
+    <input type="submit" name="reject" value="Reject">
+    <input type="submit" name="approve" value="Approve">
+</form>
         
