@@ -17,7 +17,7 @@ $username = $_SESSION['username'];
 
 
 //$result = $stmt->fetch(PDO::FETCH_ASSOC);
-$sql = "SELECT Type, School_id, User_id FROM User WHERE Username = :username";
+$sql = "SELECT Type, School_id, User_id, Delayed_Book FROM User WHERE Username = :username";
 $stmt = $pdo->prepare($sql);
 $stmt->bindParam(':username', $username);
 $stmt->execute();
@@ -28,7 +28,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
     $school_id = $result['School_id'];
     $user_id = $result['User_id'];
 
-    if($type === 'Teacher')
+    if($type === 'Teacher'&& $result['Delayed_Book'] == 0)
     {
         $sql = "SELECT reservations FROM User WHERE Username = :username";
         $stmt = $pdo->prepare($sql);
@@ -36,7 +36,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $reservations = $result['reservations'];
-        if($reservations >= 1 )
+        if($reservations >= 1 && delayed == 1)
         {
             $message = "No more reservations!"; // The message you want to display
 
@@ -83,7 +83,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
             
 
     }
-    else if($type === 'Student')
+    else if($type === 'Student'&& $result['Delayed_Book'] == 0)
     {
         $sql = "SELECT reservations FROM User WHERE Username = :username";
         $stmt = $pdo->prepare($sql);
@@ -132,7 +132,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
             
 
     }
-    else if($type === "Library Operator")
+    else if($type === "Library Operator" && $result['Delayed_Book'] == 0)
     {
         $sql = "SELECT reservations FROM User WHERE Username = :username";
         $stmt = $pdo->prepare($sql);
