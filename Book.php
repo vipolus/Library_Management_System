@@ -57,7 +57,7 @@ try {
                     $revquerystmt->bindparam(":text",$rev);
                     $revquerystmt->bindparam(":userid",$userId);
                     $revquerystmt->execute();
-
+                    header('Location: http://localhost/Book.php');
 
                 }
         
