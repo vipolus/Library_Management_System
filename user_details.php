@@ -10,8 +10,8 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Get the user's details and school name from the User and School tables
 $stmt = $pdo->prepare("SELECT User.*, School.School_Name FROM User 
-                      INNER JOIN School ON User.School_id = School.School_id
-                      WHERE User.Username = :username");
+INNER JOIN School ON User.School_id = School.School_id
+WHERE User.Username = :username");
 $stmt->bindParam(':username', $username);
 $stmt->execute();
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -64,6 +64,8 @@ if ($user) {
             $first_name = $_POST['first_name'];
             $last_name = $_POST['last_name'];
             $age = $_POST['age'];
+            header('Location: http://localhost/index.php');
+
 
             // Perform validation and sanitization on the submitted data
             // You should validate and sanitize the data based on your specific requirements
@@ -98,6 +100,7 @@ if ($user) {
                 // Example: header('Location: error.php');
                 exit;
             }
+
         }
     }
     if ($user['Type'] === "Library Operator") {
@@ -140,6 +143,7 @@ if ($user) {
             $first_name = $_POST['first_name'];
             $last_name = $_POST['last_name'];
             $age = $_POST['age'];
+            header('Location: http://localhost/index.php');
 
             // Perform validation and sanitization on the submitted data
             // You should validate and sanitize the data based on your specific requirements
@@ -210,6 +214,7 @@ if ($user) {
             $first_name = $_POST['first_name'];
             $last_name = $_POST['last_name'];
             $age = $_POST['age'];
+            header('Location: http://localhost/index.php');
 
             // Perform validation and sanitization on the submitted data
             // You should validate and sanitize the data based on your specific requirements
@@ -244,6 +249,7 @@ if ($user) {
                 // Example: header('Location: error.php');
                 exit;
             }
+
         }
     }
     

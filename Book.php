@@ -32,7 +32,104 @@ try {
     echo "Error: " . $e->getMessage();
 }
 
-    
+try {
+    $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Query to fetch all category names
+    $query = "SELECT Name FROM Category";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+
+    $categories = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+    if (!empty($categories)) {
+        echo "<h2>See which book(s) belong to a certain category and reserve below</h2>";
+        echo "<select id='categorySelect' onchange='loadBooks()'>";
+        echo "<option value=''>-- Select Category --</option>";
+        // Loop through each category and display as options
+        foreach ($categories as $category) {
+            echo "<option value='" . $category . "'>" . $category . "</option>";
+        }
+        echo "</select>";
+
+        // JavaScript code to load books based on the selected category
+        echo "
+        <script>
+            function loadBooks() {
+                var category = document.getElementById('categorySelect').value;
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById('bookSelect').innerHTML = this.responseText;
+                    }
+                };
+                xhttp.open('GET', 'get_books_category.php?category=' + encodeURIComponent(category), true);
+                xhttp.send();
+            }
+        </script>";
+
+        // Placeholder for the book options
+        echo "<select id='bookSelect'></select>";
+        
+    } else {
+        echo "No categories found.";
+    }
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+
+
+
+
+/*try {
+    $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Query to fetch all authors
+    $query = "SELECT Author_id, CONCAT(First_Name, ' ', Last_Name) AS FullName FROM Author";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+
+    $authors = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!empty($authors)) {
+        echo "<h2>See which book(s) belong to a certain author and reserve below</h2>";
+        echo "<select id='authorSelect' onchange='loadBooks()'>";
+        echo "<option value=''>-- Select Author --</option>";
+        // Loop through each author and display as options
+        foreach ($authors as $author) {
+            echo "<option value='" . $author['Author_id'] . "'>" . $author['FullName'] . "</option>";
+        }
+        echo "</select>";
+
+        // JavaScript code to load books based on the selected author
+        echo "
+        <script>
+            function loadBooks() {
+                var author = document.getElementById('authorSelect').value;
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById('bookSelect').innerHTML = this.responseText;
+                    }
+                };
+                xhttp.open('GET', 'get_books_author.php?author=' + encodeURIComponent(author), true);
+                xhttp.send();
+            }
+        </script>";
+
+        // Placeholder for the book options
+        echo "<select id='bookSelect'></select>";
+        
+    } else {
+        echo "No authors found.";
+    }
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}*/
+
+
 
 
 
@@ -61,19 +158,6 @@ try {
 
                 }
         
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 $school_id_query = 'SELECT School_id FROM user WHERE Username = ?';
 

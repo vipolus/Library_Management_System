@@ -1,4 +1,19 @@
+DELIMITER //
 
+CREATE TRIGGER `Admin` AFTER INSERT ON `User`
+ FOR EACH ROW IF NEW.Type = 'Admin' THEN
+                            INSERT INTO Admin (Admin_id) VALUES (NEW.User_id);
+                        END IF//
+                      
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER `Liiby` AFTER INSERT ON `User`
+ FOR EACH ROW IF NEW.Type = 'Library Operator' THEN
+                            INSERT INTO School_Library_Operator (Library_operator_id) VALUES (NEW.User_id);
+                        END IF//
+ DELIMITER ;
+                       
 DELIMITER //
 
 CREATE TRIGGER `Lib_Op` AFTER INSERT ON `User`
