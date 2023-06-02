@@ -82,7 +82,7 @@ try {
 
 
 
-/*try {
+try {
     $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -106,7 +106,7 @@ try {
         // JavaScript code to load books based on the selected author
         echo "
         <script>
-            function loadBooks() {
+            function loadtheBooks() {
                 var author = document.getElementById('authorSelect').value;
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
@@ -127,7 +127,7 @@ try {
     }
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
-}*/
+}
 
 
 
