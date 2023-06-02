@@ -1,45 +1,34 @@
 <?php
-// Assuming you have already established a database connection
 session_start();
 require_once 'config.php';
-// Get the user's information, such as their user ID
 
 $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// Check if the 'username' session variable is set
 if (isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
 
-    // Prepare and execute the database query to find the user ID based on the username
     $query = "SELECT User_id FROM User WHERE Username = :username";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':username', $username);
     $stmt->execute();
 
-    // Fetch the result
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$user) {
-        // User does not exist, return a 403 Forbidden error
         http_response_code(403);
         echo "403 Forbidden";
         exit();
     }
-
-    // Get the user ID
     $userID = $user['User_id'];
 
-    // Prepare and execute the database query to check if the user is an admin
     $query = "SELECT COUNT(*) as count FROM Admin WHERE User_id = :user_id";
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':user_id', $userID);
     $stmt->execute();
 
-    // Fetch the result
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Check if the user exists in the Admin table
     if ($result['count'] > 0) {
         ?>
         <!DOCTYPE html>
@@ -108,18 +97,15 @@ if (isset($_SESSION['username'])) {
 
             <h2>Pending Library Operators</h2>
             <?php
-        // Retrieve users with Approved value false from the database
         $query = "SELECT User_id, First_Name, Last_Name, Email FROM User WHERE Approved = 0 AND Type = 'Library Operator'";
         $stmt = $pdo->query($query);
         
-        // Display the user data in the panel
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $userId = $row['User_id'];
             $firstName = $row['First_Name'];
             $lastName = $row['Last_Name'];
             $email = $row['Email'];
         
-            // Generate the HTML markup dynamically
             echo '<div>';
             echo '<p>Name: ' . $firstName . ' ' . $lastName . '</p>';
             echo '<p>Email: ' . $email . '</p>';
@@ -138,7 +124,6 @@ if (isset($_SESSION['username'])) {
         if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
           if ($_POST["action"] === "approve") {
               $userId = $_POST["userId"];
-              // Execute an UPDATE query to set Approved value to 1 for the user
               $updateQuery = "UPDATE User SET Approved = 1 WHERE User_id = :userId";
               $updateStmt = $pdo->prepare($updateQuery);
               $updateStmt->bindParam(':userId', $userId);
@@ -162,13 +147,11 @@ if (isset($_SESSION['username'])) {
           } elseif ($_POST["action"] === "reject") {
               $userId = $_POST["userId"];
       
-              // Delete associated loan records
               $deleteLoanQuery = "DELETE FROM loan WHERE User_id = :userId";
               $deleteLoanStmt = $pdo->prepare($deleteLoanQuery);
               $deleteLoanStmt->bindParam(':userId', $userId);
               $deleteLoanStmt->execute();
       
-              // Delete the user from the database
               $deleteUserQuery = "DELETE FROM User WHERE User_id = :userId";
               $deleteUserStmt = $pdo->prepare($deleteUserQuery);
               $deleteUserStmt->bindParam(':userId', $userId);
@@ -177,13 +160,11 @@ if (isset($_SESSION['username'])) {
               exit();
           } 
           elseif ($_POST["action"] === "add_school") {
-            // Retrieve the form data
            
            $school=$_POST['school_name'];
            $address=$_POST['address'];
            $city=$_POST['city'];
            $phone_number=$_POST['phone_number'];
-           //$email="";
            $email=$_POST['email'];
            $school_director=$_POST['full_name_of_school_director'];
 
@@ -232,13 +213,11 @@ if (isset($_SESSION['username'])) {
             
 <h2>Total Loans by School</h2>
 
-<!-- Create a form with a dropdown for month and year selection -->
 <form method="POST">
   <label for="month">Select Month:</label>
   <select name="month" id="month">
-    <option value="all">All</option> <!-- Add an "ALL" option -->
+    <option value="all">All</option> 
     <?php
-    // Generate options for months (1 to 12)
     for ($i = 1; $i <= 12; $i++) {
       printf('<option value="%02d">%s</option>', $i, date("F", mktime(0, 0, 0, $i, 1)));
     }
@@ -247,7 +226,6 @@ if (isset($_SESSION['username'])) {
   <label for="year">Select Year:</label>
   <select name="year" id="year">
     <?php
-    // Generate options for years (from current year to 10 years back)
     $currentYear = date("Y");
     for ($i = $currentYear; $i >= $currentYear - 10; $i--) {
       echo "<option value='$i'>$i</option>";
@@ -317,17 +295,15 @@ if (isset($_POST['submit'])) {
           
           $options = '';
           $options .= '<option value="all">Choose Category</option>';
-          $uniqueCategories = array(); // Initialize the unique categories array
+          $uniqueCategories = array(); 
           
           
           foreach ($cat_querystmt as $row) {
               $cat = $row['Name'];
               
               if (!array_key_exists($cat, $uniqueCategories)) {
-                  // Add the category to the uniqueCategories array
                   $uniqueCategories[$cat] = true;
                   
-                  // Generate the option element with the category value
                   $options .= '<option value="' . $cat . '">' . $cat . '</option>';
               }
           }
@@ -403,13 +379,12 @@ while ($row = $stmt1->fetch(PDO::FETCH_ASSOC)) {
 }
 
 while ($row = $stmt2->fetch(PDO::FETCH_ASSOC)) {
-$Author_first_name[] = $row['First_Name']; // Add first name to the array
+$Author_first_name[] = $row['First_Name']; 
 $Author_last_name[] = $row['Last_Name'];
 }
 
 
 
-    // Display books for the selected category
    ?>
 
 
@@ -436,7 +411,6 @@ $Author_last_name[] = $row['Last_Name'];
       echo $Author_last_name[$i]. "<br>";
     }
     ?>
-    <!-- Content for the first column -->
   </div>
   <div class="column">
     <h2>Teachers borrowed book in category</h2>
@@ -446,7 +420,6 @@ $Author_last_name[] = $row['Last_Name'];
       echo $Teacher_last_name[$i]. "<br>";
     }
     ?>
-    <!-- Content for the second column -->
   </div>
 </div>
 
@@ -479,7 +452,7 @@ $last_name = array();
 $number_of_loans=array();
 
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-$first_name[] = $row['First_Name']; // Add first name to the array
+$first_name[] = $row['First_Name']; 
 $last_name[] = $row['Last_Name'];
 $number_of_loans[]=$row['Number_of_loans'];
 }
@@ -526,7 +499,7 @@ $last_name = array();
 $number_of_loans=array();
 
 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-$first_name[] = $row['First_Name']; // Add first name to the array
+$first_name[] = $row['First_Name']; 
 $last_name[] = $row['Last_Name'];
 }
 
@@ -595,13 +568,11 @@ echo '<table>
 
         <?php
     } else {
-        // User is not an admin, return a 403 Forbidden error
         http_response_code(403);
         echo "403 Forbidden";
         exit();
     }
 } else {
-    // 'username' session variable is not set, redirect to the login page or handle the situation accordingly
     header("Location: login.php");
     exit();
 }

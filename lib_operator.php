@@ -505,9 +505,11 @@ exit();
     document.getElementById('book-image').value = selectedBook['Image'];
 }
 
-
-
     </script>
+
+
+
+
    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
         <label for="book-select">Choose Book:</label>
         <select id="book-select" name="Book_id" onchange="showBookDetails()">
@@ -554,63 +556,69 @@ exit();
 </div>
 </div>
 
-<div class="show_books">
+
+
+
 <?php
-
-$query = "SELECT b.Title, CONCAT(a.First_Name, ' ', a.Last_Name) AS Author, c.Name AS Category, cpy.Number_of_Available_Copies AS Num_of_Copies
-          FROM Book AS b
-          INNER JOIN Book_Author AS ba ON b.Book_id = ba.Book_id
-          INNER JOIN Author AS a ON ba.Author_id = a.Author_id
-          INNER JOIN Book_Category AS bc ON b.Book_id = bc.Book_id
-          INNER JOIN Category AS c ON bc.Category_id = c.Category_id
-          LEFT JOIN Copies AS cpy ON b.Book_id = cpy.Book_id
-          GROUP BY b.Book_id
-          ORDER BY b.Title";
-
-$stmt = $pdo->prepare($query);
-$stmt->execute();
-
-// Fetch all rows as an associative array
-$books = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+// Fetch available books from the database
+$queryBooks = "SELECT DISTINCT b.Title
+               FROM Book AS b
+               ORDER BY b.Title";
+$stmtBooks = $pdo->prepare($queryBooks);
+$stmtBooks->execute();
+$books = $stmtBooks->fetchAll(PDO::FETCH_COLUMN);
 ?>
 
-<div class="Books">
-  <h2>Books</h2>
+<div class="show_books">
+    <div class="Books">
+        <h2>Books</h2>
 
-  <table id="book-details-table">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Number of Copies</th>
-      </tr>
-    </thead>
-    <tbody>
-      <?php foreach ($books as $book): ?>
-        <tr>
-          <td><?= $book['Title'] ?></td>
-          <td><?= $book['Author'] ?></td>
-          <td><?= $book['Num_of_Copies'] ?></td>
-        </tr>
-      <?php endforeach; ?>
-    </tbody>
-  </table>
+        <form method="GET" action="">
+            <label for="book">Select a Book:</label>
+            <select name="book" id="book">
+                <option value="">Choose a Book</option>
+                <?php foreach ($books as $book): ?>
+                    <option value="<?= $book ?>"><?= $book ?></option>
+                <?php endforeach; ?>
+            </select>
+            <button type="submit">Show Details</button>
+        </form>
+
+        <?php
+        // Check if a book is selected
+        if (!empty($_GET['book'])) {
+            $selectedBook = $_GET['book'];
+
+            // Find the selected book in the database
+            $queryBook = "SELECT b.Title,b.Thematic_Category, CONCAT(a.First_Name, ' ', a.Last_Name) AS Author, cpy.Number_of_Available_Copies AS Num_of_Copies
+                          FROM Book AS b
+                          INNER JOIN Book_Author AS ba ON b.Book_id = ba.Book_id
+                          INNER JOIN Author AS a ON ba.Author_id = a.Author_id
+                          INNER JOIN Book_Category AS bc ON b.Book_id = bc.Book_id
+                          LEFT JOIN Copies AS cpy ON b.Book_id = cpy.Book_id
+                          WHERE b.Title = :title";
+            $stmtBook = $pdo->prepare($queryBook);
+            $stmtBook->bindValue(':title', $selectedBook);
+            $stmtBook->execute();
+            $selectedBookDetails = $stmtBook->fetch(PDO::FETCH_ASSOC);
+
+            if ($selectedBookDetails) {
+                ?>
+                <div class="book-details">
+                    <h3>Book Details</h3>
+                    <p><strong>Title:</strong> <?= $selectedBookDetails['Title'] ?></p>
+                    <p><strong>Author:</strong> <?= $selectedBookDetails['Author'] ?></p>
+                    <p><strong>Category:</strong> <?= $selectedBookDetails['Thematic_Category'] ?></p>
+                    <p><strong>Number of Copies:</strong> <?= $selectedBookDetails['Num_of_Copies'] ?></p>
+                </div>
+                <?php
+            } else {
+                echo "<p>No details found for the selected book.</p>";
+            }
+        }
+        ?>
+    </div>
 </div>
-
-      </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -621,13 +629,13 @@ $books = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <div class="forms-container">
   <?php
- $query = "SELECT u.User_id, u.First_Name, u.Last_Name, GROUP_CONCAT(b.Title SEPARATOR ', ') AS Titles, r.Book_id
+ $query = "SELECT u.User_id, u.First_Name, u.Last_Name,r.date_created, GROUP_CONCAT(b.Title SEPARATOR ', ') AS Titles, r.Book_id
  FROM User AS u
  INNER JOIN Reservation AS r ON u.User_id = r.User_id
  INNER JOIN Book AS b ON r.Book_id = b.Book_id
  LEFT JOIN Loan AS l ON u.User_id = l.User_id AND r.Book_id = l.Book_id
  WHERE u.School_id = :school_id AND l.Loan_id IS NULL
- GROUP BY u.User_id";
+ GROUP BY r.date_created";
 
   $stmt = $pdo->prepare($query);
   $stmt->execute([':school_id' => $schoolId]);
@@ -739,7 +747,7 @@ $selectedLoan = '';
 ?>
 
 <div class="Loans">
-<h2>Loans</h2>
+<h1>Loans</h1>
 
 <select id="loan-select" onchange="showLoanDetails()">
 <option value="" selected disabled>Select Loan by id</option>
@@ -949,6 +957,7 @@ $averages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </div>
 
 <?php
+$averages2=array();
 if (isset($_POST['submit_review'])) {
  
   $selectedCategory = $_POST['category'];

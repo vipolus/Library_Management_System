@@ -36,7 +36,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $reservations = $result['reservations'];
-        if($reservations >= 1 && delayed == 1)
+        if($reservations >= 1)
         {
             $message = "No more reservations!"; // The message you want to display
 
@@ -51,11 +51,11 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
         else
         {
             // Update the User table based on the username and Book_id
-            $sql = "UPDATE User SET reservations = reservations + 1 WHERE Username = :username";
+            /*$sql = "UPDATE User SET reservations = reservations + 1 WHERE Username = :username";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':username', $username);
             $stmt->execute();
-
+*/
             $sql = "UPDATE Book SET times_requested = times_requested + 1 WHERE Book_id = :Book_id";
             $stmt = $pdo->prepare($sql);
             $stmt->bindParam(':Book_id', $Book_id);

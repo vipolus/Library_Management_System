@@ -7,18 +7,12 @@ CREATE TRIGGER `Admin` AFTER INSERT ON `User`
                       
 DELIMITER ;
 
-DELIMITER //
-CREATE TRIGGER `Liiby` AFTER INSERT ON `User`
- FOR EACH ROW IF NEW.Type = 'Library Operator' THEN
-                            INSERT INTO School_Library_Operator (Library_operator_id) VALUES (NEW.User_id);
-                        END IF//
- DELIMITER ;
                        
 DELIMITER //
 
 CREATE TRIGGER `Lib_Op` AFTER INSERT ON `User`
  FOR EACH ROW IF NEW.Type = 'Library Operator' THEN
-                            INSERT INTO School_Library_Operator (School_id) VALUES (NEW.School_id);
+                            INSERT INTO School_Library_Operator (Library_operator_id,School_id) VALUES (NEW.User_id,NEW.School_id);
                         END IF//
                       
 DELIMITER ;

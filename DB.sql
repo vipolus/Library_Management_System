@@ -124,10 +124,6 @@ FOREIGN KEY(User_id) REFERENCES User(User_id),
 
 CREATE TABLE Approve (
   User_id INT NOT NULL,
-  Name VARCHAR(255) NOT NULL,
-  Email VARCHAR(255) NOT NULL,
-  Username VARCHAR(255) NOT NULL,
-  Password VARCHAR(255) NOT NULL,
   last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY(User_id) REFERENCES User(User_id)
 );
@@ -137,6 +133,7 @@ CREATE TABLE Reservation (
   School_id INT NOT NULL,
   User_id INT NOT NULL,
   Book_id INT NOT NULL,
+  Approved INT NOT NULL,
   date_created DATETIME NOT NULL,
   date_expired DATETIME NOT NULL,
   PRIMARY KEY(Reservation_id),
@@ -174,3 +171,52 @@ CREATE TABLE Review (
 );
 
 
+DELIMITER //
+
+CREATE TRIGGER `Admin` AFTER INSERT ON `User`
+FOR EACH ROW
+BEGIN
+    IF NEW.Type = 'Admin' THEN
+        INSERT INTO Admin (User_id) VALUES (NEW.User_id);
+    END IF;
+END//
+
+DELIMITER ;
+
+
+                       
+DELIMITER //
+
+CREATE TRIGGER `Lib_Op` AFTER INSERT ON `User`
+ FOR EACH ROW IF NEW.Type = 'Library Operator' THEN
+                            INSERT INTO School_Library_Operator (Library_operator_id,School_id) VALUES (NEW.User_id,NEW.School_id);
+                        END IF//
+                      
+DELIMITER ;
+
+
+
+DELIMITER //
+ CREATE TRIGGER `User_Reservations` AFTER INSERT ON `Reservation`
+ FOR EACH ROW BEGIN
+    UPDATE User
+    SET reservations = reservations + 1
+    WHERE User_id = NEW.User_id;
+END//
+DELIMITER ;
+
+
+DELIMITER //
+CREATE TRIGGER `Approve_History` AFTER UPDATE ON `User`
+FOR EACH ROW
+BEGIN
+    IF NEW.Approved = '1' THEN
+        INSERT INTO `Approve` (User_id) VALUES (NEW.User_id);
+    END IF;
+END//
+DELIMITER ;
+
+
+INSERT INTO school(School_Name,Address,City,Phone_Number,Email,Full_Name_of_School_Director)VALUES("Admin","Admin","Admin",21314,"Admin@Admin","vipolus");
+INSERT INTO `user` (`School_id`, `Age`, `First_Name`, `Last_Name`, `Email`, `Username`, `Password`, `Type`) VALUES
+(1, 21, 'vipolus', 'vipolus', 'vipolus@vipolus', 'vipolus', '$2y$10$rWfmA5vIznkvAng3bOI0guGltLF2JdABSmKy3qBtuLTl2gVxzCHMq', 'Admin');
