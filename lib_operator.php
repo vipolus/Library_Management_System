@@ -855,6 +855,10 @@ rows[i].style.display = '';
     if (isset($_POST['reject'])) {
       // Code to handle rejection
       echo "Review rejected!";
+      $deleteUserQuery = "DELETE FROM Review WHERE Review_id = :reviewId";
+      $updaterev = $pdo->prepare($sql);
+      $updaterev->bindParam(':reviewId', $reviewId);
+      $updaterev->execute();
       // Additional logic for rejection
     } elseif (isset($_POST['approve'])) {
       // Code to handle approval

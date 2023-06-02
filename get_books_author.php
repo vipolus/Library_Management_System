@@ -2,7 +2,7 @@
 require_once('config.php');
 
 // Get the selected author from the AJAX request
-$authorId = $_GET['author'];
+$authorId = $_GET['Author_id'];
 
 try {
     $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
@@ -20,7 +20,7 @@ try {
     $books = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
     if (!empty($books)) {
-        echo "<h3>Books by the selected author:</h3>";
+        echo "<h10>Books by the selected author:</h10>";
         echo "<ul>";
         // Loop through each book and display as list items
         foreach ($books as $book) {
