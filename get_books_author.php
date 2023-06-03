@@ -6,9 +6,6 @@ $Author_id = $_GET['author'];
 
 try {
     $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Query to fetch books based on the selected author
     $query = "SELECT b.Title
               FROM Book b
               JOIN Book_Author ba ON b.Book_id = ba.Book_id
@@ -26,7 +23,6 @@ try {
         foreach ($books as $book) {
             echo "<option value='" . $book . "'>" . $book . "</option>";
         }
-        //echo "</ul>";
     } else {
         echo "<option value=''>-- No Books Found --</option>";
     }

@@ -50,8 +50,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
     $lib_op = $user['User_id'];
     $user_Id = $_POST["userId"];
     $bookId = $_POST["bookId"];
-    $loanquery = "INSERT INTO Loan (Library_Operator_id, User_id, Book_id, date_borrowed) 
-    VALUES (:Library_Operator_id, :User_id, :Book_id, CURRENT_TIMESTAMP)";
+    $loanquery = "INSERT INTO Loan (Library_Operator_id, User_id, Book_id, date_borrowed, fullfilled) 
+    VALUES (:Library_Operator_id, :User_id, :Book_id, CURRENT_TIMESTAMP, fullfilled)";
 
     
     $stmt = $pdo->prepare($loanquery);
@@ -778,6 +778,8 @@ $selectedLoan = '';
 <td><?= $loan['date_borrowed'] ?></td>
 <td><?= $loan['date_returned'] ?></td>
 <td><?=$loan['days_diff']?></td>
+<td><?=$loan['fullfilled']?></td>
+
 </tr>
 <?php endforeach; ?>
 </tbody>

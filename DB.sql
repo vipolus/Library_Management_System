@@ -150,6 +150,7 @@ CREATE TABLE Loan (
   Book_id INT NOT NULL,
   date_borrowed DATETIME NOT NULL,
   date_returned DATETIME NOT NULL,
+  fullfilled BOOLEAN NOT NULL,
   PRIMARY KEY(Loan_id),
   FOREIGN KEY (User_id) REFERENCES User(User_id),
   FOREIGN KEY (Book_id) REFERENCES Book(Book_id),
