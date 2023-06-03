@@ -857,6 +857,21 @@ $books = $stmtBooks->fetchAll(PDO::FETCH_COLUMN);
 
 
 
+<div class="Loan_Return">
+
+
+
+<!--YLOPOIHSE EDW MESA -->
+
+
+
+
+  </div>
+
+
+
+
+
 <div class="Loan_Book">
 
 <?php
