@@ -66,6 +66,15 @@ DELIMITER ;
 
 
 DELIMITER //
+CREATE TRIGGER `res` AFTER INSERT ON `Loan`
+FOR EACH ROW
+BEGIN  
+    UPDATE User
+    SET reservations = reservations - 1
+    WHERE User_id = NEW.User_id;
+    END//
+DELIMITER ;
+DELIMITER //
 CREATE TRIGGER `Number_of_loans` AFTER INSERT ON `Loan`
 FOR EACH ROW
 BEGIN  
@@ -74,7 +83,6 @@ BEGIN
     WHERE User_id = NEW.User_id;
     END//
 DELIMITER ;
-
 DELIMITER //
 CREATE TRIGGER `copies_incr` AFTER UPDATE ON `Loan`
 FOR EACH ROW
@@ -88,7 +96,6 @@ BEGIN
     END IF;
 END//
 DELIMITER ;
-
 
 DELIMITER //
 
