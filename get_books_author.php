@@ -16,7 +16,7 @@ try {
     $books = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
     if (!empty($books)) {
-        echo "<option value=''>-- Select Book --</option>";
+        echo "<option value=''>-- Books listed --</option>";
 
         foreach ($books as $book) {
             echo "<option value='" . $book . "'>" . $book . "</option>";
