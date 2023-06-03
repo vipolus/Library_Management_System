@@ -1,8 +1,9 @@
 <?php
 require_once('config.php');
-
+session_start();
 $category = $_GET['category'];
-//$username = $_GET['username'];
+$cookie = $_GET['username'];
+$username=$_SESSION['username'];
 
 
 try {
@@ -15,22 +16,24 @@ try {
     $cat_id=$cat_idstmt->fetch(PDO::FETCH_COLUMN);
 
 
-/*
+
 //$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $schoolid = "SELECT School_id FROM User WHERE Username=:username";
 $schoolidstmt = $pdo->prepare($schoolid);
 $schoolidstmt->bindParam(':username', $username);
 $schoolidstmt->execute();
 $sch_id = $schoolidstmt->fetch(PDO::FETCH_COLUMN);
-*/
+
 
 $query = "SELECT DISTINCT Title FROM Book 
             INNER JOIN Book_Category ON Book.Book_id=Book_Category.Book_id
-            WHERE Book_Category.Category_id=:category
+            INNER JOIN Copies ON Copies.Book_id=Book.Book_id
+            WHERE Book_Category.Category_id=:category 
+            AND Copies.School_id=:school_id;
             ";
 
 $stmt = $pdo->prepare($query);
-//$stmt->bindParam(':schoolId', $sch_id);
+$stmt->bindParam(':school_id', $sch_id);
 $stmt->bindParam(':category', $cat_id);
 $stmt->execute();
 $books = $stmt->fetchAll(PDO::FETCH_COLUMN);
@@ -42,8 +45,6 @@ $books = $stmt->fetchAll(PDO::FETCH_COLUMN);
             
         }
     } else {
-        echo "<option value='" . $cat_id . "'>" . $cat_id . "</option>";
-
         echo "<option value=''>-- No Books Found --</option>";
     }
 } catch (PDOException $e) {

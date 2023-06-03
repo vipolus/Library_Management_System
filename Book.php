@@ -5,7 +5,6 @@ session_start();
 
 $username = $_SESSION['username'];
 
-
 if ($username == NULL)
     header('Location: http://localhost/login.php');
 
@@ -54,20 +53,22 @@ try {
         echo "</select>";
 
         echo "
-<script>
-    function loadBooks() {
-        var category = document.getElementById('categorySelect').value;
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById('bookSelect').innerHTML = this.responseText;
-            }
-        };
-        var url = 'get_books_category.php?category=' + encodeURIComponent(category);
-        xhttp.open('GET', url, true);
-        xhttp.send();
-    }
-</script>";
+        <script>
+        function loadBooks() {
+            var category = document.getElementById('categorySelect').value;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById('bookSelect').innerHTML = this.responseText;
+                }
+            };
+            var url = 'get_books_category.php?category=' + encodeURIComponent(category);
+            xhttp.open('GET', url, true);
+            xhttp.send();
+        }
+    
+    </script>
+    ";
 
 
         echo "<select id='bookSelect'></select>";
