@@ -136,11 +136,6 @@ if (isset($_SESSION['username'])) {
               $school_lib_opstmt->execute();
               $school_id = $school_lib_opstmt->fetch(PDO::FETCH_ASSOC);
 
-
-              $lib_oper_query="INSERT INTO school_library_operator(School_id) VALUES(:school_id)";
-              $stmt = $pdo->prepare($lib_oper_query);
-              $stmt->execute([':school_id'=> $school_id['School_id']]);
-             
               
               header('Location: http://localhost/dashboard.php');
               exit();
