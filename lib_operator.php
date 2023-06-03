@@ -855,11 +855,13 @@ $books = $stmtBooks->fetchAll(PDO::FETCH_COLUMN);
 <div class="Loans">
     <h1>Loans</h1>
 
+
+
 <div class="Loan_Book">
 
 <?php
 
-if ($_SERVER["REQUEST_METHOD"] === "POST"){
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])){
   if($_POST["action"]=='Loan_Book')
 {
 
@@ -934,11 +936,6 @@ $users = $querystmt->fetchAll(PDO::FETCH_ASSOC);
 
   <input type="submit" value="Loan_Book">
 </form>
-
-
-
-
-
 
 
   </div>
