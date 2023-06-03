@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Εξυπηρετητής: 127.0.0.1
--- Χρόνος δημιουργίας: 03 Ιουν 2023 στις 23:09:06
+-- Χρόνος δημιουργίας: 04 Ιουν 2023 στις 00:53:51
 -- Έκδοση διακομιστή: 10.4.28-MariaDB
 -- Έκδοση PHP: 8.2.4
 
@@ -113,6 +113,17 @@ CREATE TABLE `author` (
   `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Άδειασμα δεδομένων του πίνακα `author`
+--
+
+INSERT INTO `author` (`Author_id`, `First_Name`, `Last_Name`, `Num_of_books_written`, `last_update`) VALUES
+(1, 'Thanasis', 'Konstantopoulos', 7, '2023-06-03 22:49:34'),
+(2, 'Elenh', 'Adamou', 6, '2023-06-03 22:50:25'),
+(3, 'Pontikhs', 'Pontikakhs', 5, '2023-06-03 22:52:04'),
+(4, 'Molivhs', 'Molivakhs', 4, '2023-06-03 22:51:10'),
+(5, 'Psalidhs', 'Psalidakhs', 3, '2023-06-03 22:45:32');
+
 -- --------------------------------------------------------
 
 --
@@ -136,6 +147,37 @@ CREATE TABLE `book` (
   `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Άδειασμα δεδομένων του πίνακα `book`
+--
+
+INSERT INTO `book` (`Book_id`, `Title`, `Publisher`, `ISBN`, `Number_of_Pages`, `Summary`, `Image`, `Thematic_Category`, `Language`, `Keywords`, `times_taken`, `times_requested`, `reviews`, `last_update`) VALUES
+(1, 'In the Name of the Father', 'Samaria Zanetello', '219751597-7', 467, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.\\n\\nProin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.\\n\\nDuis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Image1.png', 'Action,Horror,Thriller', 'English', 'Police,Crime,Blood', 0, 0, 0, '2023-06-03 22:12:18'),
+(2, 'Paul', 'Hewie Wolstenholme', '981056758-8', 873, 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.\\n\\nNullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.\\n\\nMorbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.', 'Image2.png', 'Romance,Adventure', 'English', 'Love,Happy ending', 0, 0, 0, '2023-06-03 22:14:13'),
+(3, 'Defiance', 'Jonathon Feirn', '460557377-1', 125, 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Image3.png', 'Action,Adventure,Thriller', 'English', 'Fight,Action', 0, 0, 0, '2023-06-03 22:15:35'),
+(4, 'Fraternity Vacation', 'Erinn Cattlow', '909986720-4', 654, 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.', 'Image4.png', 'Comedy', 'English', 'Summer vacation,Relax,Chilling', 0, 0, 0, '2023-06-03 22:16:33'),
+(5, 'Road North (Tie pohjoiseen)', 'Karim Parken', '555586917-7', 124, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\\n\\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.\\n\\nPhasellus in felis. Donec semper sapien a libero. Nam dui.', 'Image5.png', 'Action,War,Adventure', 'English', 'War,Guns,Blood,Field', 0, 0, 0, '2023-06-03 22:17:40'),
+(6, 'Star Kid', 'Reba Siviour', '097299215-4', 169, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\\n\\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Image6.png', 'Crime,Action,Horror', 'English', 'Police,Crime,Blood', 0, 0, 0, '2023-06-03 22:19:49'),
+(7, 'Double Hour, The (La doppia ora)', 'Sophey Vanelli', '354170217-6', 468, 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.\\n\\nCurabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Image7.png', 'Action,Adventure,Drama', 'English', 'Scary,Drama', 0, 0, 0, '2023-06-03 22:20:59'),
+(8, 'Sons of Katie Elder', 'Joannes Soot', '685335171-1', 353, 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.\\n\\nIn congue. Etiam justo. Etiam pretium iaculis justo.', 'Image8.png', 'Horror,Thriller,Adventure', 'English', 'Jumpscare,Scary,Ghosts', 0, 0, 0, '2023-06-03 22:24:17'),
+(9, 'Amateurs, The (Moguls, The)', 'Puff Haisell', '161709515-X', 832, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.\\n\\nIn quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 'Image9.png', 'Action,Adventure', 'English', 'Summer', 0, 0, 0, '2023-06-03 22:24:22'),
+(10, 'Guns, Girls and Gambling', 'Turner McEntagart', '936770568-9', 568, 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.\\n\\nCurabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.\\n\\nInteger tincidunt ante vel ipsum. Praesent blandit lacinia erat. Vestibulum sed magna at nunc commodo placerat.', 'Image10.png', 'Drama,Adventure', 'English', 'Aliens,Guns,Girls,Gambling,Money', 0, 0, 0, '2023-06-03 22:24:59'),
+(11, 'Destination Moon', 'Devan Glazier', '125557762-2', 452, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.\\n\\nAenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.\\n\\nCurabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.', 'Image11.png', 'Fantasy,Action', 'English', 'Aliens,Space,Spacewar', 0, 0, 0, '2023-06-03 22:25:50'),
+(12, 'Bats', 'Jonathon De Marchi', '667686461-4', 145, 'Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.\\n\\nEtiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.\\n\\nPraesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.', 'Image12.png', 'Action,Science Fiction,Fantasy', 'English', 'Zombies,World end', 0, 0, 0, '2023-06-03 22:27:08'),
+(13, 'He Walked by Night', 'Gilemette Mawman', '817681565-9', 745, 'Duis bibendum. Morbi non quam nec dui luctus rutrum. Nulla tellus.\\n\\nIn sagittis dui vel nisl. Duis ac nibh. Fusce lacus purus, aliquet at, feugiat non, pretium quis, lectus.', 'Image13.png', 'Drama,Action,Fantasy,Romance', 'English', 'Love,Suspense', 0, 0, 0, '2023-06-03 22:28:20'),
+(14, 'Tiger of Eschnapur, The (Tiger von Eschnapur, Der)', 'Rich Trayes', '357559471-6', 574, 'In hac habitasse platea dictumst. Morbi vestibulum, velit id pretium iaculis, diam erat fermentum justo, nec condimentum neque sapien placerat ante. Nulla justo.\\n\\nAliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.\\n\\nSed ante. Vivamus tortor. Duis mattis egestas metus.', 'Image14.png', 'Action,Horror,Science Fiction', 'English', 'Scary,Drama,Zombies', 0, 0, 0, '2023-06-03 22:29:24'),
+(15, 'Carcasses', 'Shelby Hazlehurst', '528729739-4', 325, 'Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.\\n\\nMaecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Image15.png', 'Mystery,Action,Adventure,Science Fiction', 'English', 'Aliens,Space,Spaceship,War', 0, 0, 0, '2023-06-03 22:30:24'),
+(16, 'Because I Said So', 'Emmye Cubbit', '326750583-6', 1246, 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.\\n\\nMorbi porttitor lorem id ligula. Suspendisse ornare consequat lectus. In est risus, auctor sed, tristique in, tempus sit amet, sem.\\n\\nFusce consequat. Nulla nisl. Nunc nisl.', 'Image16.png', 'Horror,Thriller', 'English', 'Fight,Scary', 0, 0, 0, '2023-06-03 22:32:45'),
+(17, 'Rembrandt\'s J\'accuse', 'Laney Holleworth', '164725446-9', 1563, 'Nullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.\\n\\nMorbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.\\n\\nFusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.', 'Image17.png', 'Action,Horror,Drama', 'English', 'Zombies,Scary,Blood', 0, 0, 0, '2023-06-03 22:39:18'),
+(18, 'Stars Above', 'Rhett Clementson', '384564005-7', 357, 'Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.', 'Image18.png', 'Fantasy,Action', 'English', 'Beach,Fantasy,Beasts', 0, 0, 0, '2023-06-03 22:41:52'),
+(19, 'Dragon Hunters (Chasseurs de dragons)', 'Jolee Peacop', '51-561-7823', 426, 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Image19.png', 'Mystery,Crime', 'English', 'Police,Crime,Blood', 0, 0, 0, '2023-06-03 22:42:39'),
+(20, 'Lili\'s Apron', 'Brew Raybould', '365153293-3', 743, 'Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.\\n\\nDuis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.\\n\\nMauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 'Romance,Adventure', 'Action,Horror', 'English', 'Love,Happy ending', 0, 0, 0, '2023-06-03 22:53:07'),
+(21, 'Bummer (Bumer)', 'Analise Hughland', '667266128-X', 357, 'Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.\\n\\nPhasellus in felis. Donec semper sapien a libero. Nam dui.\\n\\nProin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.', 'Image21.png', 'War,Crime,Thriller', 'English', 'War,Guns,Blood,Field', 0, 0, 0, '2023-06-03 22:45:32'),
+(22, 'Kissing a Fool', 'Alice Heyworth', '803317346-7', 782, 'Vestibulum quam sapien, varius ut, blandit non, interdum in, ante. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Duis faucibus accumsan odio. Curabitur convallis.\\n\\nDuis consequat dui nec nisi volutpat eleifend. Donec ut dolor. Morbi vel lectus in quam fringilla rhoncus.\\n\\nMauris enim leo, rhoncus sed, vestibulum sit amet, cursus id, turpis. Integer aliquet, massa id lobortis convallis, tortor risus dapibus augue, vel accumsan tellus nisi eu orci. Mauris lacinia sapien quis libero.', 'Image22.png', 'Thriller,Adventure', 'English', 'Scary', 0, 0, 0, '2023-06-03 22:49:34'),
+(23, 'Opportunists, The', 'Joela Fike', '590459221-3', 842, 'Praesent blandit. Nam nulla. Integer pede justo, lacinia eget, tincidunt eget, tempus vel, pede.', 'Image23.png', 'Mystery,Horror', 'English', 'Fight', 0, 0, 0, '2023-06-03 22:50:25'),
+(24, 'Reconstituirea (Reconstruction)', 'Tremayne Hatley', '833107983-3', 742, 'Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.\\n\\nPraesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.\\n\\nCras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.', 'Image24.png', 'War,Crime,Thriller', 'English', 'War,Guns,Blood,Field', 0, 0, 0, '2023-06-03 22:51:10'),
+(25, 'It\'s a Wonderful Afterlife', 'Hewie Wolstenholme', '555326917-7', 425, 'Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.', 'Image25.png', 'Science Fiction,Fantasy,Adventure', 'English', 'Fantasy,Afterlife', 0, 0, 0, '2023-06-03 22:52:04');
+
 -- --------------------------------------------------------
 
 --
@@ -149,10 +191,41 @@ CREATE TABLE `book_author` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Άδειασμα δεδομένων του πίνακα `book_author`
+--
+
+INSERT INTO `book_author` (`Author_id`, `Book_id`, `last_update`) VALUES
+(1, 1, '2023-06-03 22:12:18'),
+(2, 2, '2023-06-03 22:14:13'),
+(3, 3, '2023-06-03 22:15:35'),
+(1, 4, '2023-06-03 22:16:33'),
+(2, 5, '2023-06-03 22:17:40'),
+(4, 6, '2023-06-03 22:19:49'),
+(1, 7, '2023-06-03 22:20:59'),
+(5, 8, '2023-06-03 22:22:20'),
+(2, 9, '2023-06-03 22:23:28'),
+(3, 10, '2023-06-03 22:24:59'),
+(2, 11, '2023-06-03 22:25:50'),
+(3, 12, '2023-06-03 22:27:08'),
+(5, 13, '2023-06-03 22:28:20'),
+(1, 14, '2023-06-03 22:29:24'),
+(4, 15, '2023-06-03 22:30:24'),
+(1, 16, '2023-06-03 22:32:45'),
+(1, 17, '2023-06-03 22:39:18'),
+(3, 18, '2023-06-03 22:41:52'),
+(2, 19, '2023-06-03 22:42:39'),
+(4, 20, '2023-06-03 22:43:21'),
+(5, 21, '2023-06-03 22:45:32'),
+(1, 22, '2023-06-03 22:49:34'),
+(2, 23, '2023-06-03 22:50:25'),
+(4, 24, '2023-06-03 22:51:10'),
+(3, 25, '2023-06-03 22:52:04');
+
+--
 -- Δείκτες `book_author`
 --
 DELIMITER $$
-CREATE TRIGGER `Num_of_Books_Author` AFTER UPDATE ON `book_author` FOR EACH ROW BEGIN
+CREATE TRIGGER `Num_of_Books_Author` AFTER INSERT ON `book_author` FOR EACH ROW BEGIN
 	UPDATE author SET Num_of_books_written=Num_of_books_written+1 WHERE Author_id=NEW.Author_id;
     
    END
@@ -171,6 +244,77 @@ CREATE TABLE `book_category` (
   `Book_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Άδειασμα δεδομένων του πίνακα `book_category`
+--
+
+INSERT INTO `book_category` (`Book_Category_Id`, `Category_id`, `Book_id`) VALUES
+(1, 1, 1),
+(2, 2, 1),
+(3, 3, 1),
+(4, 4, 2),
+(5, 5, 2),
+(6, 1, 3),
+(7, 5, 3),
+(8, 3, 3),
+(9, 6, 4),
+(10, 1, 5),
+(11, 7, 5),
+(12, 5, 5),
+(13, 8, 6),
+(14, 1, 6),
+(15, 2, 6),
+(16, 1, 7),
+(17, 5, 7),
+(18, 9, 7),
+(19, 2, 8),
+(20, 3, 8),
+(21, 5, 8),
+(22, 1, 9),
+(23, 5, 9),
+(24, 9, 10),
+(25, 5, 10),
+(26, 10, 11),
+(27, 1, 11),
+(28, 1, 12),
+(29, 11, 12),
+(30, 10, 12),
+(31, 9, 13),
+(32, 1, 13),
+(33, 10, 13),
+(34, 4, 13),
+(35, 1, 14),
+(36, 2, 14),
+(37, 11, 14),
+(38, 12, 15),
+(39, 1, 15),
+(40, 5, 15),
+(41, 11, 15),
+(42, 2, 16),
+(43, 3, 16),
+(44, 1, 17),
+(45, 2, 17),
+(46, 9, 17),
+(47, 10, 18),
+(48, 1, 18),
+(49, 12, 19),
+(50, 8, 19),
+(51, 1, 20),
+(52, 2, 20),
+(53, 7, 21),
+(54, 8, 21),
+(55, 3, 21),
+(56, 3, 22),
+(57, 5, 22),
+(58, 12, 23),
+(59, 2, 23),
+(60, 7, 24),
+(61, 8, 24),
+(62, 3, 24),
+(63, 11, 25),
+(64, 10, 25),
+(65, 5, 25);
+
 -- --------------------------------------------------------
 
 --
@@ -182,6 +326,24 @@ CREATE TABLE `category` (
   `Name` varchar(255) NOT NULL,
   `last_update` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Άδειασμα δεδομένων του πίνακα `category`
+--
+
+INSERT INTO `category` (`Category_id`, `Name`, `last_update`) VALUES
+(1, 'Action', '0000-00-00 00:00:00'),
+(2, 'Horror', '0000-00-00 00:00:00'),
+(3, 'Thriller', '0000-00-00 00:00:00'),
+(4, 'Romance', '0000-00-00 00:00:00'),
+(5, 'Adventure', '0000-00-00 00:00:00'),
+(6, 'Comedy', '0000-00-00 00:00:00'),
+(7, 'War', '0000-00-00 00:00:00'),
+(8, 'Crime', '0000-00-00 00:00:00'),
+(9, 'Drama', '0000-00-00 00:00:00'),
+(10, 'Fantasy', '0000-00-00 00:00:00'),
+(11, 'Science Fiction', '0000-00-00 00:00:00'),
+(12, 'Mystery', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -196,6 +358,37 @@ CREATE TABLE `copies` (
   `Book_id` int(11) NOT NULL,
   `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Άδειασμα δεδομένων του πίνακα `copies`
+--
+
+INSERT INTO `copies` (`Copies_id`, `Number_of_Available_Copies`, `School_id`, `Book_id`, `last_update`) VALUES
+(1, 13, 2, 1, '2023-06-03 22:12:18'),
+(2, 8, 2, 2, '2023-06-03 22:14:13'),
+(3, 17, 2, 3, '2023-06-03 22:15:35'),
+(4, 11, 2, 4, '2023-06-03 22:16:33'),
+(5, 13, 2, 5, '2023-06-03 22:17:40'),
+(6, 18, 2, 6, '2023-06-03 22:19:49'),
+(7, 5, 2, 7, '2023-06-03 22:20:59'),
+(8, 7, 2, 8, '2023-06-03 22:22:20'),
+(9, 11, 2, 9, '2023-06-03 22:23:29'),
+(10, 14, 2, 10, '2023-06-03 22:24:59'),
+(11, 9, 2, 11, '2023-06-03 22:25:50'),
+(12, 13, 2, 12, '2023-06-03 22:27:08'),
+(13, 8, 2, 13, '2023-06-03 22:28:20'),
+(14, 17, 2, 14, '2023-06-03 22:29:24'),
+(15, 15, 2, 15, '2023-06-03 22:30:24'),
+(16, 14, 2, 16, '2023-06-03 22:32:45'),
+(17, 14, 3, 17, '2023-06-03 22:39:18'),
+(18, 18, 3, 18, '2023-06-03 22:41:52'),
+(19, 19, 3, 19, '2023-06-03 22:42:39'),
+(20, 14, 3, 20, '2023-06-03 22:43:21'),
+(21, 14, 3, 21, '2023-06-03 22:45:32'),
+(22, 14, 3, 22, '2023-06-03 22:49:34'),
+(23, 17, 3, 23, '2023-06-03 22:50:25'),
+(24, 17, 3, 24, '2023-06-03 22:51:10'),
+(25, 13, 3, 25, '2023-06-03 22:52:04');
 
 -- --------------------------------------------------------
 
@@ -569,31 +762,31 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT για πίνακα `author`
 --
 ALTER TABLE `author`
-  MODIFY `Author_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Author_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT για πίνακα `book`
 --
 ALTER TABLE `book`
-  MODIFY `Book_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT για πίνακα `book_category`
 --
 ALTER TABLE `book_category`
-  MODIFY `Book_Category_Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Book_Category_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT για πίνακα `category`
 --
 ALTER TABLE `category`
-  MODIFY `Category_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT για πίνακα `copies`
 --
 ALTER TABLE `copies`
-  MODIFY `Copies_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Copies_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT για πίνακα `loan`

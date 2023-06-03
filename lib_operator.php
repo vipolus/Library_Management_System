@@ -696,11 +696,13 @@ exit();
 
 
 <?php
-// Fetch available books from the database
+
 $queryBooks = "SELECT DISTINCT b.Title
                FROM Book AS b
-               ORDER BY b.Title";
+               INNER JOIN Copies AS c
+               WHERE c.School_id=:school_id AND b.Book_id=c.Book_id";
 $stmtBooks = $pdo->prepare($queryBooks);
+$stmtBooks->bindparam(':school_id',$schoolId);
 $stmtBooks->execute();
 $books = $stmtBooks->fetchAll(PDO::FETCH_COLUMN);
 ?>
@@ -725,16 +727,16 @@ $books = $stmtBooks->fetchAll(PDO::FETCH_COLUMN);
         if (!empty($_GET['book'])) {
             $selectedBook = $_GET['book'];
 
-            // Find the selected book in the database
             $queryBook = "SELECT b.Title,b.Thematic_Category, CONCAT(a.First_Name, ' ', a.Last_Name) AS Author, cpy.Number_of_Available_Copies AS Num_of_Copies
                           FROM Book AS b
                           INNER JOIN Book_Author AS ba ON b.Book_id = ba.Book_id
                           INNER JOIN Author AS a ON ba.Author_id = a.Author_id
                           INNER JOIN Book_Category AS bc ON b.Book_id = bc.Book_id
                           LEFT JOIN Copies AS cpy ON b.Book_id = cpy.Book_id
-                          WHERE b.Title = :title";
+                          WHERE b.Title = :title AND cpy.School_id=:school_id";
             $stmtBook = $pdo->prepare($queryBook);
-            $stmtBook->bindValue(':title', $selectedBook);
+            $stmtBook->bindparam(':title', $selectedBook);
+            $stmtBook->bindparam(':school_id',$schoolId);
             $stmtBook->execute();
             $selectedBookDetails = $stmtBook->fetch(PDO::FETCH_ASSOC);
 
