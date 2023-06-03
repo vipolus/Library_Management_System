@@ -45,9 +45,10 @@ if (isset($_SESSION['username'])) {
             h1 {
               text-align: center;
             }
+            
 
             .admin-panel {
-              max-width: 900px;
+              max-width: 1800px;
               margin: 0 auto;
               padding: 20px;
               border: 1px solid #ccc;
@@ -558,6 +559,125 @@ echo '<table>
         }
     ?>
 </div>
+
+
+
+
+<div class="Loans_of_Operators">
+  <form method="POST">
+    <select id="yearSelect" name="yearSelect" onchange="this.form.submit()">
+      <option value="Select Year">Select Year</option>
+      <option value="2020">2020</option>
+      <option value="2021">2021</option>
+      <option value="2022">2022</option>
+      <option value="2023">2023</option>
+    </select>
+  </form>
+
+  <?php
+  if (isset($_POST['yearSelect'])) {
+    $selectedYear = $_POST['yearSelect'];
+    $startDate = $selectedYear . '-01-01';
+    $endDate = $selectedYear . '-12-31';
+
+    $query = "SELECT Library_Operator_id
+              FROM Loan
+              WHERE date_borrowed >= :startDate AND date_borrowed <= :endDate
+              GROUP BY Library_Operator_id
+              HAVING COUNT(*) > 20
+              ORDER BY COUNT(*) DESC";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':startDate', $startDate);
+    $stmt->bindParam(':endDate', $endDate);
+    $stmt->execute();
+
+
+  } else {
+    echo "Please select a year to display the loans of operators.";
+  }
+
+$query = "SELECT Library_Operator_id
+          FROM Loan
+          WHERE date_borrowed >= :startDate AND date_borrowed <= :endDate
+          GROUP BY Library_Operator_id
+          HAVING COUNT(*) > 20
+          ORDER BY COUNT(*) DESC";
+$stmt = $pdo->prepare($query);
+$stmt->bindParam(':startDate', $startDate);
+$stmt->bindParam(':endDate', $endDate);
+$stmt->execute();
+
+if ($stmt->rowCount() > 0) {
+    echo "Operators with more than 20 loans within the last year:<br><br><br>";
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $operatorId = $row['Library_Operator_id'];
+
+        // Retrieve operator details
+        $operatorQuery = "SELECT *,u.First_Name,u.Last_Name FROM School_Library_Operator
+                          INNER JOIN User u ON u.User_id=:operatorId
+                       WHERE Library_Operator_id = :operatorId";
+        $operatorStmt = $pdo->prepare($operatorQuery);
+        $operatorStmt->bindParam(':operatorId', $operatorId);
+        $operatorStmt->execute();
+
+        if ($operatorStmt->rowCount() > 0) {
+            $operatorRow = $operatorStmt->fetch(PDO::FETCH_ASSOC);
+            $operatorName = $operatorRow['First_Name'];
+            $operatorLName = $operatorRow['Last_Name'];
+ 
+            echo "Operator's Details:<br>First Name: $operatorName<br>Last Name: $operatorLName";
+        }
+    }
+} else {
+    echo "No operators found with more than 20 loans within the last year.";
+}
+?>
+
+      </div>
+
+
+
+
+<div class="Authors_Most_Books">
+<?php
+
+$query = "SELECT a.Author_id, a.First_Name, a.Last_Name, a.Num_of_books_written
+FROM Author a
+WHERE a.Num_of_books_written <= (SELECT MAX(b.Num_of_books_written) - 5 FROM Author b)
+
+";
+
+// Prepare and execute the query
+$stmt = $pdo->prepare($query);
+$stmt->execute();
+
+// Fetch the results
+$authors = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Display the results
+if (!empty($authors)) {
+    echo "<h2>Authors with at least 5 books fewer than the author with the most books:</h2>";
+    echo "<ul>";
+    foreach ($authors as $author) {
+        echo "<li>{$author['First_Name']} {$author['Last_Name']}  {$author['Num_of_books_written']}</li>";
+    }
+    echo "</ul>";
+} else {
+    echo "No authors found.";
+}
+?>
+
+
+
+</div>
+
+
+
+
+
+
+
 
 
 

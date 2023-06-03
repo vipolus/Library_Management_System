@@ -70,6 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
         $updateStmt = $pdo->prepare($updateQuery);
         $updateStmt->bindParam(':userId', $userId);
         $updateStmt->execute();
+        header('Location: http://localhost/lib_operator.php');
     } elseif ($_POST["action"] === "reject") {
         $userId = $_POST["userId"];
 
@@ -84,6 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
         $deleteUserStmt = $pdo->prepare($deleteUserQuery);
         $deleteUserStmt->bindParam(':userId', $userId);
         $deleteUserStmt->execute();
+        header('Location: http://localhost/lib_operator.php');
 
     } elseif ($_POST["action"] === "add_book") {
             // Retrieve the form data
@@ -393,6 +395,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
     foreach ($categories as $category) {
         echo '<option value="' . $category['Category_id'] . '">' . $category['Name'] . '</option>';
     }
+
     ?>
 </select>
 
@@ -557,56 +560,118 @@ exit();
 
 
 <div class="Delete_Deactivate">
-<h2>"Deactivate a user"</h2>
+    <h2>Deactivate a user</h2>
 
-
-</div>
-
-<?php
-
-$currentUsername = $_SESSION['username'];
-$query = "SELECT School_id FROM User WHERE Username = :username";
-$stmt = $pdo->prepare($query);
-$stmt->bindParam(':username', $currentUsername);
-$stmt->execute();
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
-$currentSchoolId = $row['School_id'];
-
-
-$query = "SELECT * FROM User WHERE School_id = :schoolId";
-$stmt = $pdo->prepare($query);
-$stmt->bindParam(':schoolId', $currentSchoolId);
-$stmt->execute();
-
-
-
-if ($stmt->rowCount() > 0) {
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $userId = $row['User_id'];
-        $firstName = $row['First_Name'];
-        $lastName = $row['Last_Name'];
-   
-        echo "<div class='user-item'>";
-        echo "<p>$firstName $lastName</p>";
-        
-       
-        echo "<button class='delete-button' onclick='deleteUser($userId)'>Delete</button>";
-        echo "</div>";
-    }
-} else {
-    echo "No users found for the selected school.";
-}
-
-
-function deleteUser($userId) {
-    global $pdo;
-   
-    $deleteQuery = "DELETE FROM User WHERE User_id = :userId";
-    $stmt = $pdo->prepare($deleteQuery);
-    $stmt->bindParam(':userId', $userId);
+    <?php
+    $currentUsername = $_SESSION['username'];
+    $query = "SELECT School_id FROM User WHERE Username = :username";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':username', $currentUsername);
     $stmt->execute();
-}
-?>
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    $currentSchoolId = $row['School_id'];
+
+    $query = "SELECT * FROM User WHERE School_id = :schoolId AND Approved=1";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':schoolId', $currentSchoolId);
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $userId = $row['User_id'];
+            $firstName = $row['First_Name'];
+            $lastName = $row['Last_Name'];
+
+            echo "<div class='user-item'>";
+            echo "<p>$firstName $lastName</p>";
+
+            echo "<button class='delete-button' onclick='deleteUser($userId)'>Delete</button>";
+            echo "<button class='deactivate-button' onclick='deactivateUser($userId)'>Deactivate</button>";
+
+            echo "</div>";
+        }
+    } else {
+        echo "No users found for the selected school.";
+    }
+
+    if (isset($_POST['userId'])) {
+        $userId = $_POST['userId'];
+
+        if (isset($_POST['action'])) {
+            $action = $_POST['action'];
+
+            if ($action === 'delete') {
+                // Delete the user
+                $deleteQuery = "DELETE FROM User WHERE User_id = :userId";
+                $stmt = $pdo->prepare($deleteQuery);
+                $stmt->bindParam(':userId', $userId);
+                $stmt->execute();
+                header('Location: http://localhost/lib_operator.php');
+
+            } elseif ($action === 'deactivate') {
+                // Deactivate the user
+                $deactivateQuery = "UPDATE User SET Approved = -1 WHERE User_id = :userId";
+                $stmt = $pdo->prepare($deactivateQuery);
+                $stmt->bindParam(':userId', $userId);
+                $stmt->execute();
+                //header('Location: http://localhost/lib_operator.php');
+
+            }
+        }
+
+    }
+    ?>
+
+    <script>
+        function deleteUser(userId) {
+            var confirmation = confirm("Are you sure you want to delete this user?");
+            if (confirmation) {
+                var form = document.createElement('form');
+                form.method = 'post';
+                form.style.display = 'none';
+
+                var userIdField = document.createElement('input');
+                userIdField.type = 'hidden';
+                userIdField.name = 'userId';
+                userIdField.value = userId;
+                form.appendChild(userIdField);
+
+                var actionField = document.createElement('input');
+                actionField.type = 'hidden';
+                actionField.name = 'action';
+                actionField.value = 'delete';
+                form.appendChild(actionField);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+
+        function deactivateUser(userId) {
+            var confirmation = confirm("Are you sure you want to deactivate this user?");
+            if (confirmation) {
+                var form = document.createElement('form');
+                form.method = 'post';
+                form.style.display = 'none';
+
+                var userIdField = document.createElement('input');
+                userIdField.type = 'hidden';
+                userIdField.name = 'userId';
+                userIdField.value = userId;
+                form.appendChild(userIdField);
+
+                var actionField = document.createElement('input');
+                actionField.type = 'hidden';
+                actionField.name = 'action';
+                actionField.value = 'deactivate';
+                form.appendChild(actionField);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    </script>
+</div>
 
 
 

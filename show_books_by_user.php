@@ -19,7 +19,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Prepare and execute the SQL query
-    $stmt = $pdo->prepare("SELECT Book.Title
+    $stmt = $pdo->prepare("SELECT Book.Title,Loan.date_borrowed
                            FROM Loan
                            INNER JOIN User ON Loan.User_id = User.User_id
                            INNER JOIN Book ON Loan.Book_id = Book.Book_id
@@ -27,16 +27,40 @@ try {
     $stmt->bindParam(':username', $username);
     $stmt->execute();
 
-    // Check if any rows are returned
+    ?>
+    <style>
+      table, th, td {
+         border: 1px solid black;
+      }
+   </style>
+    <table>
+        <tr>
+    <th style="padding:10px">Title</th>
+    <th style="padding:10px">Date Borrowed</th>
+</tr>
+<?php
     if ($stmt->rowCount() > 0) {
         // Output the books loaned by the user
         echo "Books loaned by $username:<br>";
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            echo $row["Title"] . "<br>";
+            ?>
+            <tr>
+          <td><?php echo $row['Title']; ?></td>
+          <td><?php echo $row['date_borrowed']; ?></td>
+        </tr>
+        <?php
+
         }
     } else {
-        echo "No books taken by $username.";
+        echo"No books taken by $username.";
     }
+?>
+</table>
+
+
+
+<?php
+
 } catch (PDOException $e) {
     // Handle any errors that occurred during the database operation
     echo "Error: " . $e->getMessage();

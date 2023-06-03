@@ -44,12 +44,8 @@ CREATE TRIGGER `copies_decr` AFTER INSERT ON `Loan`
 FOR EACH ROW
 BEGIN  
     DECLARE schoolId INT;
-    
-    -- Fetch the School_id from the User table based on User_id
-    SELECT School_id INTO schoolId FROM User WHERE User_id = NEW.User_id;
-    
-    -- Decrement the Number_of_Available_Copies in the Copies table
-    UPDATE Copies
+        SELECT School_id INTO schoolId FROM User WHERE User_id = NEW.User_id;
+        UPDATE Copies
     SET Number_of_Available_Copies = Number_of_Available_Copies - 1
     WHERE Book_id = NEW.Book_id AND School_id = schoolId;
 END//
@@ -87,3 +83,13 @@ BEGIN
     END IF;
 END//
 DELIMITER ;
+
+
+DELIMITER //
+
+CREATE TRIGGER `Num_of_Books_Author` AFTER UPDATE ON `book_author`
+ FOR EACH ROW BEGIN
+	UPDATE author SET Num_of_books_written=Num_of_books_written+1 WHERE Author_id=NEW.Author_id;
+    
+   END//
+   DELIMITER;
