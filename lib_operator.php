@@ -200,11 +200,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
     }
 }
 
-           
-
-
-
-
             // Prepare the SQL statement for inserting into the Copies table
             $insertCopiesQuery = "INSERT INTO Copies (Number_of_Available_Copies, School_id, Book_id, last_update)
                               VALUES (?, ?, ?, NOW())";
@@ -212,7 +207,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
         $insertCopiesStmt->execute([$copies, $schoolId, $bookId]);
  
         
-        ('Location: http://localhost/lib_operator.php');
+       header ('Location: http://localhost/lib_operator.php');
 
 }
 
