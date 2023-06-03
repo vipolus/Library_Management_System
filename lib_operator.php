@@ -210,7 +210,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
                               VALUES (?, ?, ?, NOW())";
         $insertCopiesStmt = $pdo->prepare($insertCopiesQuery);
         $insertCopiesStmt->execute([$copies, $schoolId, $bookId]);
-       
+ 
+        
+        ('Location: http://localhost/lib_operator.php');
+
 }
 
 }
@@ -716,7 +719,7 @@ $books = $stmtBooks->fetchAll(PDO::FETCH_COLUMN);
 
 <?php
 
-$query = "SELECT l.Loan_id, u.First_Name, u.Last_Name, b.Title, l.date_borrowed, l.date_returned, DATEDIFF(CURDATE(), l.date_borrowed) AS days_diff
+$query = "SELECT l.Loan_id, u.First_Name, u.Last_Name, b.Title, l.date_borrowed, l.date_returned, l.fullfilled, DATEDIFF(CURDATE(), l.date_borrowed) AS days_diff
           FROM Loan AS l
           INNER JOIN User AS u ON l.User_id = u.User_id
           INNER JOIN Book AS b ON l.Book_id = b.Book_id
@@ -767,6 +770,8 @@ $selectedLoan = '';
 <th>Date Borrowed</th>
 <th>Date Returned</th>
 <th>Days of book return overdue</th>
+<th>Fullfilled</th>
+
 </tr>
 </thead>
 <tbody>
