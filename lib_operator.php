@@ -557,10 +557,56 @@ exit();
 
 
 <div class="Delete_Deactivate">
-<h2>"Test"</h2>
+<h2>"Deactivate a user"</h2>
+
 
 </div>
 
+<?php
+
+$currentUsername = $_SESSION['username'];
+$query = "SELECT School_id FROM User WHERE Username = :username";
+$stmt = $pdo->prepare($query);
+$stmt->bindParam(':username', $currentUsername);
+$stmt->execute();
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
+$currentSchoolId = $row['School_id'];
+
+
+$query = "SELECT * FROM User WHERE School_id = :schoolId";
+$stmt = $pdo->prepare($query);
+$stmt->bindParam(':schoolId', $currentSchoolId);
+$stmt->execute();
+
+
+
+if ($stmt->rowCount() > 0) {
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $userId = $row['User_id'];
+        $firstName = $row['First_Name'];
+        $lastName = $row['Last_Name'];
+   
+        echo "<div class='user-item'>";
+        echo "<p>$firstName $lastName</p>";
+        
+       
+        echo "<button class='delete-button' onclick='deleteUser($userId)'>Delete</button>";
+        echo "</div>";
+    }
+} else {
+    echo "No users found for the selected school.";
+}
+
+
+function deleteUser($userId) {
+    global $pdo;
+   
+    $deleteQuery = "DELETE FROM User WHERE User_id = :userId";
+    $stmt = $pdo->prepare($deleteQuery);
+    $stmt->bindParam(':userId', $userId);
+    $stmt->execute();
+}
+?>
 
 
 
