@@ -5,6 +5,7 @@ session_start();
 
 $username = $_SESSION['username'];
 
+
 if ($username == NULL)
     header('Location: http://localhost/login.php');
 
@@ -36,7 +37,6 @@ try {
     $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Query to fetch all category names
     $query = "SELECT Name FROM Category";
     $stmt = $pdo->prepare($query);
     $stmt->execute();
@@ -47,29 +47,30 @@ try {
         echo "<h2>See which book(s) belong to a certain category and reserve below</h2>";
         echo "<select id='categorySelect' onchange='loadBooks()'>";
         echo "<option value=''>-- Select Category --</option>";
-        // Loop through each category and display as options
+
         foreach ($categories as $category) {
             echo "<option value='" . $category . "'>" . $category . "</option>";
         }
         echo "</select>";
 
-        // JavaScript code to load books based on the selected category
         echo "
-        <script>
-            function loadBooks() {
-                var category = document.getElementById('categorySelect').value;
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById('bookSelect').innerHTML = this.responseText;
-                    }
-                };
-                xhttp.open('GET', 'get_books_category.php?category=' + encodeURIComponent(category), true);
-                xhttp.send();
+<script>
+    function loadBooks() {
+        var category = document.getElementById('categorySelect').value;
+        var username = '<?php echo addslashes($username); ?>'; 
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById('bookSelect').innerHTML = this.responseText;
             }
-        </script>";
+        };
+        var url = 'get_books_category.php?category=' + encodeURIComponent(category) + '&username=' + encodeURIComponent(username);
+        xhttp.open('GET', url, true);
+        xhttp.send();
+    }
+</script>";
 
-        // Placeholder for the book options
+
         echo "<select id='bookSelect'></select>";
         
     } else {
@@ -97,13 +98,11 @@ try {
         echo "<h2>See which book(s) belong to a certain author and reserve below</h2>";
         echo "<select id='authorSelect' onchange='loadtheBooks()'>";
         echo "<option value=''>-- Select Author --</option>";
-        // Loop through each author and display as options
         foreach ($authors as $author) {
             echo "<option value='" . $author['Author_id'] . "'>" . $author['FullName'] . "</option>";
         }
         echo "</select>";
 
-        // JavaScript code to load books based on the selected author
         echo "
         <script>
             function loadtheBooks() {
@@ -111,7 +110,7 @@ try {
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById('bookSelect').innerHTML = this.responseText;
+                        document.getElementById('bookSelectAuthor').innerHTML = this.responseText;
                     }
                 };
                 xhttp.open('GET', 'get_books_author.php?author=' + encodeURIComponent(author), true);
@@ -120,7 +119,7 @@ try {
         </script>";
 
         // Placeholder for the book options
-        echo "<select id='bookSelect'></select>";
+        echo "<select id='bookSelectAuthor'></select>";
         
     } else {
         echo "No authors found.";

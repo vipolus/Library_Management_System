@@ -1,7 +1,6 @@
 <?php
 require_once('config.php');
 
-// Get the selected author from the AJAX request
 $Author_id = $_GET['author'];
 
 try {
@@ -19,7 +18,6 @@ try {
     if (!empty($books)) {
         echo "<option value=''>-- Select Book --</option>";
 
-        // Loop through each book and display as list items
         foreach ($books as $book) {
             echo "<option value='" . $book . "'>" . $book . "</option>";
         }
@@ -30,6 +28,5 @@ try {
     echo "<p>Error: " . $e->getMessage() . "</p>";
 }
 
-// Close the database connection
 $pdo = null;
 ?>
