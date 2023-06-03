@@ -526,19 +526,21 @@ echo '<table>
    <div class="Combined_categories">
     <h2>Most Combined Categories</h2>
     <?php
-        $mult_cat = "SELECT c1.Name AS Category1, c2.Name AS Category2, COUNT(*) AS Frequency
-                     FROM (
-                         SELECT DISTINCT bc1.Category_id AS Category1, bc2.Category_id AS Category2
-                         FROM Book_Category AS bc1
-                         JOIN Book_Category AS bc2 ON bc1.Book_id = bc2.Book_id
-                         JOIN Loan AS l ON l.Book_id = bc1.Book_id OR l.Book_id = bc2.Book_id
-                         WHERE bc1.Category_id <> bc2.Category_id
-                     ) AS pairs
-                     JOIN Category AS c1 ON c1.Category_id = pairs.Category1
-                     JOIN Category AS c2 ON c2.Category_id = pairs.Category2
-                     GROUP BY Category1, Category2
-                     ORDER BY Frequency DESC
-                     LIMIT 3";
+        $mult_cat = "
+        SELECT c1.Name AS Category1, c2.Name AS Category2, COUNT(*) AS Frequency
+        FROM (
+            SELECT LEAST(bc1.Category_id, bc2.Category_id) AS Category1, GREATEST(bc1.Category_id, bc2.Category_id) AS Category2
+            FROM Book_Category AS bc1
+            JOIN Book_Category AS bc2 ON bc1.Book_id = bc2.Book_id
+            JOIN Loan AS l ON l.Book_id = bc1.Book_id OR l.Book_id = bc2.Book_id
+            WHERE bc1.Category_id < bc2.Category_id
+        ) AS pairs
+        JOIN Category AS c1 ON c1.Category_id = pairs.Category1
+        JOIN Category AS c2 ON c2.Category_id = pairs.Category2
+        GROUP BY Category1, Category2
+        ORDER BY Frequency DESC
+        LIMIT 3";
+        
 
         $mult_catstmt = $pdo->prepare($mult_cat);
         $mult_catstmt->execute();

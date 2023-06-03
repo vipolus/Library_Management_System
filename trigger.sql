@@ -20,7 +20,7 @@ DELIMITER ;
 
 
 DELIMITER //
- CREATE TRIGGER `User_Reservations` AFTER INSERT ON `Reservation`
+ CREATE TRIGGER `User_Reservations_increase` AFTER INSERT ON `Reservation`
  FOR EACH ROW BEGIN
     UPDATE User
     SET reservations = reservations + 1
@@ -51,6 +51,7 @@ BEGIN
 END//
 DELIMITER ;
 
+
 DELIMITER //
 CREATE TRIGGER `books_taken_temp` AFTER INSERT ON `Loan`
 FOR EACH ROW
@@ -60,6 +61,10 @@ BEGIN
     WHERE User_id = NEW.User_id;
     END//
 DELIMITER ;
+
+
+
+
 DELIMITER //
 CREATE TRIGGER `Number_of_loans` AFTER INSERT ON `Loan`
 FOR EACH ROW

@@ -106,7 +106,6 @@ CREATE TABLE User (
   last_update TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   Number_of_loans INT NOT NULL,
   reservations INT NOT NULL,
-  books_taken_total INT NOT NULL,
   Delayed_Book BOOLEAN NOT NULL,
   Approved BOOLEAN NOT NULL,
   books_taken_temp INT NOT NULL,

@@ -397,6 +397,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
     }
 
     ?>
+
+
 </select>
 
     <br>
@@ -614,7 +616,7 @@ exit();
                 $stmt = $pdo->prepare($deactivateQuery);
                 $stmt->bindParam(':userId', $userId);
                 $stmt->execute();
-                //header('Location: http://localhost/lib_operator.php');
+                
 
             }
         }
@@ -848,7 +850,109 @@ $books = $stmtBooks->fetchAll(PDO::FETCH_COLUMN);
 
 
 
+
+
+<div class="Loans">
+    <h1>Loans</h1>
+
+<div class="Loan_Book">
+
 <?php
+
+if ($_SERVER["REQUEST_METHOD"] === "POST"){
+  if($_POST["action"]=='Loan_Book')
+{
+
+    $query = "SELECT Library_Operator_id FROM School_Library_Operator WHERE School_id = :schoolid";
+    $userStmt = $pdo->prepare($query);
+    $userStmt->bindParam(':schoolid', $schoolId);
+    $userStmt->execute();
+    $user = $userStmt->fetch(PDO::FETCH_ASSOC);
+
+
+  $selectedUser = $_POST['selected-user'];
+  $selectedBook = $_POST['selected-book'];
+
+  $query="INSERT INTO Loan(Library_Operator_id,User_id,Book_id,date_borrowed) VALUES(:libo,:user,:book,CURRENT_TIMESTAMP)";
+  $querystmt=$pdo->prepare($query);
+  $querystmt->bindparam(':libo',$user['Library_Operator_id']);
+  $querystmt->bindparam(':user',$selectedUser);
+  $querystmt->bindparam(':book',$selectedBook);
+  $querystmt->execute();
+  
+    
+}
+
+}
+
+
+
+$query = "SELECT Username, User_id, Type, books_taken_temp 
+FROM User 
+WHERE School_id = :schoolid 
+  AND NOT (Type = 'Teacher' AND books_taken_temp = 1)
+  AND NOT (Type = 'Student' AND books_taken_temp = 2)";
+$querystmt = $pdo->prepare($query);
+$querystmt->bindparam(':schoolid', $schoolId);
+$querystmt->execute();
+$users = $querystmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+
+
+    $query = "SELECT Book.Title, Book.Book_id
+          FROM Book
+          INNER JOIN Copies ON Copies.Book_id = Book.Book_id
+          WHERE Copies.School_id = :schoolid AND Copies.Number_of_Available_Copies > 0";
+    $querystmt = $pdo->prepare($query);
+    $querystmt->bindparam(':schoolid', $schoolId);
+    $querystmt->execute();
+    $booksloan = $querystmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+?>
+
+
+
+<form method="POST" action="lib_operator.php">
+<input type="hidden" name="action" value="Loan_Book">
+  <label for="user-select">Select User:</label>
+  <select id="user-select" name="selected-user">
+  
+    <?php foreach ($users as $user): ?>
+      <option value="<?= $user['User_id'] ?>"><?= $user['Username'] ?></option>
+    <?php endforeach; ?>
+  </select>
+
+  <label for="book-select">Select Book:</label>
+  <select id="book-select" name="selected-book">
+   
+    <?php foreach ($booksloan as $book): ?>
+      <option value="<?= $book['Book_id'] ?>"><?= $book['Title'] ?></option>
+    <?php endforeach; ?>
+  </select>
+
+  <input type="submit" value="Loan_Book">
+</form>
+
+
+
+
+
+
+
+  </div>
+
+
+
+
+
+
+    <div class="Delayed_Loans">
+
+
+
+    <?php
 
 $query = "SELECT l.Loan_id, u.First_Name, u.Last_Name, b.Title, l.date_borrowed, l.date_returned, l.fullfilled, DATEDIFF(CURDATE(), l.date_borrowed) AS days_diff
           FROM Loan AS l
@@ -866,96 +970,154 @@ $loans = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // Set default selected loan
 $selectedLoan = '';
 
+?>
+        <h2>Delayed Loans</h2>
+
+        <button id="toggle-delayed-loans" onclick="toggleDelayedLoans()">Show Delayed</button>
+
+        <table id="delayed-loan-details-table" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Loan ID</th>
+                    <th>User</th>
+                    <th>Book Title</th>
+                    <th>Date Borrowed</th>
+                    <th>Date Returned</th>
+                    <th>Days of Book Return Overdue</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($loans as $loan): ?>
+
+                    <td><?= $loan['Loan_id'] ?></td>
+                    <td><?= $loan['First_Name'] . ' ' . $loan['Last_Name'] ?></td>
+                    <td><?= $loan['Title'] ?></td>
+                    <td><?= $loan['date_borrowed'] ?></td>
+                    <td><?= $loan['date_returned'] ?></td>
+                    <td><?= $loan['days_diff'] ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    var showDelayedLoans = true; 
+    window.onload = function() {
+        toggleDelayedLoans(); 
+    };
+
+    function toggleDelayedLoans() {
+        var toggleButton = document.getElementById('toggle-delayed-loans');
+        var loanTable = document.getElementById('delayed-loan-details-table');
+
+        showDelayedLoans = !showDelayedLoans; 
+
+        if (showDelayedLoans) {
+            loanTable.style.display = ''; 
+            toggleButton.textContent = 'Hide Delayed Loans'; 
+        } else {
+            loanTable.style.display = 'none'; 
+            toggleButton.textContent = 'Show Delayed Loans';
+        }
+    }
+</script>
 
 
+
+
+
+
+
+
+
+<div class="Total_Loans">
+<h2>Total Loans</h2>
+
+<?php
+
+$query = "SELECT l.Loan_id, u.First_Name, u.Last_Name, b.Title, l.date_borrowed, l.fullfilled
+          FROM Loan AS l
+          INNER JOIN User AS u ON l.User_id = u.User_id
+          INNER JOIN Book AS b ON l.Book_id = b.Book_id
+          WHERE u.School_id = :school_id AND l.fullfilled=0 AND l.Library_Operator_id=:userid
+          AND DATEDIFF(CURDATE(), l.date_borrowed) < 7";
 
 $stmt = $pdo->prepare($query);
-$stmt->execute([':school_id' => $schoolId]);
+$stmt->bindparam(':school_id',$schoolId);
+$stmt->bindparam(':userid',$user['User_id']);
+$stmt->execute();
 
-// Fetch all rows as an associative array
 $loans = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-// Set default selected loan
 $selectedLoan = '';
 
 ?>
 
-<div class="Loans">
-<h1>Loans</h1>
 
-<select id="loan-select" onchange="showLoanDetails()">
-<option value="" selected disabled>Select Loan by id</option>
-<option value="all" <?= ($selectedLoan === 'all') ? 'selected' : '' ?>>All</option>
-<?php foreach ($loans as $loan): ?>
-<?php $loanId = $loan['Loan_id']; ?>
-<option value="<?= $loanId ?>" <?= ($loanId === $selectedLoan) ? 'selected' : '' ?>><?= $loanId ?></option>
-<?php endforeach; ?>
-</select>
 
-<table id="loan-details-table">
+
+<button id="Total-loans_button" onclick="toggleTotalLoans()">Toggle Display</button>
+
+<table id="Total-loans" style="display: none;">
 <thead>
 <tr>
 <th>Loan ID</th>
 <th>User</th>
 <th>Book Title</th>
 <th>Date Borrowed</th>
-<th>Date Returned</th>
-<th>Days of book return overdue</th>
 <th>Fullfilled</th>
-
 </tr>
 </thead>
 <tbody>
 <?php foreach ($loans as $loan): ?>
-<tr <?= ($loan['Loan_id'] !== $selectedLoan && $selectedLoan !== 'all') ? 'style="display: none;"' : '' ?>>
+<tr>
 <td><?= $loan['Loan_id'] ?></td>
 <td><?= $loan['First_Name'] . ' ' . $loan['Last_Name'] ?></td>
 <td><?= $loan['Title'] ?></td>
 <td><?= $loan['date_borrowed'] ?></td>
-<td><?= $loan['date_returned'] ?></td>
-<td><?=$loan['days_diff']?></td>
-<td><?=$loan['fullfilled']?></td>
-
+<td>
+<?php
+if ($loan['fullfilled'] == 0) {
+    echo 'No';
+} elseif ($loan['fullfilled'] == 1) {
+    echo 'Yes';
+} elseif ($loan['fullfilled'] == -1) {
+    echo 'Delayed';
+}
+?>
+</td>
 </tr>
 <?php endforeach; ?>
 </tbody>
 </table>
-</div>
 
 
 <script>
-var selectedLoan = ''; // Initialize with default value
+
+var showTotalLoans = true; 
 
 window.onload = function() {
-showLoanDetails(); // Trigger function on page load
+  toggleTotalLoans(); 
 };
 
-function showLoanDetails() {
-var loanSelect = document.getElementById('loan-select');
-selectedLoan = loanSelect.value; // Update selectedLoan value
 
-var loanDetailsTable = document.getElementById('loan-details-table');
-var rows = loanDetailsTable.getElementsByTagName('tr');
+function toggleTotalLoans() {
+  var table = document.getElementById('Total-loans');
+  var button = document.getElementById('Total-loans_button');
 
-// Show all rows if "All" is selected
-if (selectedLoan === 'all') {
-for (var i = 0; i < rows.length; i++) {
-rows[i].style.display = '';
-}
-} else {
-for (var i = 0; i < rows.length; i++) {
-if (loanSelect.value-1 != i) {
-rows[i].style.display = 'none';
-} else {
-  
-rows[0].style.display = '';
-rows[i].style.display = '';
-}
-}
-}
+  showTotalLoans = !showTotalLoans;
+
+  if (showTotalLoans) {
+    table.style.display = '';
+    button.textContent = 'Hide Loans';
+  } else {
+    table.style.display = 'none';
+    button.textContent = 'Show Loans';
+  }
 }
 </script>
-
+</div>
 
 
 
@@ -985,7 +1147,8 @@ rows[i].style.display = '';
     $bookName = $row['Title'];
     $username = $row['Username'];
     $reviewId=$row['Review_id'];
-    // Display the review details
+
+    
     echo "<h2>Review Details</h2>";
     echo "<p>Review: $review</p>";
     echo "<p>Rating: $rating</p>";
@@ -999,15 +1162,15 @@ rows[i].style.display = '';
     echo "</form>";
 
     if (isset($_POST['reject'])) {
-      // Code to handle rejection
+    
       echo "Review rejected!";
       $deleteUserQuery = "DELETE FROM Review WHERE Review_id = :reviewId";
       $updaterev = $pdo->prepare($sql);
       $updaterev->bindParam(':reviewId', $reviewId);
       $updaterev->execute();
-      // Additional logic for rejection
+      
     } elseif (isset($_POST['approve'])) {
-      // Code to handle approval
+     
       $sql = "UPDATE Review SET Approved = 1 WHERE Review_id = :reviewId";
       $updaterev = $pdo->prepare($sql);
       $updaterev->bindParam(':reviewId', $reviewId);
@@ -1016,10 +1179,10 @@ rows[i].style.display = '';
       
     }
 
-    echo "<hr>"; // Add a horizontal line between reviews
+    echo "<hr>"; 
   }
   ?>
-</div><!--Reviews-->
+</div>
 
 
 
@@ -1027,14 +1190,14 @@ rows[i].style.display = '';
 
 <?php
 
-// Retrieve users of the current school
+
 $userQuery = "SELECT User_id, First_Name, Last_Name FROM User WHERE School_id = :school_id";
 $userStmt = $pdo->prepare($userQuery);
 $userStmt->bindParam(':school_id', $schoolId);
 $userStmt->execute();
 $users = $userStmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Retrieve all categories
+
 $categoryQuery = "SELECT Category_id, Name FROM Category";
 $categoryStmt = $pdo->prepare($categoryQuery);
 $categoryStmt->execute();
@@ -1045,7 +1208,7 @@ $categories = $categoryStmt->fetchAll(PDO::FETCH_ASSOC);
 <div class="SearchForm">
 
     <?php
-    // Retrieve average ratings per borrower and category
+    
 $query = "SELECT u.First_Name, u.Last_Name, c.Name AS Category, AVG(r.Rating) AS Average_Rating
           FROM Review AS r
           INNER JOIN User AS u ON r.User_id = u.User_id
@@ -1059,7 +1222,7 @@ $stmt = $pdo->prepare($query);
 $stmt->bindParam(':user_id', $user['User_id']);
 $stmt->execute();
 
-// Fetch all rows as an associative array
+
 $averages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
@@ -1112,7 +1275,6 @@ $stmt = $pdo->prepare($query);
 $stmt->bindParam(':category', $selectedCategory);
 $stmt->execute();
 
-// Fetch all rows as an associative array
 $averages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
@@ -1123,7 +1285,7 @@ $query2 = "SELECT u.First_Name, u.Last_Name , AVG(r.Rating) AS Average_Rating
           FROM Review AS r
           INNER JOIN User AS u ON r.User_id = u.User_id
           WHERE r.User_id = :userid";
-          //GROUP BY u.User_id";
+       
 
 $stmt2 = $pdo->prepare($query2);
 $stmt2->bindParam(':userid', $selectedUserId);
@@ -1173,12 +1335,12 @@ $averages2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
       </tr>
     </thead>
     <tbody>
-      <!--<?php foreach ($averages as $average): ?>-->
+      <?php foreach ($averages as $average): ?>
         <tr>
           <td><?= $average['Category'] ?></td>
           <td><?= $average['Average_Rating'] ?></td>
         </tr>
-      <!--<?php endforeach; ?>-->
+      <?php endforeach; ?>
     </tbody>
   </table>
 </div>

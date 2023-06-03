@@ -17,7 +17,6 @@ $password_repeat=$_POST['password-repeat'];
 $school=$_POST['nameSelect'];
 $role=$_POST['role'];
 $Number_of_loans=0;
-$books_taken_total=0;
 $Delayed_Book=0;
 $Approved=FALSE;
 $books_taken_temp=0;
@@ -55,9 +54,9 @@ $stmt->bind_result($schoolId);
 $stmt->fetch();
 $stmt->close();
 
-if ($stmt = $con->prepare('INSERT INTO user (Username, School_id, Password, Email, Age, First_Name, Last_Name, Type, Borrow_Limit, Number_of_loans, books_taken_total, Delayed_Book, Approved, books_taken_temp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')) {
+if ($stmt = $con->prepare('INSERT INTO user (Username, School_id, Password, Email, Age, First_Name, Last_Name, Type, Borrow_Limit, Number_of_loans,  Delayed_Book, Approved, books_taken_temp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')) {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $stmt->bind_param('sississsiiiibi', $username, $schoolId, $password, $email, $age, $first_name, $last_name, $role, $Borrow_limit, $Number_of_loans, $books_taken_total, $Delayed_Book, $Approved, $books_taken_temp);
+    $stmt->bind_param('sississsiiibi', $username, $schoolId, $password, $email, $age, $first_name, $last_name, $role, $Borrow_limit, $Number_of_loans,  $Delayed_Book, $Approved, $books_taken_temp);
     $stmt->execute();
     echo 'You have successfully registered! You can now login!';
     header("Location: http://localhost/index.php");
