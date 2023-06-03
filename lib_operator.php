@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
     $user_Id = $_POST["userId"];
     $bookId = $_POST["bookId"];
     $loanquery = "INSERT INTO Loan (Library_Operator_id, User_id, Book_id, date_borrowed, fullfilled) 
-    VALUES (:Library_Operator_id, :User_id, :Book_id, CURRENT_TIMESTAMP, fullfilled)";
+    VALUES (:Library_Operator_id, :User_id, :Book_id, CURRENT_TIMESTAMP, 0)";
 
     
     $stmt = $pdo->prepare($loanquery);
