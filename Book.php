@@ -210,7 +210,37 @@ $pdo = null;
         #reviews-list li {
             margin-bottom: 10px;
         }
+
+        .List_Reserv{
+
+display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
     </style>
+
+
+
+
+
+
+<div class="List_Reserv">
+
+<h2>Your reservations</h2>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+
 
 
 
@@ -451,5 +481,10 @@ $pdo = null;
         var reviewForm = document.querySelector('#book-details form[action="Book.php"]');
         reviewForm.addEventListener('submit', submitReview);
     </script>
+
+
+
+
+
 </body>
 </html>
