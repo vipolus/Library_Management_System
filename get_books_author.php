@@ -2,7 +2,7 @@
 require_once('config.php');
 
 // Get the selected author from the AJAX request
-$authorId = $_GET['Author_id'];
+$Author_id = $_GET['author'];
 
 try {
     $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
@@ -12,23 +12,23 @@ try {
     $query = "SELECT b.Title
               FROM Book b
               JOIN Book_Author ba ON b.Book_id = ba.Book_id
-              WHERE ba.Author_id = :authorId";
+              WHERE ba.Author_id = :Author_id";
     $stmt = $pdo->prepare($query);
-    $stmt->bindParam(':authorId', $authorId);
+    $stmt->bindParam(':Author_id', $Author_id);
     $stmt->execute();
 
     $books = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
     if (!empty($books)) {
-        echo "<h10>Books by the selected author:</h10>";
-        echo "<ul>";
+        echo "<option value=''>-- Select Book --</option>";
+
         // Loop through each book and display as list items
         foreach ($books as $book) {
-            echo "<li>" . $book . "</li>";
+            echo "<option value='" . $book . "'>" . $book . "</option>";
         }
-        echo "</ul>";
+        //echo "</ul>";
     } else {
-        echo "<p>No books found for the selected author.</p>";
+        echo "<option value=''>-- No Books Found --</option>";
     }
 } catch (PDOException $e) {
     echo "<p>Error: " . $e->getMessage() . "</p>";

@@ -95,7 +95,7 @@ try {
 
     if (!empty($authors)) {
         echo "<h2>See which book(s) belong to a certain author and reserve below</h2>";
-        echo "<select id='authorSelect' onchange='loadBooks()'>";
+        echo "<select id='authorSelect' onchange='loadtheBooks()'>";
         echo "<option value=''>-- Select Author --</option>";
         // Loop through each author and display as options
         foreach ($authors as $author) {
