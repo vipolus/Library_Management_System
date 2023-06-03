@@ -211,36 +211,9 @@ $pdo = null;
             margin-bottom: 10px;
         }
 
-        .List_Reserv{
-
-display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+   
 
     </style>
-
-
-
-
-
-
-<div class="List_Reserv">
-
-<h2>Your reservations</h2>
-
-
-
-
-    </div>
-
-
-
-
-
-
-
-
 
 
 

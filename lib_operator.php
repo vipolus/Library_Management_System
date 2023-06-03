@@ -345,6 +345,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
     .Loans {
       margin-left: 300px;
     }
+
 </style>
 
   </div>
@@ -552,6 +553,30 @@ exit();
     </form>
 
 </div>
+
+
+
+<div class="Delete_Deactivate">
+<h2>"Test"</h2>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
 
 
