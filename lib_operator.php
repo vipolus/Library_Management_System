@@ -38,8 +38,8 @@ if (!isset($_SESSION['username'])) {
 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
+  
   if ($_POST["action"] === "res_approve") {
-    
     $lib_op = $user['User_id'];
     $user_Id = $_POST["userId"];
     $bookId = $_POST["bookId"];
@@ -63,7 +63,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
         $updateStmt->bindParam(':userId', $userId);
         $updateStmt->execute();
         header('Location: http://localhost/lib_operator.php');
-    } elseif ($_POST["action"] === "reject") {
+    } 
+    elseif ($_POST["action"] === "reject") {
         $userId = $_POST["userId"];
 
         $deleteLoanQuery = "DELETE FROM loan WHERE User_id = :userId";
@@ -77,7 +78,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
         $deleteUserStmt->execute();
         header('Location: http://localhost/lib_operator.php');
 
-    } elseif ($_POST["action"] === "add_book") {
+    } 
+    
+    elseif ($_POST["action"] === "res_reject") {
+      $userId = $_POST["userId"];
+      $bookId = $_POST["bookId"];
+      $deleteresQuery = "DELETE FROM Reservation WHERE User_id = :userId AND Book_id=:bookid";
+      $deleteresStmt = $pdo->prepare($deleteresQuery);
+      $deleteresStmt->bindParam(':userId', $userId);
+      $deleteresStmt->bindParam(':bookid', $bookId);
+      $deleteresStmt->execute();
+
+      header('Location: http://localhost/lib_operator.php');
+
+  }
+    
+    elseif ($_POST["action"] === "add_book") {
             $title = $_POST["title"];
             $publisher = $_POST["publisher"];
             $author=$_POST["author"];

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 04, 2023 at 07:00 PM
+-- Generation Time: Jun 04, 2023 at 08:48 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -41,7 +41,6 @@ INSERT INTO `admin` (`Admin_id`, `User_id`, `last_update`) VALUES
 (1, 1, '2023-06-03 20:10:51');
 
 -- --------------------------------------------------------
-
 
 --
 -- Table structure for table `author`
@@ -1051,8 +1050,6 @@ INSERT INTO `reservation` (`Reservation_id`, `School_id`, `User_id`, `Book_id`, 
 (45, 3, 23, 84, 0, '2023-06-04 15:12:27', '2023-06-11 15:12:27', '2023-06-04 12:12:27'),
 (46, 3, 24, 81, 1, '2023-06-04 15:12:50', '2023-06-11 15:12:50', '2023-06-04 12:29:10'),
 (47, 3, 24, 76, 0, '2023-06-04 15:12:57', '2023-06-11 15:12:57', '2023-06-04 12:12:57'),
-(48, 2, 14, 8, 0, '2023-06-04 15:13:20', '2023-06-11 15:13:20', '2023-06-04 12:13:20'),
-(49, 2, 14, 7, 0, '2023-06-04 15:13:24', '2023-06-11 15:13:24', '2023-06-04 12:13:24'),
 (50, 2, 13, 90, 0, '2023-06-04 15:13:46', '2023-06-11 15:13:46', '2023-06-04 12:13:46'),
 (51, 2, 13, 15, 0, '2023-06-04 15:13:52', '2023-06-11 15:13:52', '2023-06-04 12:13:52'),
 (52, 2, 12, 11, 0, '2023-06-04 15:14:13', '2023-06-11 15:14:13', '2023-06-04 12:14:13'),
@@ -1260,17 +1257,7 @@ INSERT INTO `user` (`User_id`, `School_id`, `Age`, `First_Name`, `Last_Name`, `E
 (44, 1, -7, 'w', 'w', 'w', 'w', '$2y$10$sIqjbQcfXYxIPYhNa7nMv.KKGkGEEsrrwowDjgPgclpT8RGby1Pgy', 'Admin', 1, '2023-06-04 05:19:03', 0, 0, 0, -1, 0),
 (45, 2, -7, 'q', 'q', 'q', 'q', '$2y$10$gJ7OJjkaLYSidmCbGJ3Boe5AlXXZPoK8bYr82VCRnUlXjZFNmKMvG', 'Student', 2, '2023-06-04 07:01:04', 3, -1, 0, 1, 3);
 
---
--- Triggers `user`
---
-DELIMITER $$
-CREATE TRIGGER `Approve_History` AFTER UPDATE ON `user` FOR EACH ROW BEGIN
-    IF NEW.Approved = '1' THEN
-        INSERT INTO `Approve` (User_id) VALUES (NEW.User_id);
-    END IF;
-END
-$$
-DELIMITER ;
+
 DELIMITER $$
 CREATE TRIGGER `Lib_Op` AFTER INSERT ON `user` FOR EACH ROW IF NEW.Type = 'Library Operator' THEN
                             INSERT INTO School_Library_Operator (Library_operator_id,School_id) VALUES (NEW.User_id,NEW.School_id);
@@ -1288,7 +1275,6 @@ DELIMITER ;
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`Admin_id`),
   ADD KEY `User_id` (`User_id`);
-
 
 --
 -- Indexes for table `author`
@@ -1430,7 +1416,7 @@ ALTER TABLE `copies`
 -- AUTO_INCREMENT for table `loan`
 --
 ALTER TABLE `loan`
-  MODIFY `Loan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `Loan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `reservation`
@@ -1471,7 +1457,6 @@ ALTER TABLE `user`
 --
 ALTER TABLE `admin`
   ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`);
-
 
 --
 -- Constraints for table `book_author`
