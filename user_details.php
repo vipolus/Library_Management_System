@@ -226,4 +226,4 @@ if ($user) {
             window.location.href = 'User_card.php';
         }
     </script>
-</script>
+

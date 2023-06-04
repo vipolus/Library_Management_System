@@ -22,15 +22,7 @@ if (isset($_SESSION['username'])){
 
 
 <style>
-    .Yolo {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        background-color: #f2f2f2;
-        font-family: Arial, sans-serif;
-        color: #333;
-    }
+    
 
     .Yolo div {
         text-align: center;
@@ -57,6 +49,15 @@ if (isset($_SESSION['username'])){
         <?php echo "<p><b>First Name:</b><br>" . $user['First_Name'] . "</p>"; ?>
         <?php echo "<p><b>Last Name:</b><br>" . $user['Last_Name'] . "</p>"; ?>
     </div>
+
+    
+
 </div>
 
+<button onclick="redirectToUserCard()">Main Page</button>
 
+<script>
+    function redirectToUserCard() {
+        window.location.href = 'index.php';
+    }
+</script>
