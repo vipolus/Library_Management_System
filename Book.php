@@ -288,7 +288,7 @@ $pdo = null;
                                  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                                 
                                 xmlhttp.send();
-                                alert("Book Reserved!");
+                                alert("If you are a student and already have 2 reservations then the current one didnt apply. If you are a teacher and already have 1 reservation then the current didn't apply. Check at http://localhost/reservations.php to see your reservations!");
                             };
                             detailsDiv.appendChild(takeButton)
                         }

@@ -1229,10 +1229,13 @@ function toggleTotalLoans() {
     
       echo "Review rejected!";
       $deleteUserQuery = "DELETE FROM Review WHERE Review_id = :reviewId";
-      $updaterev = $pdo->prepare($sql);
-      $updaterev->bindParam(':reviewId', $reviewId);
-      $updaterev->execute();
-      
+      $deleteReview = $pdo->prepare($deleteUserQuery);
+      $deleteReview->bindParam(':reviewId', $reviewId);
+      $deleteReview->execute();
+      echo "Review Rejected!";
+      header('Location: http://localhost/index.php');
+      exit;
+
     } elseif (isset($_POST['approve'])) {
      
       $sql = "UPDATE Review SET Approved = 1 WHERE Review_id = :reviewId";
@@ -1240,6 +1243,7 @@ function toggleTotalLoans() {
       $updaterev->bindParam(':reviewId', $reviewId);
       $updaterev->execute();
       echo "Review Approved!";
+      header('Location: http://localhost/index.php');
       
     }
 
