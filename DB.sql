@@ -291,3 +291,7 @@ VALUES (1, 21, "vipolus", "vipolus", "vipolus@vipolus", "vipolus", "$2y$10$rWfmA
 
 INSERT INTO Admin(User_id) VALUES(1);
 
+CREATE INDEX user_det ON User(Userd_id, First_Name, Last_Name, School_id);
+CREATE INDEX loan_det ON Loan(Library_Operator_id,User_id,Book_id);
+CREATE INDEX reserv_det ON Reservation(School_id,User_id,Book_id);
+CREATE INDEX book_det ON Book(Book_id,Title);

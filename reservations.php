@@ -42,7 +42,7 @@ try {
                            FROM Reservation
                            INNER JOIN User ON Reservation.User_id = User.User_id
                            INNER JOIN Book ON Reservation.Book_id = Book.Book_id
-                           WHERE User.Username = :username");
+                           WHERE User.Username = :username AND Reservation.Approved = 0");
     $stmt->bindParam(':username', $username);
     $stmt->execute();
 

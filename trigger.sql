@@ -1,4 +1,4 @@
-DELIMITER //
+/*DELIMITER //
 
 CREATE TRIGGER `Admin` AFTER INSERT ON `User`
  FOR EACH ROW IF NEW.Type = 'Admin' THEN
@@ -37,9 +37,9 @@ BEGIN
         INSERT INTO `Approve` (User_id) VALUES (NEW.User_id);
     END IF;
 END//
-DELIMITER ;
+DELIMITER ;*/
 /*************ELENI***********/
-DELIMITER //
+/*DELIMITER //
 CREATE TRIGGER `copies_decr` AFTER INSERT ON `Loan`
 FOR EACH ROW
 BEGIN  
@@ -105,3 +105,32 @@ CREATE TRIGGER `Num_of_Books_Author` AFTER UPDATE ON `book_author`
     
    END//
    DELIMITER;
+
+DELIMITER //
+
+CREATE TRIGGER `res_Ap` AFTER INSERT ON `Loan`
+FOR EACH ROW
+BEGIN  
+    DECLARE schoolId INT;
+    SET schoolId = NULL;
+    
+    SELECT School_id INTO schoolId FROM User WHERE User_id = NEW.User_id;
+    
+    UPDATE Reservation
+    SET Approved = 1
+    WHERE Book_id = NEW.Book_id AND School_id = schoolId;
+END//
+
+DELIMITER ;*/
+DELIMITER //
+
+CREATE TRIGGER `loan_created_RES_AP1` AFTER INSERT ON `Loan`
+FOR EACH ROW
+BEGIN
+    UPDATE Reservation
+    SET Approved = 1
+    WHERE Reservation.Book_id = NEW.Book_id
+      AND Reservation.User_id = NEW.User_id;
+END //
+
+DELIMITER ;
