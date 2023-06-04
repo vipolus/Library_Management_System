@@ -49,7 +49,13 @@ if (isset($_SESSION['username'])){
         <?php echo "<p><b>First Name:</b><br>" . $user['First_Name'] . "</p>"; ?>
         <?php echo "<p><b>Last Name:</b><br>" . $user['Last_Name'] . "</p>"; ?>
     </div>
+    <button onclick="printCard()">Get Library Card</button>
 
+<script>
+    function printCard() {
+        window.print();
+    }
+</script>
     
 
 </div>
