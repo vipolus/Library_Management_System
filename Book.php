@@ -443,6 +443,13 @@ $pdo = null;
         reviewForm.addEventListener('submit', submitReview);
     </script>
 
+    <button onclick="redirectToUserCard()">Main Page</button>
+
+    <script>
+        function redirectToUserCard() {
+            window.location.href = 'index.php';
+        }
+    </script>
 
 
 

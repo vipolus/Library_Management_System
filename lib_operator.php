@@ -201,6 +201,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
 <html>
 <head>
     <title>Operator Panel</title>
+    <button onclick="redirectToUserCard()">Main Page</button>
+
+<script>
+        function redirectToUserCard() {
+            window.location.href = 'index.php';
+        }
+    </script>
     <style>
             body {
               font-family: Arial, sans-serif;

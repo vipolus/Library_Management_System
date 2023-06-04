@@ -32,6 +32,7 @@ if ($user) {
         <!DOCTYPE html>
         <html>
         <head>
+            
             <title>Edit Teacher Data</title>
         </head>
         <body>
@@ -47,7 +48,7 @@ if ($user) {
                 <label for="age">Age:</label>
                 <input type="number" name="age" id="age" required value="<?php echo htmlspecialchars($user['Age']); ?>"> 
                  
-                <label for="email">Age:</label>
+                <label for="email">Email:</label>
                 <input type="text" name="email" id="email" required value="<?php echo htmlspecialchars($user['Email']); ?>"> 
                 
                 <input type="submit" value="Update">
@@ -55,6 +56,9 @@ if ($user) {
             </form>
         </body>
         </html>
+        <button onclick="redirectToUserCard()">Main Page</button>
+
+
         <?php
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $first_name = $_POST['first_name'];
@@ -109,7 +113,7 @@ if ($user) {
                 <label for="age">Age:</label>
                 <input type="number" name="age" id="age" required value="<?php echo htmlspecialchars($user['Age']); ?>"> 
                 
-                <label for="email">Age:</label>
+                <label for="email">Email:</label>
                 <input type="text" name="email" id="email" required value="<?php echo htmlspecialchars($user['Email']); ?>"> 
                 
                 <input type="submit" value="Update">
@@ -173,7 +177,7 @@ if ($user) {
                 <label for="age">Age:</label>
                 <input type="number" name="age" id="age" required value="<?php echo htmlspecialchars($user['Age']); ?>"> 
                 
-                <label for="email">Age:</label>
+                <label for="email">Email:</label>
                 <input type="text" name="email" id="email" required value="<?php echo htmlspecialchars($user['Email']); ?>"> 
                 
                 <input type="submit" value="Update">
@@ -227,7 +231,6 @@ if ($user) {
     echo "<p>User not found.</p>";
 }
 ?>
-
 <button onclick="redirectToUserCard()">Print Library Card</button>
 
     <script>
@@ -236,3 +239,10 @@ if ($user) {
         }
     </script>
 
+<button onclick="redirectToUserCard()">Main Page</button>
+
+    <script>
+        function redirectToUserCard() {
+            window.location.href = 'index.php';
+        }
+    </script>

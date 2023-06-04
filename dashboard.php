@@ -176,7 +176,13 @@ if (isset($_SESSION['username'])) {
       
       }
       ?>
+<button onclick="redirectToUserCard()">Main Page</button>
 
+<script>
+    function redirectToUserCard() {
+        window.location.href = 'index.php';
+    }
+</script>
 <h2>Add School</h2>
 <div id="add-school-form">
     <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
