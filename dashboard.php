@@ -248,6 +248,7 @@ if (isset($_POST['submit'])) {
   LEFT JOIN Loan ON Lib_op.Library_Operator_id = Loan.Library_Operator_id
   WHERE (:month = 'all' OR MONTH(Loan.date_borrowed) = :month) AND YEAR(Loan.date_borrowed) = :year
   GROUP BY School.School_id";
+
   $stmt = $pdo->prepare($query);
   $stmt->bindParam(':month', $selectedMonth, PDO::PARAM_STR); 
   $stmt->bindParam(':year', $selectedYear, PDO::PARAM_INT);
@@ -488,11 +489,14 @@ echo '<table>
 <div class="Authors_zero_books">
 <h2>Authors with zero books loaned</h2>
 <?php 
-$query = "SELECT DISTINCT A.Author_id, A.First_Name, A.Last_Name
+$query = "SELECT A.Author_id, A.First_Name, A.Last_Name
 FROM Author A
-LEFT JOIN Book_Author BA ON A.Author_id = BA.Author_id
-LEFT JOIN Loan L ON BA.Book_id = L.Book_id
-WHERE L.Loan_id IS NULL";
+WHERE A.Author_id NOT IN (
+    SELECT DISTINCT BA.Author_id
+    FROM Book_Author BA
+    INNER JOIN Loan L ON BA.Book_id = L.Book_id
+)
+";
 
 $stmt = $pdo->prepare($query);
 $stmt->execute();
