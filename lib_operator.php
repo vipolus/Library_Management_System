@@ -865,111 +865,91 @@ $books = $stmtBooks->fetchAll(PDO::FETCH_COLUMN);
 
 <!--YLOPOIHSE EDW MESA -->
 <?php
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])){
-    if($_POST["action"]=='Return_Book')
-  {
 
-      $query = "SELECT Library_Operator_id FROM School_Library_Operator WHERE School_id = :schoolid";
-      $userStmt = $pdo->prepare($query);
-      $userStmt->bindParam(':schoolid', $schoolId);
-      $userStmt->execute();
-      $user = $userStmt->fetch(PDO::FETCH_ASSOC);
+$adminUsername = $_SESSION['username']; // Modify this based on your session variable
 
+$adminQuery = "SELECT School_id FROM User WHERE Username = :username";
+$adminStatement = $pdo->prepare($adminQuery);
+$adminStatement->bindParam(':username', $adminUsername);
+$adminStatement->execute();
+$admin = $adminStatement->fetch(PDO::FETCH_ASSOC);
 
-    $selectedUser = $_POST['selected-user'];
-    $selectedBook = $_POST['selected-book'];
+$userQuery = "SELECT User_id, First_Name, Last_Name FROM User WHERE School_id = :schoolId";
+$userStatement = $pdo->prepare($userQuery);
+$userStatement->bindParam(':schoolId', $admin['School_id']);
+$userStatement->execute();
+$users = $userStatement->fetchAll(PDO::FETCH_ASSOC);
 
-    $query = "UPDATE Loan SET fullfilled = 1 WHERE Library_Operator_id = :libo AND User_id = :user AND Book_id = :book";
-    $querystmt = $pdo->prepare($query);
-    $querystmt->bindParam(':libo', $user['Library_Operator_id']);
-    $querystmt->bindParam(':user', $selectedUser);
-    $querystmt->bindParam(':book', $selectedBook);
-    $querystmt->execute();
+if (isset($_POST['user'])) {
+    $selectedUser = $_POST['user'];
 
-    
-      
-  }
-
-      
-      $selectedUser = $_POST['selected-user'];
-      $query = "SELECT Username, User_id, Type, books_taken_temp 
-      FROM User 
-      WHERE School_id = :schoolid";
-      $querystmt = $pdo->prepare($query);
-      $querystmt->bindparam(':schoolid', $schoolId);
-      $querystmt->execute();
-      $users = $querystmt->fetchAll(PDO::FETCH_ASSOC);
-
-      $currentUsername = $selectedUser;
-    
-      $query = "SELECT User_id, School_id FROM User WHERE Username = :username";
-      $stmt = $pdo->prepare($query);
-      $stmt->bindParam(':username', $currentUsername);
-      $stmt->execute();
-      $row = $stmt->fetch(PDO::FETCH_ASSOC);
-      $currentUserId = $row['User_id'];
-      $currentSchoolId = $row['School_id'];
-
-      $query = "SELECT Book.Title, Book.Book_id
-                FROM Book;
-                INNER JOIN Copies ON Copies.Book_id = Book.Book_id
-                WHERE Copies.School_id = :schoolId
-                AND Book.Book_id IN (
-                  SELECT DISTINCT Book_id FROM Loan WHERE User_id = :userId
-                )";
-      $querystmt = $pdo->prepare($query);
-      $querystmt->bindParam(':schoolId', $currentSchoolId);
-      $querystmt->bindParam(':userId', $currentUserId);
-      $querystmt->execute();
-      $booksloan = $querystmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-    
-
-
-  
+    $loanQuery = "SELECT Loan.Loan_id, Book.Title 
+                  FROM Loan
+                  JOIN Book ON Loan.Book_id = Book.Book_id
+                  WHERE Loan.User_id = :user AND Loan.fullfilled = 0";
+    $loanStatement = $pdo->prepare($loanQuery);
+    $loanStatement->bindParam(':user', $selectedUser);
+    $loanStatement->execute();
+    $loanedBooks = $loanStatement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-
-  
+if (isset($_POST['return'])) {
+    $selectedLoan = $_POST['return'];
+    $query = "UPDATE Loan SET fullfilled = 1 WHERE Loan_id = :loan";
+    $querystmt = $pdo->prepare($query);
+    $querystmt->bindParam(':loan', $selectedLoan);
+    $querystmt->execute();
+}
 ?>
 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+</head>
+<body>
+    <h2>Select a User:</h2>
+    <form method="post">
+        <select name="user">
+            <?php foreach ($users as $user): ?>
+                <option value="<?php echo $user['User_id']; ?>"><?php echo $user['First_Name'] . ' ' . $user['Last_Name']; ?></option>
+            <?php endforeach; ?>
+        </select>
+        <button type="submit">Select User</button>
+    </form>
 
-<form method="POST" action="lib_operator.php">
-  <input type="hidden" name="action" value="Return_Book">
-  <label for="user-select">Select User:</label>
-  <select id="user-select" name="selected-user">
-    <?php foreach ($users as $user): ?>
-      <option value="<?= $user['User_id'] ?>"><?= $user['Username'] ?></option>
-    <?php endforeach; ?>
-  </select>
-
-  <label for="book-select">Select Book:</label>
-  <select id="book-select" name="selected-book">
-    <?php
-    // Fetch the books taken by the selected user
-    $selectedUserId = isset($_POST['selected-user']) ? $_POST['selected-user'] : null;
-    if ($selectedUserId) {
-      $query = "SELECT Book.Title, Book.Book_id
-                FROM Book
-                INNER JOIN Loan ON Loan.Book_id = Book.Book_id
-                WHERE Loan.User_id = :userId";
-      $stmt = $pdo->prepare($query);
-      $stmt->bindParam(':userId', $selectedUserId);
-      $stmt->execute();
-      $userBooks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-      foreach ($userBooks as $book): ?>
-        <option value="<?= $book['Book_id'] ?>"><?= $book['Title'] ?></option>
-      <?php endforeach;
-    }
-    ?>
-  </select>
-
-  <input type="submit" value="Return_Book">
-</form>
-
-
+    <?php if (isset($selectedUser)): ?>
+        <h2>Loaned Books:</h2>
+        <?php if (count($loanedBooks) > 0): ?>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Loan ID</th>
+                        <th>Title</th>
+                        <th>Return</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($loanedBooks as $book): ?>
+                        <tr>
+                            <td><?php echo $book['Loan_id']; ?></td>
+                            <td><?php echo $book['Title']; ?></td>
+                            <td>
+                                <form method="post">
+                                    <input type="hidden" name="return" value="<?php echo $book['Loan_id']; ?>">
+                                    <button type="submit">Return</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <p>No books currently loaned by this user.</p>
+        <?php endif; ?>
+    <?php endif; ?>
+</body>
+</html>
 
   </div>
 
