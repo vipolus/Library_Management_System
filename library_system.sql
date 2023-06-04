@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Εξυπηρετητής: 127.0.0.1
--- Χρόνος δημιουργίας: 04 Ιουν 2023 στις 00:53:51
--- Έκδοση διακομιστή: 10.4.28-MariaDB
--- Έκδοση PHP: 8.2.4
+-- Host: 127.0.0.1
+-- Generation Time: Jun 04, 2023 at 10:30 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Βάση δεδομένων: `library_system`
+-- Database: `library_system`
 --
 
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `admin`
+-- Table structure for table `admin`
 --
 
 CREATE TABLE `admin` (
@@ -34,7 +34,7 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Άδειασμα δεδομένων του πίνακα `admin`
+-- Dumping data for table `admin`
 --
 
 INSERT INTO `admin` (`Admin_id`, `User_id`, `last_update`) VALUES
@@ -43,7 +43,7 @@ INSERT INTO `admin` (`Admin_id`, `User_id`, `last_update`) VALUES
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `approve`
+-- Table structure for table `approve`
 --
 
 CREATE TABLE `approve` (
@@ -52,7 +52,7 @@ CREATE TABLE `approve` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Άδειασμα δεδομένων του πίνακα `approve`
+-- Dumping data for table `approve`
 --
 
 INSERT INTO `approve` (`User_id`, `last_update`) VALUES
@@ -97,12 +97,81 @@ INSERT INTO `approve` (`User_id`, `last_update`) VALUES
 (34, '2023-06-03 20:50:56'),
 (41, '2023-06-03 20:50:57'),
 (42, '2023-06-03 20:50:57'),
-(43, '2023-06-03 20:50:58');
+(43, '2023-06-03 20:50:58'),
+(44, '2023-06-04 05:17:03'),
+(44, '2023-06-04 05:17:17'),
+(45, '2023-06-04 05:21:30'),
+(45, '2023-06-04 05:22:01'),
+(45, '2023-06-04 05:22:31'),
+(45, '2023-06-04 05:24:57'),
+(45, '2023-06-04 05:24:57'),
+(45, '2023-06-04 05:24:57'),
+(45, '2023-06-04 05:25:10'),
+(45, '2023-06-04 05:25:10'),
+(45, '2023-06-04 05:25:10'),
+(8, '2023-06-04 05:25:26'),
+(8, '2023-06-04 05:25:26'),
+(8, '2023-06-04 05:25:26'),
+(45, '2023-06-04 05:25:34'),
+(45, '2023-06-04 05:25:34'),
+(45, '2023-06-04 05:25:34'),
+(5, '2023-06-04 05:36:08'),
+(5, '2023-06-04 05:36:08'),
+(5, '2023-06-04 05:36:08'),
+(5, '2023-06-04 05:36:18'),
+(5, '2023-06-04 05:36:18'),
+(5, '2023-06-04 05:36:18'),
+(5, '2023-06-04 05:36:23'),
+(5, '2023-06-04 05:36:23'),
+(5, '2023-06-04 05:36:23'),
+(5, '2023-06-04 05:37:07'),
+(5, '2023-06-04 05:37:07'),
+(5, '2023-06-04 05:37:07'),
+(5, '2023-06-04 05:44:29'),
+(5, '2023-06-04 05:44:29'),
+(5, '2023-06-04 05:44:29'),
+(5, '2023-06-04 05:44:55'),
+(5, '2023-06-04 05:44:55'),
+(5, '2023-06-04 05:44:55'),
+(5, '2023-06-04 05:45:13'),
+(5, '2023-06-04 05:45:13'),
+(5, '2023-06-04 05:45:13'),
+(5, '2023-06-04 05:48:09'),
+(5, '2023-06-04 05:48:09'),
+(5, '2023-06-04 05:48:09'),
+(5, '2023-06-04 05:49:50'),
+(5, '2023-06-04 05:49:50'),
+(5, '2023-06-04 05:49:50'),
+(5, '2023-06-04 05:50:58'),
+(5, '2023-06-04 05:50:58'),
+(5, '2023-06-04 05:50:58'),
+(5, '2023-06-04 05:51:04'),
+(5, '2023-06-04 05:51:04'),
+(5, '2023-06-04 05:51:04'),
+(5, '2023-06-04 05:51:37'),
+(5, '2023-06-04 05:51:37'),
+(5, '2023-06-04 05:51:37'),
+(5, '2023-06-04 05:52:07'),
+(5, '2023-06-04 05:52:07'),
+(5, '2023-06-04 05:52:07'),
+(45, '2023-06-04 07:00:42'),
+(45, '2023-06-04 07:01:04'),
+(2, '2023-06-04 07:11:39'),
+(2, '2023-06-04 07:11:39'),
+(2, '2023-06-04 07:17:00'),
+(2, '2023-06-04 07:17:00'),
+(2, '2023-06-04 07:17:00'),
+(2, '2023-06-04 07:40:58'),
+(2, '2023-06-04 07:41:09'),
+(2, '2023-06-04 07:41:09'),
+(2, '2023-06-04 07:41:17'),
+(2, '2023-06-04 07:41:17'),
+(2, '2023-06-04 07:41:17');
 
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `author`
+-- Table structure for table `author`
 --
 
 CREATE TABLE `author` (
@@ -114,7 +183,7 @@ CREATE TABLE `author` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Άδειασμα δεδομένων του πίνακα `author`
+-- Dumping data for table `author`
 --
 
 INSERT INTO `author` (`Author_id`, `First_Name`, `Last_Name`, `Num_of_books_written`, `last_update`) VALUES
@@ -127,7 +196,7 @@ INSERT INTO `author` (`Author_id`, `First_Name`, `Last_Name`, `Num_of_books_writ
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `book`
+-- Table structure for table `book`
 --
 
 CREATE TABLE `book` (
@@ -148,16 +217,16 @@ CREATE TABLE `book` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Άδειασμα δεδομένων του πίνακα `book`
+-- Dumping data for table `book`
 --
 
 INSERT INTO `book` (`Book_id`, `Title`, `Publisher`, `ISBN`, `Number_of_Pages`, `Summary`, `Image`, `Thematic_Category`, `Language`, `Keywords`, `times_taken`, `times_requested`, `reviews`, `last_update`) VALUES
-(1, 'In the Name of the Father', 'Samaria Zanetello', '219751597-7', 467, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.\\n\\nProin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.\\n\\nDuis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Image1.png', 'Action,Horror,Thriller', 'English', 'Police,Crime,Blood', 0, 0, 0, '2023-06-03 22:12:18'),
+(1, 'In the Name of the Father', 'Samaria Zanetello', '219751597-7', 467, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.\\n\\nProin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.\\n\\nDuis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Image1.png', 'Action,Horror,Thriller', 'English', 'Police,Crime,Blood', 0, 1, 0, '2023-06-04 05:22:01'),
 (2, 'Paul', 'Hewie Wolstenholme', '981056758-8', 873, 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.\\n\\nNullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.\\n\\nMorbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.', 'Image2.png', 'Romance,Adventure', 'English', 'Love,Happy ending', 0, 0, 0, '2023-06-03 22:14:13'),
-(3, 'Defiance', 'Jonathon Feirn', '460557377-1', 125, 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Image3.png', 'Action,Adventure,Thriller', 'English', 'Fight,Action', 0, 0, 0, '2023-06-03 22:15:35'),
+(3, 'Defiance', 'Jonathon Feirn', '460557377-1', 125, 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Image3.png', 'Action,Adventure,Thriller', 'English', 'Fight,Action', 0, 1, 0, '2023-06-04 07:11:39'),
 (4, 'Fraternity Vacation', 'Erinn Cattlow', '909986720-4', 654, 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.', 'Image4.png', 'Comedy', 'English', 'Summer vacation,Relax,Chilling', 0, 0, 0, '2023-06-03 22:16:33'),
-(5, 'Road North (Tie pohjoiseen)', 'Karim Parken', '555586917-7', 124, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\\n\\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.\\n\\nPhasellus in felis. Donec semper sapien a libero. Nam dui.', 'Image5.png', 'Action,War,Adventure', 'English', 'War,Guns,Blood,Field', 0, 0, 0, '2023-06-03 22:17:40'),
-(6, 'Star Kid', 'Reba Siviour', '097299215-4', 169, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\\n\\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Image6.png', 'Crime,Action,Horror', 'English', 'Police,Crime,Blood', 0, 0, 0, '2023-06-03 22:19:49'),
+(5, 'Road North (Tie pohjoiseen)', 'Karim Parken', '555586917-7', 124, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\\n\\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.\\n\\nPhasellus in felis. Donec semper sapien a libero. Nam dui.', 'Image5.png', 'Action,War,Adventure', 'English', 'War,Guns,Blood,Field', 0, 1, 0, '2023-06-04 05:22:31'),
+(6, 'Star Kid', 'Reba Siviour', '097299215-4', 169, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\\n\\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Image6.png', 'Crime,Action,Horror', 'English', 'Police,Crime,Blood', 0, 2, 0, '2023-06-04 07:41:09'),
 (7, 'Double Hour, The (La doppia ora)', 'Sophey Vanelli', '354170217-6', 468, 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.\\n\\nCurabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Image7.png', 'Action,Adventure,Drama', 'English', 'Scary,Drama', 0, 0, 0, '2023-06-03 22:20:59'),
 (8, 'Sons of Katie Elder', 'Joannes Soot', '685335171-1', 353, 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.\\n\\nIn congue. Etiam justo. Etiam pretium iaculis justo.', 'Image8.png', 'Horror,Thriller,Adventure', 'English', 'Jumpscare,Scary,Ghosts', 0, 0, 0, '2023-06-03 22:24:17'),
 (9, 'Amateurs, The (Moguls, The)', 'Puff Haisell', '161709515-X', 832, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.\\n\\nIn quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 'Image9.png', 'Action,Adventure', 'English', 'Summer', 0, 0, 0, '2023-06-03 22:24:22'),
@@ -181,7 +250,7 @@ INSERT INTO `book` (`Book_id`, `Title`, `Publisher`, `ISBN`, `Number_of_Pages`, 
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `book_author`
+-- Table structure for table `book_author`
 --
 
 CREATE TABLE `book_author` (
@@ -191,7 +260,7 @@ CREATE TABLE `book_author` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Άδειασμα δεδομένων του πίνακα `book_author`
+-- Dumping data for table `book_author`
 --
 
 INSERT INTO `book_author` (`Author_id`, `Book_id`, `last_update`) VALUES
@@ -222,7 +291,7 @@ INSERT INTO `book_author` (`Author_id`, `Book_id`, `last_update`) VALUES
 (3, 25, '2023-06-03 22:52:04');
 
 --
--- Δείκτες `book_author`
+-- Triggers `book_author`
 --
 DELIMITER $$
 CREATE TRIGGER `Num_of_Books_Author` AFTER INSERT ON `book_author` FOR EACH ROW BEGIN
@@ -235,7 +304,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `book_category`
+-- Table structure for table `book_category`
 --
 
 CREATE TABLE `book_category` (
@@ -245,7 +314,7 @@ CREATE TABLE `book_category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Άδειασμα δεδομένων του πίνακα `book_category`
+-- Dumping data for table `book_category`
 --
 
 INSERT INTO `book_category` (`Book_Category_Id`, `Category_id`, `Book_id`) VALUES
@@ -318,7 +387,7 @@ INSERT INTO `book_category` (`Book_Category_Id`, `Category_id`, `Book_id`) VALUE
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `category`
+-- Table structure for table `category`
 --
 
 CREATE TABLE `category` (
@@ -328,7 +397,7 @@ CREATE TABLE `category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Άδειασμα δεδομένων του πίνακα `category`
+-- Dumping data for table `category`
 --
 
 INSERT INTO `category` (`Category_id`, `Name`, `last_update`) VALUES
@@ -348,7 +417,7 @@ INSERT INTO `category` (`Category_id`, `Name`, `last_update`) VALUES
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `copies`
+-- Table structure for table `copies`
 --
 
 CREATE TABLE `copies` (
@@ -360,16 +429,16 @@ CREATE TABLE `copies` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Άδειασμα δεδομένων του πίνακα `copies`
+-- Dumping data for table `copies`
 --
 
 INSERT INTO `copies` (`Copies_id`, `Number_of_Available_Copies`, `School_id`, `Book_id`, `last_update`) VALUES
-(1, 13, 2, 1, '2023-06-03 22:12:18'),
-(2, 8, 2, 2, '2023-06-03 22:14:13'),
-(3, 17, 2, 3, '2023-06-03 22:15:35'),
+(1, 8, 2, 1, '2023-06-04 07:07:03'),
+(2, 7, 2, 2, '2023-06-04 05:25:26'),
+(3, 16, 2, 3, '2023-06-04 07:17:00'),
 (4, 11, 2, 4, '2023-06-03 22:16:33'),
-(5, 13, 2, 5, '2023-06-03 22:17:40'),
-(6, 18, 2, 6, '2023-06-03 22:19:49'),
+(5, 13, 2, 5, '2023-06-04 07:07:08'),
+(6, 17, 2, 6, '2023-06-04 07:41:17'),
 (7, 5, 2, 7, '2023-06-03 22:20:59'),
 (8, 7, 2, 8, '2023-06-03 22:22:20'),
 (9, 11, 2, 9, '2023-06-03 22:23:29'),
@@ -393,7 +462,7 @@ INSERT INTO `copies` (`Copies_id`, `Number_of_Available_Copies`, `School_id`, `B
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `loan`
+-- Table structure for table `loan`
 --
 
 CREATE TABLE `loan` (
@@ -408,7 +477,32 @@ CREATE TABLE `loan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Δείκτες `loan`
+-- Dumping data for table `loan`
+--
+
+INSERT INTO `loan` (`Loan_id`, `Library_Operator_id`, `User_id`, `Book_id`, `date_borrowed`, `date_returned`, `fullfilled`, `last_update`) VALUES
+(1, 2, 45, 1, '2023-06-04 08:24:57', '0000-00-00 00:00:00', 1, '2023-06-04 07:06:53'),
+(2, 2, 45, 1, '2023-06-04 08:25:10', '0000-00-00 00:00:00', 1, '2023-06-04 07:07:03'),
+(3, 2, 8, 2, '2023-06-04 08:25:26', '0000-00-00 00:00:00', 0, '2023-06-04 05:25:26'),
+(4, 2, 45, 5, '2023-06-04 08:25:34', '0000-00-00 00:00:00', 1, '2023-06-04 07:07:08'),
+(5, 2, 5, 1, '2023-06-04 08:36:08', '0000-00-00 00:00:00', 1, '2023-06-04 06:06:30'),
+(6, 2, 5, 3, '2023-06-04 08:36:18', '0000-00-00 00:00:00', 1, '2023-06-04 06:06:42'),
+(7, 2, 5, 3, '2023-06-04 08:36:23', '0000-00-00 00:00:00', 1, '2023-06-04 06:06:54'),
+(8, 2, 5, 6, '2023-06-04 08:37:07', '0000-00-00 00:00:00', 1, '2023-06-04 06:07:02'),
+(9, 2, 5, 1, '2023-06-04 08:44:29', '0000-00-00 00:00:00', 1, '2023-06-04 06:07:08'),
+(10, 2, 5, 1, '2023-06-04 08:44:55', '0000-00-00 00:00:00', 1, '2023-06-04 06:09:58'),
+(11, 2, 5, 1, '2023-06-04 08:45:13', '0000-00-00 00:00:00', 1, '2023-06-04 06:11:16'),
+(12, 2, 5, 1, '2023-06-04 08:48:09', '0000-00-00 00:00:00', 0, '2023-06-04 05:48:09'),
+(13, 2, 5, 1, '2023-06-04 08:49:50', '0000-00-00 00:00:00', 0, '2023-06-04 05:49:50'),
+(14, 2, 5, 1, '2023-06-04 08:50:58', '0000-00-00 00:00:00', 0, '2023-06-04 05:50:58'),
+(15, 2, 5, 1, '2023-06-04 08:51:04', '0000-00-00 00:00:00', 0, '2023-06-04 05:51:04'),
+(16, 2, 5, 1, '2023-06-04 08:51:37', '0000-00-00 00:00:00', 0, '2023-06-04 05:51:37'),
+(17, 2, 5, 1, '2023-06-04 08:52:07', '0000-00-00 00:00:00', 0, '2023-06-04 05:52:07'),
+(18, 2, 2, 3, '2023-06-04 10:17:00', '0000-00-00 00:00:00', 0, '2023-06-04 07:17:00'),
+(19, 2, 2, 6, '2023-06-04 10:41:17', '0000-00-00 00:00:00', 0, '2023-06-04 07:41:17');
+
+--
+-- Triggers `loan`
 --
 DELIMITER $$
 CREATE TRIGGER `Number_of_loans` AFTER INSERT ON `loan` FOR EACH ROW BEGIN  
@@ -449,6 +543,15 @@ END
 $$
 DELIMITER ;
 DELIMITER $$
+CREATE TRIGGER `loan_created_RES_AP1` AFTER INSERT ON `loan` FOR EACH ROW BEGIN
+    UPDATE Reservation
+    SET Approved = 1
+    WHERE Reservation.Book_id = NEW.Book_id
+      AND Reservation.User_id = NEW.User_id;
+END
+$$
+DELIMITER ;
+DELIMITER $$
 CREATE TRIGGER `res` AFTER INSERT ON `loan` FOR EACH ROW BEGIN  
     UPDATE User
     SET reservations = reservations - 1
@@ -460,7 +563,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `reservation`
+-- Table structure for table `reservation`
 --
 
 CREATE TABLE `reservation` (
@@ -475,7 +578,16 @@ CREATE TABLE `reservation` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Δείκτες `reservation`
+-- Dumping data for table `reservation`
+--
+
+INSERT INTO `reservation` (`Reservation_id`, `School_id`, `User_id`, `Book_id`, `Approved`, `date_created`, `date_expired`, `last_update`) VALUES
+(1, 2, 45, 1, 0, '2023-06-04 08:22:01', '2023-06-11 08:22:01', '2023-06-04 05:22:01'),
+(2, 2, 45, 5, 0, '2023-06-04 08:22:31', '2023-06-11 08:22:31', '2023-06-04 05:22:31'),
+(5, 2, 2, 6, 1, '2023-06-04 10:41:09', '2023-06-11 10:41:09', '2023-06-04 07:41:17');
+
+--
+-- Triggers `reservation`
 --
 DELIMITER $$
 CREATE TRIGGER `User_Reservations_increase` AFTER INSERT ON `reservation` FOR EACH ROW BEGIN
@@ -489,7 +601,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `review`
+-- Table structure for table `review`
 --
 
 CREATE TABLE `review` (
@@ -505,7 +617,7 @@ CREATE TABLE `review` (
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `school`
+-- Table structure for table `school`
 --
 
 CREATE TABLE `school` (
@@ -521,7 +633,7 @@ CREATE TABLE `school` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Άδειασμα δεδομένων του πίνακα `school`
+-- Dumping data for table `school`
 --
 
 INSERT INTO `school` (`School_id`, `School_Name`, `Address`, `City`, `Phone_Number`, `Email`, `Full_Name_of_School_Director`, `times_loaned`, `last_update`) VALUES
@@ -533,7 +645,7 @@ INSERT INTO `school` (`School_id`, `School_Name`, `Address`, `City`, `Phone_Numb
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `school_library_operator`
+-- Table structure for table `school_library_operator`
 --
 
 CREATE TABLE `school_library_operator` (
@@ -544,18 +656,19 @@ CREATE TABLE `school_library_operator` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Άδειασμα δεδομένων του πίνακα `school_library_operator`
+-- Dumping data for table `school_library_operator`
 --
 
 INSERT INTO `school_library_operator` (`Library_Operator_id`, `School_id`, `Books_given`, `last_update`) VALUES
 (2, 2, 0, '2023-06-03 20:17:01'),
 (3, 3, 0, '2023-06-03 20:17:41'),
-(4, 4, 0, '2023-06-03 20:18:01');
+(4, 4, 0, '2023-06-03 20:18:01'),
+(44, 1, 0, '2023-06-04 05:16:23');
 
 -- --------------------------------------------------------
 
 --
--- Δομή πίνακα για τον πίνακα `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
@@ -578,18 +691,18 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Άδειασμα δεδομένων του πίνακα `user`
+-- Dumping data for table `user`
 --
 
 INSERT INTO `user` (`User_id`, `School_id`, `Age`, `First_Name`, `Last_Name`, `Email`, `Username`, `Password`, `Type`, `Borrow_Limit`, `last_update`, `Number_of_loans`, `reservations`, `Delayed_Book`, `Approved`, `books_taken_temp`) VALUES
 (1, 1, 21, 'vipolus', 'vipolus', 'vipolus@vipolus', 'vipolus', '$2y$10$rWfmA5vIznkvAng3bOI0guGltLF2JdABSmKy3qBtuLTl2gVxzCHMq', 'Admin', 0, '2023-06-03 20:10:51', 0, 0, 0, 1, 0),
-(2, 2, 29, 'Operator_1o', 'Operator_1o', 'Operator_1o@gmail.com', 'Operator_1o', '$2y$10$8S62ZxxXIY9Z7nhswcI1p.lXhkCVZYTAATHC13k/q0ITkSVblnt/u', 'Library Operator', 1, '2023-06-03 20:18:10', 0, 0, 0, 1, 0),
+(2, 2, 29, 'Operator_1o', 'Operator_1o', 'Operator_1o@gmail.com', 'Operator_1o', '$2y$10$8S62ZxxXIY9Z7nhswcI1p.lXhkCVZYTAATHC13k/q0ITkSVblnt/u', 'Library Operator', 1, '2023-06-04 07:41:17', 2, 1, 0, 1, 2),
 (3, 3, 33, 'Operator_2o', 'Operator_2o', 'Operator_2o@gmail.com', 'Operator_2o', '$2y$10$vzZk1bQECSYcnJ4L7jlmD.olUeFGfcgo/ciyTfNBkVtNer9W1mxdK', 'Library Operator', 1, '2023-06-03 20:18:11', 0, 0, 0, 1, 0),
 (4, 4, 30, 'Operator_3o', 'Operator_3o', 'Operator_3o@gmail.com', 'Operator_3o', '$2y$10$Hd4bMsALRL9wZ7brpz7/5eRbO1jh74LOe45J8B6.qQfHDgcqxGEFe', 'Library Operator', 1, '2023-06-03 20:18:12', 0, 0, 0, 1, 0),
-(5, 2, 21, 'Student_1o_1', 'Student_1o_1', 'Student_1o_1@gmail.com', 'Student_1o_1', '$2y$10$AXuloN.9ex7oiDOchWdYmuxaS9E7AWBKO3IoiOUOKgJcEgDwSVTsK', 'Student', 2, '2023-06-03 20:50:03', 0, 0, 0, 1, 0),
+(5, 2, 21, 'Student_1o_1', 'Student_1o_1', 'Student_1o_1@gmail.com', 'Student_1o_1', '$2y$10$AXuloN.9ex7oiDOchWdYmuxaS9E7AWBKO3IoiOUOKgJcEgDwSVTsK', 'Student', 2, '2023-06-04 05:52:07', 13, -13, 0, 1, 13),
 (6, 2, 18, 'Student_1o_2', 'Student_1o_2', 'Student_1o_2@gmail.com', 'Student_1o_2', '$2y$10$jrdNRRMDy2YzEG4N68pc8.NaL3ci8CRzY7B4hr4w70JgEZivLCQ.K', 'Student', 2, '2023-06-03 20:50:04', 0, 0, 0, 1, 0),
 (7, 2, 17, 'Student_1o_3', 'Student_1o_3', 'Student_1o_3@gmail.com', 'Student_1o_3', '$2y$10$/SVxVoCXlsCXEMtlzeDQVeeHVeCuc/ED.SKfPMSXFjRdtpY0y4CcG', 'Student', 2, '2023-06-03 20:50:04', 0, 0, 0, 1, 0),
-(8, 2, 18, 'Student_1o_4', 'Student_1o_4', 'Student_1o_4@gmail.com', 'Student_1o_4', '$2y$10$2xx629MSgLPQjMJl66GSAuWKFExTuRq5k5FNY.Tq0S8HW7zn0XNYy', 'Student', 2, '2023-06-03 20:50:05', 0, 0, 0, 1, 0),
+(8, 2, 18, 'Student_1o_4', 'Student_1o_4', 'Student_1o_4@gmail.com', 'Student_1o_4', '$2y$10$2xx629MSgLPQjMJl66GSAuWKFExTuRq5k5FNY.Tq0S8HW7zn0XNYy', 'Student', 2, '2023-06-04 05:25:26', 1, -1, 0, 1, 1),
 (9, 2, 18, 'Student_1o_5', 'Student_1o_5', 'Student_1o_5@gmail.com', 'Student_1o_5', '$2y$10$aXWsKdR/8wYI7YIAzeJnXuTGJjQFAZ5zBZIxapHy5GfnHBfSnzWry', 'Student', 2, '2023-06-03 20:50:05', 0, 0, 0, 1, 0),
 (10, 2, 18, 'Student_1o_6', 'Student_1o_6', 'Student_1o_6@gmail.com', 'Student_1o_6', '$2y$10$nxk6UT2BxUN3P21VJglQNulkIITYD2Ang4gwS.xhW/GQVhBTMwFTq', 'Student', 2, '2023-06-03 20:50:06', 0, 0, 0, 1, 0),
 (11, 2, 17, 'Student_1o_7', 'Student_1o_7', 'Student_1o_7@gmail.com', 'Student_1o_7', '$2y$10$ZNHmnrTsx5dw6/uGrqoMrOIgOx4cJ7X1eZfDD66QzC0IQXop1EHDO', 'Student', 2, '2023-06-03 20:50:06', 0, 0, 0, 1, 0),
@@ -624,10 +737,12 @@ INSERT INTO `user` (`User_id`, `School_id`, `Age`, `First_Name`, `Last_Name`, `E
 (40, 3, 45, 'Teacher_2o_3', 'Teacher_2o_3', 'Teacher_2o_3@gmail.com', 'Teacher_2o_3', '$2y$10$UaP4B4G7qta.yXYSIeEUZuKKu5bkMUbIf.XRuN9Kh6O0BOFCs6YdO', 'Teacher', 1, '2023-06-03 20:50:38', 0, 0, 0, 1, 0),
 (41, 4, 45, 'Teacher_3o_1', 'Teacher_3o_1', 'Teacher_3o_1@gmail.com', 'Teacher_3o_1', '$2y$10$lGo8lwFDfic4LJtZlP72N.2s502aJu/QWdHqe.pXMI6u9WekUGSIK', 'Teacher', 1, '2023-06-03 20:50:57', 0, 0, 0, 1, 0),
 (42, 4, 35, 'Teacher_3o_2', 'Teacher_3o_2', 'Teacher_3o_2@gmail.com', 'Teacher_3o_2', '$2y$10$NIJYoRNsHtNTh2D8tfITROAwoYZgHHhl8RUfEBSgyRKM9q/S.mfOC', 'Teacher', 1, '2023-06-03 20:50:57', 0, 0, 0, 1, 0),
-(43, 4, 46, 'Teacher_3o_3', 'Teacher_3o_3', 'Teacher_3o_3@gmail.com', 'Teacher_3o_3', '$2y$10$H/7zFy.3DLJR1Z5CPuuWdeOv348eLNqgap0bBH3GL1r5JC1pkhGiK', 'Teacher', 1, '2023-06-03 20:50:58', 0, 0, 0, 1, 0);
+(43, 4, 46, 'Teacher_3o_3', 'Teacher_3o_3', 'Teacher_3o_3@gmail.com', 'Teacher_3o_3', '$2y$10$H/7zFy.3DLJR1Z5CPuuWdeOv348eLNqgap0bBH3GL1r5JC1pkhGiK', 'Teacher', 1, '2023-06-03 20:50:58', 0, 0, 0, 1, 0),
+(44, 1, -7, 'w', 'w', 'w', 'w', '$2y$10$sIqjbQcfXYxIPYhNa7nMv.KKGkGEEsrrwowDjgPgclpT8RGby1Pgy', 'Admin', 1, '2023-06-04 05:19:03', 0, 0, 0, -1, 0),
+(45, 2, -7, 'q', 'q', 'q', 'q', '$2y$10$gJ7OJjkaLYSidmCbGJ3Boe5AlXXZPoK8bYr82VCRnUlXjZFNmKMvG', 'Student', 2, '2023-06-04 07:01:04', 3, -1, 0, 1, 3);
 
 --
--- Δείκτες `user`
+-- Triggers `user`
 --
 DELIMITER $$
 CREATE TRIGGER `Approve_History` AFTER UPDATE ON `user` FOR EACH ROW BEGIN
@@ -645,43 +760,44 @@ $$
 DELIMITER ;
 
 --
--- Ευρετήρια για άχρηστους πίνακες
+-- Indexes for dumped tables
 --
 
 --
--- Ευρετήρια για πίνακα `admin`
+-- Indexes for table `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`Admin_id`),
   ADD KEY `User_id` (`User_id`);
 
 --
--- Ευρετήρια για πίνακα `approve`
+-- Indexes for table `approve`
 --
 ALTER TABLE `approve`
   ADD KEY `User_id` (`User_id`);
 
 --
--- Ευρετήρια για πίνακα `author`
+-- Indexes for table `author`
 --
 ALTER TABLE `author`
   ADD PRIMARY KEY (`Author_id`);
 
 --
--- Ευρετήρια για πίνακα `book`
+-- Indexes for table `book`
 --
 ALTER TABLE `book`
-  ADD PRIMARY KEY (`Book_id`);
+  ADD PRIMARY KEY (`Book_id`),
+  ADD KEY `book_det` (`Book_id`,`Title`);
 
 --
--- Ευρετήρια για πίνακα `book_author`
+-- Indexes for table `book_author`
 --
 ALTER TABLE `book_author`
   ADD PRIMARY KEY (`Book_id`,`Author_id`),
   ADD KEY `Author_id` (`Author_id`);
 
 --
--- Ευρετήρια για πίνακα `book_category`
+-- Indexes for table `book_category`
 --
 ALTER TABLE `book_category`
   ADD PRIMARY KEY (`Book_Category_Id`),
@@ -689,13 +805,13 @@ ALTER TABLE `book_category`
   ADD KEY `Book_id` (`Book_id`);
 
 --
--- Ευρετήρια για πίνακα `category`
+-- Indexes for table `category`
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`Category_id`);
 
 --
--- Ευρετήρια για πίνακα `copies`
+-- Indexes for table `copies`
 --
 ALTER TABLE `copies`
   ADD PRIMARY KEY (`Copies_id`),
@@ -703,25 +819,27 @@ ALTER TABLE `copies`
   ADD KEY `Book_id` (`Book_id`);
 
 --
--- Ευρετήρια για πίνακα `loan`
+-- Indexes for table `loan`
 --
 ALTER TABLE `loan`
   ADD PRIMARY KEY (`Loan_id`),
   ADD KEY `User_id` (`User_id`),
   ADD KEY `Book_id` (`Book_id`),
-  ADD KEY `Library_Operator_id` (`Library_Operator_id`);
+  ADD KEY `Library_Operator_id` (`Library_Operator_id`),
+  ADD KEY `loan_det` (`Library_Operator_id`,`User_id`,`Book_id`);
 
 --
--- Ευρετήρια για πίνακα `reservation`
+-- Indexes for table `reservation`
 --
 ALTER TABLE `reservation`
   ADD PRIMARY KEY (`Reservation_id`),
   ADD KEY `School_id` (`School_id`),
   ADD KEY `User_id` (`User_id`),
-  ADD KEY `Book_id` (`Book_id`);
+  ADD KEY `Book_id` (`Book_id`),
+  ADD KEY `reserv_det` (`School_id`,`User_id`,`Book_id`);
 
 --
--- Ευρετήρια για πίνακα `review`
+-- Indexes for table `review`
 --
 ALTER TABLE `review`
   ADD PRIMARY KEY (`Review_id`),
@@ -729,140 +847,141 @@ ALTER TABLE `review`
   ADD KEY `User_id` (`User_id`);
 
 --
--- Ευρετήρια για πίνακα `school`
+-- Indexes for table `school`
 --
 ALTER TABLE `school`
   ADD PRIMARY KEY (`School_id`);
 
 --
--- Ευρετήρια για πίνακα `school_library_operator`
+-- Indexes for table `school_library_operator`
 --
 ALTER TABLE `school_library_operator`
   ADD PRIMARY KEY (`Library_Operator_id`),
   ADD KEY `School_id` (`School_id`);
 
 --
--- Ευρετήρια για πίνακα `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`User_id`,`School_id`),
-  ADD KEY `School_id` (`School_id`);
+  ADD KEY `School_id` (`School_id`),
+  ADD KEY `user_det` (`User_id`,`First_Name`,`Last_Name`,`School_id`);
 
 --
--- AUTO_INCREMENT για άχρηστους πίνακες
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT για πίνακα `admin`
+-- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
   MODIFY `Admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT για πίνακα `author`
+-- AUTO_INCREMENT for table `author`
 --
 ALTER TABLE `author`
   MODIFY `Author_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT για πίνακα `book`
+-- AUTO_INCREMENT for table `book`
 --
 ALTER TABLE `book`
   MODIFY `Book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
--- AUTO_INCREMENT για πίνακα `book_category`
+-- AUTO_INCREMENT for table `book_category`
 --
 ALTER TABLE `book_category`
   MODIFY `Book_Category_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
--- AUTO_INCREMENT για πίνακα `category`
+-- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
   MODIFY `Category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT για πίνακα `copies`
+-- AUTO_INCREMENT for table `copies`
 --
 ALTER TABLE `copies`
   MODIFY `Copies_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
--- AUTO_INCREMENT για πίνακα `loan`
+-- AUTO_INCREMENT for table `loan`
 --
 ALTER TABLE `loan`
-  MODIFY `Loan_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Loan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT για πίνακα `reservation`
+-- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `Reservation_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT για πίνακα `review`
+-- AUTO_INCREMENT for table `review`
 --
 ALTER TABLE `review`
   MODIFY `Review_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT για πίνακα `school`
+-- AUTO_INCREMENT for table `school`
 --
 ALTER TABLE `school`
   MODIFY `School_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT για πίνακα `school_library_operator`
+-- AUTO_INCREMENT for table `school_library_operator`
 --
 ALTER TABLE `school_library_operator`
-  MODIFY `Library_Operator_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Library_Operator_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
--- AUTO_INCREMENT για πίνακα `user`
+-- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `User_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `User_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
--- Περιορισμοί για άχρηστους πίνακες
+-- Constraints for dumped tables
 --
 
 --
--- Περιορισμοί για πίνακα `admin`
+-- Constraints for table `admin`
 --
 ALTER TABLE `admin`
   ADD CONSTRAINT `admin_ibfk_1` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`);
 
 --
--- Περιορισμοί για πίνακα `approve`
+-- Constraints for table `approve`
 --
 ALTER TABLE `approve`
   ADD CONSTRAINT `approve_ibfk_1` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`);
 
 --
--- Περιορισμοί για πίνακα `book_author`
+-- Constraints for table `book_author`
 --
 ALTER TABLE `book_author`
   ADD CONSTRAINT `book_author_ibfk_1` FOREIGN KEY (`Book_id`) REFERENCES `book` (`Book_id`),
   ADD CONSTRAINT `book_author_ibfk_2` FOREIGN KEY (`Author_id`) REFERENCES `author` (`Author_id`);
 
 --
--- Περιορισμοί για πίνακα `book_category`
+-- Constraints for table `book_category`
 --
 ALTER TABLE `book_category`
   ADD CONSTRAINT `book_category_ibfk_1` FOREIGN KEY (`Category_id`) REFERENCES `category` (`Category_id`),
   ADD CONSTRAINT `book_category_ibfk_2` FOREIGN KEY (`Book_id`) REFERENCES `book` (`Book_id`);
 
 --
--- Περιορισμοί για πίνακα `copies`
+-- Constraints for table `copies`
 --
 ALTER TABLE `copies`
   ADD CONSTRAINT `copies_ibfk_1` FOREIGN KEY (`School_id`) REFERENCES `school` (`School_id`),
   ADD CONSTRAINT `copies_ibfk_2` FOREIGN KEY (`Book_id`) REFERENCES `book` (`Book_id`);
 
 --
--- Περιορισμοί για πίνακα `loan`
+-- Constraints for table `loan`
 --
 ALTER TABLE `loan`
   ADD CONSTRAINT `loan_ibfk_1` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`),
@@ -870,7 +989,7 @@ ALTER TABLE `loan`
   ADD CONSTRAINT `loan_ibfk_3` FOREIGN KEY (`Library_Operator_id`) REFERENCES `school_library_operator` (`Library_Operator_id`);
 
 --
--- Περιορισμοί για πίνακα `reservation`
+-- Constraints for table `reservation`
 --
 ALTER TABLE `reservation`
   ADD CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`School_id`) REFERENCES `school` (`School_id`),
@@ -878,20 +997,20 @@ ALTER TABLE `reservation`
   ADD CONSTRAINT `reservation_ibfk_3` FOREIGN KEY (`Book_id`) REFERENCES `book` (`Book_id`);
 
 --
--- Περιορισμοί για πίνακα `review`
+-- Constraints for table `review`
 --
 ALTER TABLE `review`
   ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`Book_id`) REFERENCES `book` (`Book_id`),
   ADD CONSTRAINT `review_ibfk_2` FOREIGN KEY (`User_id`) REFERENCES `user` (`User_id`);
 
 --
--- Περιορισμοί για πίνακα `school_library_operator`
+-- Constraints for table `school_library_operator`
 --
 ALTER TABLE `school_library_operator`
   ADD CONSTRAINT `school_library_operator_ibfk_1` FOREIGN KEY (`School_id`) REFERENCES `school` (`School_id`);
 
 --
--- Περιορισμοί για πίνακα `user`
+-- Constraints for table `user`
 --
 ALTER TABLE `user`
   ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`School_id`) REFERENCES `school` (`School_id`);
