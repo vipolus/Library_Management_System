@@ -71,7 +71,7 @@ FOR EACH ROW
 BEGIN  
     UPDATE User
     SET reservations = reservations - 1
-    WHERE User_id = NEW.User_id;
+    WHERE User_id = NEW.User_id AND reservations >= 0;
     END//
 DELIMITER ;
 DELIMITER //
@@ -122,7 +122,7 @@ BEGIN
 END//
 
 DELIMITER ;*/
-DELIMITER //
+/*DELIMITER //
 
 CREATE TRIGGER `loan_created_RES_AP1` AFTER INSERT ON `Loan`
 FOR EACH ROW
@@ -133,4 +133,19 @@ BEGIN
       AND Reservation.User_id = NEW.User_id;
 END //
 
-DELIMITER ;
+DELIMITER ;*/
+/*DELIMITER //
+
+CREATE TRIGGER `school_times_loaned` AFTER INSERT ON `Loan`
+FOR EACH ROW
+BEGIN
+    UPDATE School
+    SET times_loaned = times_loaned + 1
+    WHERE School_id = (
+        SELECT School_id
+        FROM User
+        WHERE User_id = NEW.User_id
+    );
+END //
+
+DELIMITER ;*/

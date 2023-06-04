@@ -867,7 +867,7 @@ if (isset($_POST['user'])) {
 
 if (isset($_POST['return'])) {
     $selectedLoan = $_POST['return'];
-    $query = "UPDATE Loan SET fullfilled = 1,date_returned=CURRENT_TIMESTAMP WHERE Loan_id = :loan";
+    $query = "UPDATE Loan SET fullfilled = 1, date_returned = CURRENT_TIMESTAMP WHERE Loan_id = :loan";
     $querystmt = $pdo->prepare($query);
     $querystmt->bindParam(':loan', $selectedLoan);
     $querystmt->execute();
