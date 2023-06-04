@@ -610,7 +610,6 @@ if ($stmt->rowCount() > 0) {
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $operatorId = $row['Library_Operator_id'];
 
-        // Retrieve operator details
         $operatorQuery = "SELECT *,u.First_Name,u.Last_Name FROM School_Library_Operator
                           INNER JOIN User u ON u.User_id=:operatorId
                        WHERE Library_Operator_id = :operatorId";
@@ -645,14 +644,11 @@ WHERE a.Num_of_books_written <= (SELECT MAX(b.Num_of_books_written) - 5 FROM Aut
 
 ";
 
-// Prepare and execute the query
 $stmt = $pdo->prepare($query);
 $stmt->execute();
 
-// Fetch the results
 $authors = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Display the results
 if (!empty($authors)) {
     echo "<h2>Authors with at least 5 books fewer than the author with the most books:</h2>";
     echo "<ul>";

@@ -17,7 +17,6 @@ try {
 
 
 
-//$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $schoolid = "SELECT School_id FROM User WHERE Username=:username";
 $schoolidstmt = $pdo->prepare($schoolid);
 $schoolidstmt->bindParam(':username', $username);
