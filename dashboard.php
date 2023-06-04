@@ -632,7 +632,7 @@ if ($stmt->rowCount() > 0) {
             $operatorName = $operatorRow['First_Name'];
             $operatorLName = $operatorRow['Last_Name'];
  
-            echo "Operator's Details:<br>First Name: $operatorName<br>Last Name: $operatorLName";
+            echo "Operator's Details:<br>First Name: $operatorName<br>Last Name: $operatorLName<br><br>";
         }
     }
 } else {
