@@ -203,15 +203,15 @@ DELIMITER //
 END//
 DELIMITER ;
 
-
 DELIMITER //
-CREATE TRIGGER `Approve_History` AFTER UPDATE ON `User`
-FOR EACH ROW
-BEGIN
-    IF NEW.Approved = '1' THEN
+
+CREATE TRIGGER `Approve_History` AFTER UPDATE ON `user`
+ FOR EACH ROW BEGIN
+    IF NEW.Approved = '1' AND OLD.Approved='0' THEN
         INSERT INTO `Approve` (User_id) VALUES (NEW.User_id);
     END IF;
 END//
+
 DELIMITER ;
 
 DELIMITER //
