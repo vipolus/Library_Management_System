@@ -38,7 +38,7 @@ if (!isset($_SESSION['username'])) {
 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
-  
+
   if ($_POST["action"] === "res_approve") {
     $lib_op = $user['User_id'];
     $user_Id = $_POST["userId"];
@@ -602,11 +602,22 @@ exit();
             $action = $_POST['action'];
 
             if ($action === 'delete') {
+
+                $deleteloan="DELETE FROM reservation WHERE User_id=:userId";
+                $stmtdeleteloan= $pdo->prepare($deleteloan);
+                $stmtdeleteloan->bindParam(':userId', $userId);
+                $stmtdeleteloan->execute();
+
+                $deleteloan="DELETE FROM loan WHERE User_id=:userId";
+                $stmtdeleteloan= $pdo->prepare($deleteloan);
+                $stmtdeleteloan->bindParam(':userId', $userId);
+                $stmtdeleteloan->execute();
+
                 $deleteQuery = "DELETE FROM User WHERE User_id = :userId";
                 $stmt = $pdo->prepare($deleteQuery);
                 $stmt->bindParam(':userId', $userId);
                 $stmt->execute();
-                header('Location: http://localhost/lib_operator.php');
+                //header('Location: http://localhost/lib_operator.php');
 
             } elseif ($action === 'deactivate') {
                 $deactivateQuery = "UPDATE User SET Approved = -1 WHERE User_id = :userId";
