@@ -1196,24 +1196,23 @@ function toggleTotalLoans() {
   <h1>Reviews</h1>
 
   <?php
-  $query = "SELECT r.Text, r.Rating, r.User_id, b.Title, u.Username,r.Review_id
+$query = "SELECT r.Text, r.Rating, r.User_id, b.Title, u.Username, r.Review_id
             FROM Review r
             INNER JOIN Book b ON r.Book_id = b.Book_id
             INNER JOIN User u ON r.User_id = u.User_id
-            WHERE u.School_id = :schoolid AND r.Approved=0";
+            WHERE u.School_id = :schoolid AND r.Approved = 0";
 
-  $statement = $pdo->prepare($query);
-  $statement->bindParam(':schoolid', $schoolId);
-  $statement->execute();
+$statement = $pdo->prepare($query);
+$statement->bindParam(':schoolid', $schoolId);
+$statement->execute();
 
-  while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
     $review = $row['Text'];
     $rating = $row['Rating'];
     $bookName = $row['Title'];
     $username = $row['Username'];
-    $reviewId=$row['Review_id'];
+    $reviewId = $row['Review_id'];
 
-    
     echo "<h2>Review Details</h2>";
     echo "<p>Review: $review</p>";
     echo "<p>Rating: $rating</p>";
@@ -1221,35 +1220,31 @@ function toggleTotalLoans() {
     echo "<p>Username: $username</p>";
 
     echo "<form method='post' action='lib_operator.php'>";
+    echo "<input type='hidden' name='reviewId' value='$reviewId'>";
     echo "<input type='submit' name='reject' value='Reject'>";
     echo "<input type='submit' name='approve' value='Approve'>";
     echo "</form>";
 
-    if (isset($_POST['reject'])) {
-    
-      echo "Review rejected!";
-      $deleteUserQuery = "DELETE FROM Review WHERE Review_id = :reviewId";
-      $deleteReview = $pdo->prepare($deleteUserQuery);
-      $deleteReview->bindParam(':reviewId', $reviewId);
-      $deleteReview->execute();
-      echo "Review Rejected!";
-      header('Location: http://localhost/index.php');
-      exit;
-
-    } elseif (isset($_POST['approve'])) {
-     
-      $sql = "UPDATE Review SET Approved = 1 WHERE Review_id = :reviewId";
-      $updaterev = $pdo->prepare($sql);
-      $updaterev->bindParam(':reviewId', $reviewId);
-      $updaterev->execute();
-      echo "Review Approved!";
-      header('Location: http://localhost/index.php');
-      
+    if (isset($_POST['reject']) && $_POST['reviewId'] == $reviewId) {
+        $deleteUserQuery = "DELETE FROM Review WHERE Review_id = :reviewId";
+        $deleteReview = $pdo->prepare($deleteUserQuery);
+        $deleteReview->bindParam(':reviewId', $reviewId);
+        $deleteReview->execute();
+        echo "Review Rejected!";
+        exit;
+    } elseif (isset($_POST['approve']) && $_POST['reviewId'] == $reviewId) {
+        $sql = "UPDATE Review SET Approved = 1 WHERE Review_id = :reviewId";
+        $updateRev = $pdo->prepare($sql);
+        $updateRev->bindParam(':reviewId', $reviewId);
+        $updateRev->execute();
+        echo "Review Approved!";
+        exit;
     }
 
-    echo "<hr>"; 
-  }
-  ?>
+    echo "<hr>";
+}
+?>
+
 </div>
 
 
