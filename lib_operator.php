@@ -1,7 +1,6 @@
 <?php
 
 require_once 'config.php';
-// Get the user's information, such as their user ID
 
 
 
@@ -10,15 +9,12 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
 session_start();
-// Check if the user is logged in and has a valid session
 if (!isset($_SESSION['username'])) {
-    // Redirect to the login page or display an error message
     header("Location: login.php");
     exit();
 }
 
 
-// Retrieve the user ID from the session
     $userId = $_SESSION['username'];
 
     $query = "SELECT Type,School_id,Approved,User_id FROM User WHERE Username = :username";
@@ -27,7 +23,6 @@ if (!isset($_SESSION['username'])) {
     $userStmt->execute();
     $user = $userStmt->fetch(PDO::FETCH_ASSOC);
 
-    // Check if the user is a library operator or admin
 
     
     if ((($user['Type'] === 'Library Operator' && $user['Approved']) || $user['Type'] === 'Admin')  )
@@ -35,12 +30,10 @@ if (!isset($_SESSION['username'])) {
     else $isLibraryOperator = false;
 
     if (!$isLibraryOperator) {
-        // Redirect to a page or display an error message indicating access denied
         header("Location: login.php");
         exit();
     }
 
-    // Retrieve the school ID of the library operator
     $schoolId = $user['School_id'];
 
 
@@ -65,7 +58,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
 
     if ($_POST["action"] === "approve") {
         $userId = $_POST["userId"];
-        // Execute an UPDATE query to set Approved value to 1 for the user
         $updateQuery = "UPDATE User SET Approved = 1 WHERE User_id = :userId";
         $updateStmt = $pdo->prepare($updateQuery);
         $updateStmt->bindParam(':userId', $userId);
@@ -74,13 +66,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
     } elseif ($_POST["action"] === "reject") {
         $userId = $_POST["userId"];
 
-        // Delete associated loan records
         $deleteLoanQuery = "DELETE FROM loan WHERE User_id = :userId";
         $deleteLoanStmt = $pdo->prepare($deleteLoanQuery);
         $deleteLoanStmt->bindParam(':userId', $userId);
         $deleteLoanStmt->execute();
 
-        // Delete the user from the database
         $deleteUserQuery = "DELETE FROM User WHERE User_id = :userId";
         $deleteUserStmt = $pdo->prepare($deleteUserQuery);
         $deleteUserStmt->bindParam(':userId', $userId);
@@ -88,7 +78,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
         header('Location: http://localhost/lib_operator.php');
 
     } elseif ($_POST["action"] === "add_book") {
-            // Retrieve the form data
             $title = $_POST["title"];
             $publisher = $_POST["publisher"];
             $author=$_POST["author"];
@@ -101,18 +90,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
             $keywords = $_POST["keywords"];
             $copies = $_POST["copies"];
     
-            // Perform any necessary data validation here
     
-            // Prepare the SQL statement for inserting into the Book table
             $insertBookQuery = "INSERT INTO Book (Title, Publisher, ISBN, Number_of_Pages, Summary, Image, Thematic_Category, Language, Keywords)
                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $insertBookStmt = $pdo->prepare($insertBookQuery);
             $insertBookStmt->execute([$title, $publisher, $isbn, $numPages, $summary, $image, $category, $language, $keywords]);
     
-            // Retrieve the generated Book_id
             $bookId = $pdo->lastInsertId();
 
-            //Insert authors in author table 
             $split_authors=explode(",",$author);
             foreach($split_authors as $Name)
             {
@@ -163,17 +148,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
 
           $split_categories = explode(",", $category);
 
-            //Insert categories in category table 
             foreach ($split_categories as $categoryName) {
     $count=0;
-    // Check if the category name exists in the Category table
     $checkQuery = "SELECT COUNT(*) FROM Category WHERE Name = :categoryName";
     $checkStmt = $pdo->prepare($checkQuery);
     $checkStmt->bindParam(':categoryName', $categoryName);
     $checkStmt->execute();
     $count = $checkStmt->fetchColumn();
 
-    // If the category name doesn't exist, insert it into the Category table
     if ($count == 0) {
         $insertQuery = "INSERT INTO Category (Name) VALUES (:categoryName)";
         $insertStmt = $pdo->prepare($insertQuery);
@@ -202,7 +184,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
     }
 }
 
-            // Prepare the SQL statement for inserting into the Copies table
             $insertCopiesQuery = "INSERT INTO Copies (Number_of_Available_Copies, School_id, Book_id, last_update)
                               VALUES (?, ?, ?, NOW())";
         $insertCopiesStmt = $pdo->prepare($insertCopiesQuery);
@@ -281,19 +262,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"])) {
             <p>Welcome to the operator panel. What would you like to do?</p>
             
 
-    <!-- Display users to be approved or rejected -->
     
     <div id="users-panel">
     <h2>Pending Users</h2>
         <?php
-        // Retrieve users with Approved value false from the database
         $query = "SELECT User_id, First_Name, Last_Name, Email FROM User WHERE Approved = 0 AND Type != 'Library Operator' AND School_id = :school_id";
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':school_id', $schoolId);
         $stmt->execute();
         
         
-        // Display the user data in the panel
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $userId = $row['User_id'];
             $firstName = $row['First_Name'];
@@ -503,9 +481,7 @@ exit();
     document.getElementById('language-input').value = selectedBook['Language'];
     document.getElementById('keywords-input').value = selectedBook['Keywords'];
     document.getElementById('copies-input').value = selectedBook['Number_of_Available_Copies'];
-    // Update other input fields accordingly
 
-    // Update the 'src' attribute of the <img> element with the book image
     document.getElementById('book-image').value = selectedBook['Image'];
 }
 
@@ -603,7 +579,6 @@ exit();
             $action = $_POST['action'];
 
             if ($action === 'delete') {
-                // Delete the user
                 $deleteQuery = "DELETE FROM User WHERE User_id = :userId";
                 $stmt = $pdo->prepare($deleteQuery);
                 $stmt->bindParam(':userId', $userId);
@@ -611,7 +586,6 @@ exit();
                 header('Location: http://localhost/lib_operator.php');
 
             } elseif ($action === 'deactivate') {
-                // Deactivate the user
                 $deactivateQuery = "UPDATE User SET Approved = -1 WHERE User_id = :userId";
                 $stmt = $pdo->prepare($deactivateQuery);
                 $stmt->bindParam(':userId', $userId);
@@ -723,7 +697,6 @@ $books = $stmtBooks->fetchAll(PDO::FETCH_COLUMN);
         </form>
 
         <?php
-        // Check if a book is selected
         if (!empty($_GET['book'])) {
             $selectedBook = $_GET['book'];
 
@@ -778,7 +751,6 @@ $books = $stmtBooks->fetchAll(PDO::FETCH_COLUMN);
   $stmt = $pdo->prepare($query);
   $stmt->execute([':school_id' => $schoolId]);
 
-  // Fetch all rows as an associative array
   $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
   ?>
 
@@ -866,7 +838,7 @@ $books = $stmtBooks->fetchAll(PDO::FETCH_COLUMN);
 <!--YLOPOIHSE EDW MESA -->
 <?php
 
-$adminUsername = $_SESSION['username']; // Modify this based on your session variable
+$adminUsername = $_SESSION['username']; 
 
 $adminQuery = "SELECT School_id FROM User WHERE Username = :username";
 $adminStatement = $pdo->prepare($adminQuery);
@@ -895,7 +867,7 @@ if (isset($_POST['user'])) {
 
 if (isset($_POST['return'])) {
     $selectedLoan = $_POST['return'];
-    $query = "UPDATE Loan SET fullfilled = 1 WHERE Loan_id = :loan";
+    $query = "UPDATE Loan SET fullfilled = 1,date_returned=CURRENT_TIMESTAMP WHERE Loan_id = :loan";
     $querystmt = $pdo->prepare($query);
     $querystmt->bindParam(':loan', $selectedLoan);
     $querystmt->execute();
@@ -1061,10 +1033,8 @@ $query = "SELECT l.Loan_id, u.First_Name, u.Last_Name, b.Title, l.date_borrowed,
 $stmt = $pdo->prepare($query);
 $stmt->execute([':school_id' => $schoolId]);
 
-// Fetch all rows as an associative array
 $loans = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Set default selected loan
 $selectedLoan = '';
 
 ?>
@@ -1236,7 +1206,6 @@ function toggleTotalLoans() {
   $statement->bindParam(':schoolid', $schoolId);
   $statement->execute();
 
-  // Display review details for each row
   while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
     $review = $row['Text'];
     $rating = $row['Rating'];
@@ -1251,7 +1220,6 @@ function toggleTotalLoans() {
     echo "<p>Book Name: $bookName</p>";
     echo "<p>Username: $username</p>";
 
-    // Display reject and approve buttons
     echo "<form method='post' action='lib_operator.php'>";
     echo "<input type='submit' name='reject' value='Reject'>";
     echo "<input type='submit' name='approve' value='Approve'>";

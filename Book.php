@@ -87,7 +87,6 @@ try {
     $pdo = new PDO("mysql:host=".HOST.";dbname=".DATABASE, USER, PASSWORD);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Query to fetch all authors
     $query = "SELECT Author_id, CONCAT(First_Name, ' ', Last_Name) AS FullName FROM Author";
     $stmt = $pdo->prepare($query);
     $stmt->execute();
@@ -118,7 +117,6 @@ try {
             }
         </script>";
 
-        // Placeholder for the book options
         echo "<select id='bookSelectAuthor'></select>";
         
     } else {
@@ -276,21 +274,12 @@ $pdo = null;
                             var takeButton = document.createElement('button');
                             takeButton.innerHTML = 'Reserve book now!';
                             takeButton.onclick = function() {
-                                //alert("hello");
-                                //function takebook(selectedBookId);
-                                //$sql = "UPDATE Copies SET Number_of_Available_Copies = 0 WHERE Copies_id = 1 ;"
-                                //alert("Successful loan");
-                                /* $username = $_SESSION['username'];
-
-                                    }*/
-                                    // Send an Ajax request to update the database
-                               
+                            
                                     
 
                                 var xmlhttp = new XMLHttpRequest();
                                 xmlhttp.onreadystatechange = function() {
                                     if (this.readyState == 4 && this.status == 200) {
-                                        // Handle the server response here
                                         
                                     }
                                 };
@@ -373,7 +362,7 @@ $pdo = null;
       return response.json();
     })
     .then(function(reviews) {
-      console.log(reviews); // Check the response data in the browser console
+      console.log(reviews); 
 
       if (reviews.length > 0) {
         reviews.forEach(function(review) {
@@ -405,7 +394,6 @@ $pdo = null;
                 body: formData
             })
             .then(function(response) {
-                // Handle the response here (e.g., show a success message)
             })
             .catch(function(error) {
                 console.error('Form submission error:', error);
@@ -422,7 +410,6 @@ $pdo = null;
                 body: formData
             })
             .then(function(response) {
-                // Handle the response here (e.g., show a success message)
             })
             .catch(function(error) {
                 console.error('Form submission error:', error);

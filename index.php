@@ -10,7 +10,7 @@
 
 <div class="main-content">
             <h1>Welcome to the Library Management System</h1>
-            <!-- Add your main content here -->
+            
         </div>
 
     <div class="container">
@@ -59,20 +59,15 @@ else {
     </div>';
 }
 
-// Check if the logout button is clicked
 if (isset($_POST['logout'])) {
-    // Clear all session variables
     $_SESSION = array();
 
-    // Clear the session cookie
     if (isset($_COOKIE[session_name()])) {
         setcookie(session_name(), '', time() - 3600, '/');
     }
 
-    // Destroy the session
     session_destroy();
 
-    // Redirect to the login page or any other desired location
     header('Location: login.php');
     exit;
 }
