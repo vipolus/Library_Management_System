@@ -218,3 +218,12 @@ if ($user) {
     echo "<p>User not found.</p>";
 }
 ?>
+
+<button onclick="redirectToUserCard()">Print Library Card</button>
+
+    <script>
+        function redirectToUserCard() {
+            window.location.href = 'User_card.php';
+        }
+    </script>
+</script>
