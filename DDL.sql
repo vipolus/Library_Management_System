@@ -1,5 +1,4 @@
 
-
 USE library_system;
 
 CREATE TABLE School (
@@ -214,7 +213,7 @@ BEGIN
     END IF;
 END//
 DELIMITER ;
-/*************ELENI***********/
+
 DELIMITER //
 CREATE TRIGGER `copies_decr` AFTER INSERT ON `Loan`
 FOR EACH ROW
@@ -227,13 +226,14 @@ BEGIN
 END//
 DELIMITER ;
 
-  DELIMITER//
-  CREATE TRIGGER 'book_taken' AFTER INSERT ON 'Loan'
+  DELIMITER //
+  CREATE TRIGGER `book_taken` AFTER INSERT ON `Loan`
   FOR EACH ROW
-  BEGIN 
-    UPDATE Book SET times_taken=times_taken+1
-    WHERE Book_id=NEW.Book_id;
-    END//
+BEGIN
+    UPDATE Book
+    SET times_taken = times_taken + 1
+    WHERE Book_id = NEW.Book_id;
+END//
     DELIMITER;
 
 
@@ -291,15 +291,6 @@ CREATE TRIGGER `Num_of_Books_Author` AFTER UPDATE ON `book_author`
    END//
    DELIMITER ;
    
-
-INSERT INTO school (School_Name, Address, City, Phone_Number, Email, Full_Name_of_School_Director)
-VALUES ("Admin", "Admin", "Admin", 21314, "Admin@Admin", "vipolus");
-
-INSERT INTO user (School_id, Age, First_Name, Last_Name, Email, Username, Password, Type,Approved)
-VALUES (1, 21, "vipolus", "vipolus", "vipolus@vipolus", "vipolus", "$2y$10$rWfmA5vIznkvAng3bOI0guGltLF2JdABSmKy3qBtuLTl2gVxzCHMq", "Admin",1);
-
-INSERT INTO Admin(User_id) VALUES(1);
-
 CREATE INDEX user_det ON User(School_id);
 CREATE INDEX user_det2 ON User(First_Name);
 CREATE INDEX user_det3 ON User(Last_Name);
