@@ -87,7 +87,7 @@ if (isset($_POST['logout'])) {
 
             <div style="text-align: center;">
 
-            <img width="400" src="Templates/Screenshot_3.png">
+            <img width="400" src="Templates/Photo_lib.png">
 
             </div>
             <nav class="menu">
