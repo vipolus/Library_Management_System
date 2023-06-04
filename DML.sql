@@ -967,14 +967,6 @@ $$
 DELIMITER ;
 
 DELIMITER $$
-CREATE TRIGGER `Approve_History` AFTER UPDATE ON `user` FOR EACH ROW BEGIN
-    IF NEW.Approved = '1' THEN
-        INSERT INTO `Approve` (User_id) VALUES (NEW.User_id);
-    END IF;
-END
-$$
-DELIMITER ;
-DELIMITER $$
 CREATE TRIGGER `Lib_Op` AFTER INSERT ON `user` FOR EACH ROW IF NEW.Type = 'Library Operator' THEN
                             INSERT INTO School_Library_Operator (Library_operator_id,School_id) VALUES (NEW.User_id,NEW.School_id);
                         END IF
