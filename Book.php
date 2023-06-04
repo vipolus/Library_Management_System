@@ -219,7 +219,7 @@ $pdo = null;
         function showBookDetails() {
             var bookSelect = document.getElementById('book-select');
             var selectedBookId = bookSelect.value;
-            var selectedBook = JSON.parse('<?php echo json_encode($books); ?>')[selectedBookId];
+            var selectedBook = <?php echo json_encode($books); ?>[selectedBookId];
 
             var detailsDiv = document.getElementById('book-details');
             detailsDiv.innerHTML = '';
@@ -288,7 +288,7 @@ $pdo = null;
                                  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                                 
                                 xmlhttp.send();
-                           
+                                alert("Book Reserved!");
                             };
                             detailsDiv.appendChild(takeButton)
                         }
@@ -426,6 +426,7 @@ $pdo = null;
         foreach ($books as $index => $book) {
             echo '<option value="' . $index . '">' . $book['Title'] . '</option>';
         }
+       
         ?>
     </select>
     <div id="book-details"></div>
