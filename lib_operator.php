@@ -1138,12 +1138,11 @@ $query = "SELECT l.Loan_id, u.First_Name, u.Last_Name, b.Title, l.date_borrowed,
           FROM Loan AS l
           INNER JOIN User AS u ON l.User_id = u.User_id
           INNER JOIN Book AS b ON l.Book_id = b.Book_id
-          WHERE u.School_id = :school_id AND l.fullfilled=0 AND l.Library_Operator_id=:userid
+          WHERE u.School_id = :school_id AND l.fullfilled=0
           AND DATEDIFF(CURDATE(), l.date_borrowed) < 7";
 
 $stmt = $pdo->prepare($query);
 $stmt->bindparam(':school_id',$schoolId);
-$stmt->bindparam(':userid',$user['User_id']);
 $stmt->execute();
 
 $loans = $stmt->fetchAll(PDO::FETCH_ASSOC);
