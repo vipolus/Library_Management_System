@@ -477,7 +477,7 @@ $updateBookStmt->execute([
 ':book_id' => $book_id
 ]);
 
-header("Location: lib_operator.php");
+//header("Location: lib_operator.php");
 exit();
 
 }
