@@ -227,6 +227,15 @@ BEGIN
 END//
 DELIMITER ;
 
+  DELIMITER//
+  CREATE TRIGGER 'book_taken' AFTER INSERT ON 'Loan'
+  FOR EACH ROW
+  BEGIN 
+    UPDATE Book SET times_taken=times_taken+1
+    WHERE Book_id=NEW.Book_id;
+    END//
+    DELIMITER;
+
 
 DELIMITER //
 CREATE TRIGGER `books_taken_temp` AFTER INSERT ON `Loan`
@@ -291,7 +300,12 @@ VALUES (1, 21, "vipolus", "vipolus", "vipolus@vipolus", "vipolus", "$2y$10$rWfmA
 
 INSERT INTO Admin(User_id) VALUES(1);
 
-CREATE INDEX user_det ON User(Userd_id, First_Name, Last_Name, School_id);
-CREATE INDEX loan_det ON Loan(Library_Operator_id,User_id,Book_id);
-CREATE INDEX reserv_det ON Reservation(School_id,User_id,Book_id);
-CREATE INDEX book_det ON Book(Book_id,Title);
+CREATE INDEX user_det ON User(School_id);
+CREATE INDEX user_det2 ON User(First_Name);
+CREATE INDEX user_det3 ON User(Last_Name);
+CREATE INDEX loan_det ON Loan(User_id);
+CREATE INDEX loan_det2 ON Loan(Book_id);
+CREATE INDEX reserv_det ON Reservation(User_id);
+CREATE INDEX reserv_det2 ON Reservation(Book_id);
+CREATE INDEX book_det ON Book(Title);
+CREATE INDEX copies ON Copies(School_id);

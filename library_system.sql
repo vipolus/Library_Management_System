@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 04, 2023 at 01:11 PM
+-- Generation Time: Jun 04, 2023 at 01:47 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -166,7 +166,20 @@ INSERT INTO `approve` (`User_id`, `last_update`) VALUES
 (2, '2023-06-04 07:41:09'),
 (2, '2023-06-04 07:41:17'),
 (2, '2023-06-04 07:41:17'),
-(2, '2023-06-04 07:41:17');
+(2, '2023-06-04 07:41:17'),
+(8, '2023-06-04 11:23:32'),
+(8, '2023-06-04 11:24:09'),
+(8, '2023-06-04 11:26:55'),
+(8, '2023-06-04 11:26:56'),
+(8, '2023-06-04 11:27:49'),
+(8, '2023-06-04 11:28:18'),
+(8, '2023-06-04 11:28:54'),
+(8, '2023-06-04 11:30:18'),
+(8, '2023-06-04 11:30:18'),
+(8, '2023-06-04 11:30:18'),
+(8, '2023-06-04 11:40:56'),
+(8, '2023-06-04 11:40:56'),
+(8, '2023-06-04 11:40:56');
 
 -- --------------------------------------------------------
 
@@ -226,12 +239,12 @@ CREATE TABLE `book` (
 --
 
 INSERT INTO `book` (`Book_id`, `Title`, `Publisher`, `ISBN`, `Number_of_Pages`, `Summary`, `Image`, `Thematic_Category`, `Language`, `Keywords`, `times_taken`, `times_requested`, `reviews`, `last_update`) VALUES
-(1, 'In the Name of the Father', 'Samaria Zanetello', '219751597-7', 467, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.\\n\\nProin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.\\n\\nDuis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Image1.png', 'Action,Horror,Thriller', 'English', 'Police,Crime,Blood', 0, 1, 0, '2023-06-04 05:22:01'),
+(1, 'In the Name of the Father', 'Samaria Zanetello', '219751597-7', 467, 'Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.\\n\\nProin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.\\n\\nDuis aliquam convallis nunc. Proin at turpis a pede posuere nonummy. Integer non velit.', 'Image1.png', 'Action,Horror,Thriller', 'English', 'Police,Crime,Blood', 0, 3, 0, '2023-06-04 11:27:49'),
 (2, 'Paul', 'Hewie Wolstenholme', '981056758-8', 873, 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.\\n\\nNullam porttitor lacus at turpis. Donec posuere metus vitae ipsum. Aliquam non mauris.\\n\\nMorbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.', 'Image2.png', 'Romance,Adventure', 'English', 'Love,Happy ending', 0, 0, 0, '2023-06-03 22:14:13'),
 (3, 'Defiance', 'Jonathon Feirn', '460557377-1', 125, 'Maecenas tristique, est et tempus semper, est quam pharetra magna, ac consequat metus sapien ut nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Mauris viverra diam vitae quam. Suspendisse potenti.', 'Image3.png', 'Action,Adventure,Thriller', 'English', 'Fight,Action', 0, 1, 0, '2023-06-04 07:11:39'),
 (4, 'Fraternity Vacation', 'Erinn Cattlow', '909986720-4', 654, 'Suspendisse potenti. In eleifend quam a odio. In hac habitasse platea dictumst.', 'Image4.png', 'Comedy', 'English', 'Summer vacation,Relax,Chilling', 0, 0, 0, '2023-06-03 22:16:33'),
-(5, 'Road North (Tie pohjoiseen)', 'Karim Parken', '555586917-7', 124, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\\n\\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.\\n\\nPhasellus in felis. Donec semper sapien a libero. Nam dui.', 'Image5.png', 'Action,War,Adventure', 'English', 'War,Guns,Blood,Field', 0, 1, 0, '2023-06-04 05:22:31'),
-(6, 'Star Kid', 'Reba Siviour', '097299215-4', 169, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\\n\\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Image6.png', 'Crime,Action,Horror', 'English', 'Police,Crime,Blood', 0, 2, 0, '2023-06-04 07:41:09'),
+(5, 'Road North (Tie pohjoiseen)', 'Karim Parken', '555586917-7', 124, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\\n\\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.\\n\\nPhasellus in felis. Donec semper sapien a libero. Nam dui.', 'Image5.png', 'Action,War,Adventure', 'English', 'War,Guns,Blood,Field', 1, 2, 0, '2023-06-04 11:40:56'),
+(6, 'Star Kid', 'Reba Siviour', '097299215-4', 169, 'Cras non velit nec nisi vulputate nonummy. Maecenas tincidunt lacus at velit. Vivamus vel nulla eget eros elementum pellentesque.\\n\\nQuisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.', 'Image6.png', 'Crime,Action,Horror', 'English', 'Police,Crime,Blood', 0, 3, 0, '2023-06-04 11:23:32'),
 (7, 'Double Hour, The (La doppia ora)', 'Sophey Vanelli', '354170217-6', 468, 'Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.\\n\\nCurabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.', 'Image7.png', 'Action,Adventure,Drama', 'English', 'Scary,Drama', 0, 0, 0, '2023-06-03 22:20:59'),
 (8, 'Sons of Katie Elder', 'Joannes Soot', '685335171-1', 353, 'Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.\\n\\nIn congue. Etiam justo. Etiam pretium iaculis justo.', 'Image8.png', 'Horror,Thriller,Adventure', 'English', 'Jumpscare,Scary,Ghosts', 0, 0, 0, '2023-06-03 22:24:17'),
 (9, 'Amateurs, The (Moguls, The)', 'Puff Haisell', '161709515-X', 832, 'Nullam sit amet turpis elementum ligula vehicula consequat. Morbi a ipsum. Integer a nibh.\\n\\nIn quis justo. Maecenas rhoncus aliquam lacus. Morbi quis tortor id nulla ultrices aliquet.', 'Image9.png', 'Action,Adventure', 'English', 'Summer', 0, 0, 0, '2023-06-03 22:24:22'),
@@ -831,11 +844,11 @@ CREATE TABLE `copies` (
 --
 
 INSERT INTO `copies` (`Copies_id`, `Number_of_Available_Copies`, `School_id`, `Book_id`, `last_update`) VALUES
-(1, 9, 2, 1, '2023-06-04 09:28:59'),
+(1, 8, 2, 1, '2023-06-04 11:30:18'),
 (2, 7, 2, 2, '2023-06-04 05:25:26'),
 (3, 16, 2, 3, '2023-06-04 07:17:00'),
 (4, 11, 2, 4, '2023-06-03 22:16:33'),
-(5, 13, 2, 5, '2023-06-04 07:07:08'),
+(5, 12, 2, 5, '2023-06-04 11:40:56'),
 (6, 17, 2, 6, '2023-06-04 07:41:17'),
 (7, 5, 2, 7, '2023-06-03 22:20:59'),
 (8, 7, 2, 8, '2023-06-03 22:22:20'),
@@ -972,11 +985,21 @@ INSERT INTO `loan` (`Loan_id`, `Library_Operator_id`, `User_id`, `Book_id`, `dat
 (16, 2, 5, 1, '2023-06-04 08:51:37', '0000-00-00 00:00:00', 0, '2023-06-04 05:51:37'),
 (17, 2, 5, 1, '2023-06-04 08:52:07', '0000-00-00 00:00:00', 0, '2023-06-04 05:52:07'),
 (18, 2, 2, 3, '2023-06-04 10:17:00', '0000-00-00 00:00:00', 0, '2023-06-04 07:17:00'),
-(19, 2, 2, 6, '2023-06-04 10:41:17', '0000-00-00 00:00:00', 0, '2023-06-04 07:41:17');
+(19, 2, 2, 6, '2023-06-04 10:41:17', '0000-00-00 00:00:00', 0, '2023-06-04 07:41:17'),
+(20, 2, 8, 1, '2023-06-04 14:30:18', '0000-00-00 00:00:00', 0, '2023-06-04 11:30:18'),
+(21, 2, 8, 5, '2023-06-04 14:40:56', '0000-00-00 00:00:00', 0, '2023-06-04 11:40:56');
 
 --
 -- Triggers `loan`
 --
+DELIMITER $$
+CREATE TRIGGER `Books_total` AFTER INSERT ON `loan` FOR EACH ROW BEGIN  
+    UPDATE Book
+    SET times_taken = times_taken + 1
+    WHERE Book_id = NEW.Book_id;
+    END
+$$
+DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `Number_of_loans` AFTER INSERT ON `loan` FOR EACH ROW BEGIN  
     UPDATE User
@@ -1057,7 +1080,9 @@ CREATE TABLE `reservation` (
 INSERT INTO `reservation` (`Reservation_id`, `School_id`, `User_id`, `Book_id`, `Approved`, `date_created`, `date_expired`, `last_update`) VALUES
 (1, 2, 45, 1, 0, '2023-06-04 08:22:01', '2023-06-11 08:22:01', '2023-06-04 05:22:01'),
 (2, 2, 45, 5, 0, '2023-06-04 08:22:31', '2023-06-11 08:22:31', '2023-06-04 05:22:31'),
-(5, 2, 2, 6, 1, '2023-06-04 10:41:09', '2023-06-11 10:41:09', '2023-06-04 07:41:17');
+(5, 2, 2, 6, 1, '2023-06-04 10:41:09', '2023-06-11 10:41:09', '2023-06-04 07:41:17'),
+(8, 2, 8, 1, 1, '2023-06-04 14:27:49', '2023-06-11 14:27:49', '2023-06-04 11:30:18'),
+(9, 2, 8, 5, 1, '2023-06-04 14:28:18', '2023-06-11 14:28:18', '2023-06-04 11:40:56');
 
 --
 -- Triggers `reservation`
@@ -1175,7 +1200,7 @@ INSERT INTO `user` (`User_id`, `School_id`, `Age`, `First_Name`, `Last_Name`, `E
 (5, 2, 21, 'Student_1o_1', 'Student_1o_1', 'Student_1o_1@gmail.com', 'Student_1o_1', '$2y$10$AXuloN.9ex7oiDOchWdYmuxaS9E7AWBKO3IoiOUOKgJcEgDwSVTsK', 'Student', 2, '2023-06-04 05:52:07', 13, -13, 0, 1, 13),
 (6, 2, 18, 'Student_1o_2', 'Student_1o_2', 'Student_1o_2@gmail.com', 'Student_1o_2', '$2y$10$jrdNRRMDy2YzEG4N68pc8.NaL3ci8CRzY7B4hr4w70JgEZivLCQ.K', 'Student', 2, '2023-06-03 20:50:04', 0, 0, 0, 1, 0),
 (7, 2, 17, 'Student_1o_3', 'Student_1o_3', 'Student_1o_3@gmail.com', 'Student_1o_3', '$2y$10$/SVxVoCXlsCXEMtlzeDQVeeHVeCuc/ED.SKfPMSXFjRdtpY0y4CcG', 'Student', 2, '2023-06-03 20:50:04', 0, 0, 0, 1, 0),
-(8, 2, 18, 'Student_1o_4', 'Student_1o_4', 'Student_1o_4@gmail.com', 'Student_1o_4', '$2y$10$2xx629MSgLPQjMJl66GSAuWKFExTuRq5k5FNY.Tq0S8HW7zn0XNYy', 'Student', 2, '2023-06-04 05:25:26', 1, -1, 0, 1, 1),
+(8, 2, 18, 'Student_1o_4', 'Student_1o_4', 'Student_1o_4@gmail.com', 'Student_1o_4', '$2y$10$2xx629MSgLPQjMJl66GSAuWKFExTuRq5k5FNY.Tq0S8HW7zn0XNYy', 'Student', 2, '2023-06-04 11:40:56', 3, 0, 0, 1, 3),
 (9, 2, 18, 'Student_1o_5', 'Student_1o_5', 'Student_1o_5@gmail.com', 'Student_1o_5', '$2y$10$aXWsKdR/8wYI7YIAzeJnXuTGJjQFAZ5zBZIxapHy5GfnHBfSnzWry', 'Student', 2, '2023-06-03 20:50:05', 0, 0, 0, 1, 0),
 (10, 2, 18, 'Student_1o_6', 'Student_1o_6', 'Student_1o_6@gmail.com', 'Student_1o_6', '$2y$10$nxk6UT2BxUN3P21VJglQNulkIITYD2Ang4gwS.xhW/GQVhBTMwFTq', 'Student', 2, '2023-06-03 20:50:06', 0, 0, 0, 1, 0),
 (11, 2, 17, 'Student_1o_7', 'Student_1o_7', 'Student_1o_7@gmail.com', 'Student_1o_7', '$2y$10$ZNHmnrTsx5dw6/uGrqoMrOIgOx4cJ7X1eZfDD66QzC0IQXop1EHDO', 'Student', 2, '2023-06-03 20:50:06', 0, 0, 0, 1, 0),
@@ -1260,7 +1285,7 @@ ALTER TABLE `author`
 --
 ALTER TABLE `book`
   ADD PRIMARY KEY (`Book_id`),
-  ADD KEY `book_det` (`Book_id`,`Title`);
+  ADD KEY `book_det` (`Title`);
 
 --
 -- Indexes for table `book_author`
@@ -1289,7 +1314,8 @@ ALTER TABLE `category`
 ALTER TABLE `copies`
   ADD PRIMARY KEY (`Copies_id`),
   ADD KEY `School_id` (`School_id`),
-  ADD KEY `Book_id` (`Book_id`);
+  ADD KEY `Book_id` (`Book_id`),
+  ADD KEY `copies` (`School_id`);
 
 --
 -- Indexes for table `loan`
@@ -1299,7 +1325,8 @@ ALTER TABLE `loan`
   ADD KEY `User_id` (`User_id`),
   ADD KEY `Book_id` (`Book_id`),
   ADD KEY `Library_Operator_id` (`Library_Operator_id`),
-  ADD KEY `loan_det` (`Library_Operator_id`,`User_id`,`Book_id`);
+  ADD KEY `loan_det` (`User_id`),
+  ADD KEY `loan_det2` (`Book_id`);
 
 --
 -- Indexes for table `reservation`
@@ -1309,7 +1336,8 @@ ALTER TABLE `reservation`
   ADD KEY `School_id` (`School_id`),
   ADD KEY `User_id` (`User_id`),
   ADD KEY `Book_id` (`Book_id`),
-  ADD KEY `reserv_det` (`School_id`,`User_id`,`Book_id`);
+  ADD KEY `reserv_det` (`User_id`),
+  ADD KEY `reserv_det2` (`Book_id`);
 
 --
 -- Indexes for table `review`
@@ -1338,7 +1366,9 @@ ALTER TABLE `school_library_operator`
 ALTER TABLE `user`
   ADD PRIMARY KEY (`User_id`,`School_id`),
   ADD KEY `School_id` (`School_id`),
-  ADD KEY `user_det` (`User_id`,`First_Name`,`Last_Name`,`School_id`);
+  ADD KEY `user_det` (`School_id`),
+  ADD KEY `user_det2` (`First_Name`),
+  ADD KEY `user_det3` (`Last_Name`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -1384,13 +1414,13 @@ ALTER TABLE `copies`
 -- AUTO_INCREMENT for table `loan`
 --
 ALTER TABLE `loan`
-  MODIFY `Loan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `Loan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `reservation`
 --
 ALTER TABLE `reservation`
-  MODIFY `Reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `review`
