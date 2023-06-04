@@ -284,6 +284,18 @@ DELIMITER ;
 
 DELIMITER //
 
+CREATE TRIGGER `update_book_reviews` AFTER INSERT ON `Review`
+FOR EACH ROW
+BEGIN
+    UPDATE Book
+    SET reviews = reviews + 1
+    WHERE Book_id = NEW.Book_id;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
 CREATE TRIGGER `Num_of_Books_Author` AFTER UPDATE ON `book_author`
  FOR EACH ROW BEGIN
 	UPDATE author SET Num_of_books_written=Num_of_books_written+1 WHERE Author_id=NEW.Author_id;

@@ -21,6 +21,7 @@ if ($user) {
     echo "<p>Age: " . $user['Age'] . "</p>";
     echo "<p>First Name: " . $user['First_Name'] . "</p>";
     echo "<p>Last Name: " . $user['Last_Name'] . "</p>";
+    echo "<p>Email: " . $user['Email'] . "</p>";
     echo "<a href='change_pass.php'><button>Change Password</button></a>";
 
     if ($user['Type'] === "Teacher") {
@@ -46,6 +47,9 @@ if ($user) {
                 <label for="age">Age:</label>
                 <input type="number" name="age" id="age" required value="<?php echo htmlspecialchars($user['Age']); ?>"> 
                  
+                <label for="email">Age:</label>
+                <input type="text" name="email" id="email" required value="<?php echo htmlspecialchars($user['Email']); ?>"> 
+                
                 <input type="submit" value="Update">
                 
             </form>
@@ -105,7 +109,9 @@ if ($user) {
                 <label for="age">Age:</label>
                 <input type="number" name="age" id="age" required value="<?php echo htmlspecialchars($user['Age']); ?>"> 
                 
-            
+                <label for="email">Age:</label>
+                <input type="text" name="email" id="email" required value="<?php echo htmlspecialchars($user['Email']); ?>"> 
+                
                 <input type="submit" value="Update">
                 
 
@@ -166,6 +172,9 @@ if ($user) {
 
                 <label for="age">Age:</label>
                 <input type="number" name="age" id="age" required value="<?php echo htmlspecialchars($user['Age']); ?>"> 
+                
+                <label for="email">Age:</label>
+                <input type="text" name="email" id="email" required value="<?php echo htmlspecialchars($user['Email']); ?>"> 
                 
                 <input type="submit" value="Update">
             </form>
